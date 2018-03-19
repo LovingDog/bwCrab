@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">-->
-    <com.ws.crab.view.StickyNavLayout
+    <com.bigwhite.crab.view.StickyNavLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -138,7 +138,7 @@
                 android:layout_height="match_parent" />
 
         </RelativeLayout>
-    </com.ws.crab.view.StickyNavLayout>
+    </com.bigwhite.crab.view.StickyNavLayout>
     <!-- </LinearLayout>
      </ScrollView>-->
     <ImageView
