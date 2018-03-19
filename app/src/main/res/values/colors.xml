@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#df3068</color>
+    <color name="colorPrimaryDark">#10ef1b</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="w_color">#222222</color>
+    <color name="gray">#999999</color>
+    <color name="red_login">#df3068</color>
+    <color name="gray_strok">#e2e3e3</color>
+    <color name="gray_99">#999999</color>
+    <color name="gray_33">#333333</color>
+</resources>

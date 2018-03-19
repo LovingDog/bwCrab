@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="45dp"
+         android:paddingLeft="15dp"
+         android:paddingRight="20dp"
+         android:orientation="horizontal"
+         android:background="@color/colorPrimary">
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="32dp"
+            android:paddingLeft="15dp"
+            android:layout_gravity="center_vertical"
+            android:hint="请输入商品或商家名称查询"
+            android:textSize="15sp"
+            android:drawablePadding="3dp"
+            android:textColorHint="@color/gray_strok"
+            android:drawableLeft="@mipmap/search_et"
+            android:background="@drawable/corner_white"/>
+         <TextView
+             android:id="@+id/tv_cancel"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="取消"
+             android:layout_gravity="center_vertical"
+             android:layout_marginLeft="10dp"
+             android:layout_toRightOf="@id/et_search"
+             style="@style/size16.white"/>
+     </LinearLayout>
+
+</LinearLayout>

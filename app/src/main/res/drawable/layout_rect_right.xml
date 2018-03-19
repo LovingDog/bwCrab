@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--选中时的图片背景-->
+    <item android:state_selected="true"   android:drawable="@drawable/rect_right"  />
+    <item android:state_selected="false" android:drawable="@drawable/rect_right_color"/>
+
+</selector>

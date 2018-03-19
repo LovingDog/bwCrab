@@ -1,0 +1,82 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <!--去掉状态栏与actionbar之间的线条-->
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="size10">
+        <item name="android:textSize">10dip</item>
+    </style>
+
+    <style name="size12">
+        <item name="android:textSize">12dip</item>
+    </style>
+    <style name="size13">
+        <item name="android:textSize">13dip</item>
+    </style>
+    <style name="size14">
+        <item name="android:textSize">14dip</item>
+    </style>
+    <style name="size16">
+        <item name="android:textSize">16dip</item>
+    </style>
+    <style name="size18">
+        <item name="android:textSize">18dip</item>
+    </style>
+
+    <style name="size20">
+        <item name="android:textSize">20dip</item>
+    </style>
+
+    <style name="size20.white">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="size12.white">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="size16.white">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="size16.black">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="size16.red">
+        <item name="android:textColor">@color/red_login</item>
+    </style>
+    <style name="size14.red">
+        <item name="android:textColor">@color/red_login</item>
+    </style>
+    <style name="size18.colorPrimary">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+    <style name="size18.white">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="size18.black">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="size20.primary">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+    <style name="size16.w_color">
+    <item name="android:textColor">@color/w_color</item>
+    </style>
+    <style name="size14.w_color">
+        <item name="android:textColor">@color/w_color</item>
+    </style>
+    <style name="size13.w_color">
+        <item name="android:textColor">@color/w_color</item>
+    </style>
+    <style name="size13.gray_33">
+        <item name="android:textColor">@color/gray_33</item>
+    </style>
+    <style name="size12.w_color">
+        <item name="android:textColor">@color/w_color</item>
+    </style>
+</resources>
