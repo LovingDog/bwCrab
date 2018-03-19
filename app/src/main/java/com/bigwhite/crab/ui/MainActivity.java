@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        initFragments();
     }
 
     /**
@@ -64,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Init the fragments.
+     */
     private void initFragments() {
         ReleaseFragment.instantiate(this, getString(R.string.title_release));
         ListItemFragment.instantiate(this, getString(R.string.title_list));
