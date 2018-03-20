@@ -40,7 +40,7 @@
         <activity
             android:name=".ui.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,6 +57,7 @@
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
             android:parentActivityName=".base.BaseAppCompatActivity"/>
+        <activity android:name=".utils.PermissionsActivity"></activity>
     </application>
 
 </manifest>

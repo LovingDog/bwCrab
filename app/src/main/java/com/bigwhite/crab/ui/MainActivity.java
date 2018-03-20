@@ -27,15 +27,15 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_release:
                     mTextMessage.setText(R.string.title_release);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment.instantiate(MainActivity.this, getString(R.string.title_release))).commitAllowingStateLoss();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment.instantiate(MainActivity.this, ReleaseFragment.class.getName())).commitAllowingStateLoss();
                     return true;
                 case R.id.navigation_list:
                     mTextMessage.setText(R.string.title_list);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment.instantiate(MainActivity.this, getString(R.string.title_list))).commitAllowingStateLoss();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment.instantiate(MainActivity.this, ListItemFragment.class.getName())).commitAllowingStateLoss();
                     return true;
                 case R.id.navigation_user:
                     mTextMessage.setText(R.string.title_user);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment.instantiate(MainActivity.this, getString(R.string.title_user))).commitAllowingStateLoss();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment.instantiate(MainActivity.this, UserFragment.class.getName())).commitAllowingStateLoss();
                     return true;
             }
             return false;
@@ -69,11 +69,11 @@ public class MainActivity extends AppCompatActivity {
      * Init the fragments.
      */
     private void initFragments() {
-        ReleaseFragment.instantiate(this, getString(R.string.title_release));
-        ListItemFragment.instantiate(this, getString(R.string.title_list));
-        UserFragment.instantiate(this, getString(R.string.title_user));
+        ReleaseFragment.instantiate(this, ReleaseFragment.class.getName());
+        ListItemFragment.instantiate(this, ListItemFragment.class.getName());
+        UserFragment.instantiate(this, UserFragment.class.getName());
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_container, ReleaseFragment.instantiate(this, getString(R.string.title_release)));
+        transaction.add(R.id.fragment_container, ReleaseFragment.instantiate(this, ReleaseFragment.class.getName()));
         transaction.commitAllowingStateLoss();
     }
 }
