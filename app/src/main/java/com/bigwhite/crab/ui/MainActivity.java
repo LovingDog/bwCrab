@@ -28,16 +28,20 @@ public class MainActivity extends AppCompatActivity {
             ActionBar actionBar = getSupportActionBar();
             switch (item.getItemId()) {
                 case R.id.navigation_release:
-                    actionBar.setTitle(R.string.title_release);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment.instantiate(MainActivity.this, ReleaseFragment.class.getName())).commitAllowingStateLoss();
+//                    actionBar.setTitle(R.string.title_release);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment
+                            .instantiate(MainActivity.this, ReleaseFragment.class.getName())).commitAllowingStateLoss();
                     return true;
                 case R.id.navigation_list:
-                    actionBar.setTitle(R.string.title_list);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment.instantiate(MainActivity.this, ListItemFragment.class.getName())).commitAllowingStateLoss();
+//                    actionBar.setTitle(R.string.title_list);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment
+                            .instantiate(MainActivity.this, ListItemFragment.class.getName()))
+                            .commitAllowingStateLoss();
                     return true;
                 case R.id.navigation_user:
-                    actionBar.setTitle(R.string.title_user);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment.instantiate(MainActivity.this, UserFragment.class.getName())).commitAllowingStateLoss();
+//                    actionBar.setTitle(R.string.title_user);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment
+                            .instantiate(MainActivity.this, UserFragment.class.getName())).commitAllowingStateLoss();
                     return true;
             }
             return false;
@@ -63,7 +67,10 @@ public class MainActivity extends AppCompatActivity {
     private void setupActionBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             // Show the Up button in the action bar.
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(false);
+            }
         }
     }
 

@@ -14,6 +14,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <!-- MainActivity-->
     <string name="title_activity_main">MainActivity</string>
     <string name="title_release">发布</string>
     <string name="title_list">商品</string>
@@ -21,6 +22,9 @@
     <string name="menu_title_release">发布</string>
     <string name="menu_title_list">商品</string>
     <string name="menu_title_user">个人</string>
+
+    <!-- UserFragment-->
+    <string name="default_user_name">"shesevenday"</string>
 
     <string name="product_description">正宗洋澄湖大闸蟹，一万一斤，童叟无欺！！！</string>
     <string name="dollar">"$"</string>

@@ -5,5 +5,4 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="product_preview_height">150dp</dimen>
     <dimen name="product_preview_width">180dp</dimen>
-
 </resources>

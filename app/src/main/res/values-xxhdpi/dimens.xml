@@ -1,0 +1,17 @@
+<resources>
+
+    <dimen name="user_icon_width">38dp</dimen>
+    <dimen name="user_icon_height">38dp</dimen>
+    <dimen name="user_icon_margin_top">28dp</dimen>
+    <dimen name="user_name_margin_top">4dp</dimen>
+    <dimen name="user_info_height">57dp</dimen>
+    <dimen name="user_info_margin_start">10dp</dimen>
+    <dimen name="user_info_margin_end">10dp</dimen>
+    <dimen name="user_info_margin_top">9dp</dimen>
+    <dimen name="user_info_item_margin_top">5dp</dimen>
+    <dimen name="user_info_layout_radius">3dp</dimen>
+    <dimen name="user_info_layout_elevation">3dp</dimen>
+    <dimen name="user_info_title_text_size">9sp</dimen>
+    <dimen name="user_info_count_text_size">12sp</dimen>
+    <dimen name="user_arc_margin_bottom">5dp</dimen>
+</resources>

@@ -50,13 +50,12 @@
         <activity
             android:name="ui.LoginActivity"
             android:label="@string/title_activity_login"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".base.BaseAppCompatActivity"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
-            android:parentActivityName=".base.BaseAppCompatActivity"/>
+            android:theme="@style/AppTheme.MainActivity" />
         <activity android:name=".utils.PermissionsActivity"></activity>
     </application>
 

@@ -11,12 +11,7 @@ import android.view.ViewGroup;
 import com.bigwhite.crab.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link UserFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link UserFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Fragment to show the user.
  */
 public class UserFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -27,7 +22,6 @@ public class UserFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
 
     public UserFragment() {
         // Required empty public constructor

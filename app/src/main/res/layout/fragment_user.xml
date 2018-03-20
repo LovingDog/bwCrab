@@ -1,13 +1,153 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/pageBackground"
+    android:fitsSystemWindows="true"
+    android:theme="@style/AppTheme.MainActivity.UserManager"
     tools:context="com.bigwhite.crab.ui.UserFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <!--<android.support.design.widget.AppBarLayout-->
+    <!--android:id="@+id/appbar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:theme="@style/AppTheme.MainActivity.UserManager">-->
 
-</FrameLayout>
+    <!--<android.support.v7.widget.Toolbar-->
+    <!--android:id="@+id/toolbar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="?attr/actionBarSize"-->
+    <!--android:visibility="gone"-->
+    <!--app:layout_scrollFlags="scroll|enterAlways"-->
+    <!--app:popupTheme="@style/AppTheme.MainActivity.UserManager" />-->
+
+    <!--</android.support.design.widget.AppBarLayout>-->
+    <android.support.v7.widget.ContentFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+        <!--android:background="@drawable/user_shape_corner"-->
+        <com.bigwhite.crab.view.ArcView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/user_arc_margin_bottom"
+            app:arcHeight="20dp"
+            app:bgColor="@color/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/user_icon"
+                android:layout_width="@dimen/user_icon_width"
+                android:layout_height="@dimen/user_icon_height"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/user_icon_margin_top"
+                android:src="@mipmap/avatar" />
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/user_name_margin_top"
+                android:text="@string/default_user_name"
+                android:textColor="@color/userNameTextColor" />
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/user_info_height"
+                android:layout_marginEnd="@dimen/user_info_margin_end"
+                android:layout_marginStart="@dimen/user_info_margin_start"
+                android:layout_marginTop="@dimen/user_info_margin_top"
+                android:background="@drawable/info_shape_corner"
+                android:elevation="@dimen/user_info_layout_elevation"
+                android:orientation="horizontal"
+                app:divider="@drawable/line"
+                app:dividerPadding="5dp"
+                app:showDividers="beginning|middle|end">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/release_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3"
+                        android:textColor="@color/userInfoCountTextColor"
+                        android:textSize="@dimen/user_info_count_text_size" />
+
+                    <TextView
+                        android:id="@+id/release_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/user_info_item_margin_top"
+                        android:text="已发布"
+                        android:textColor="@color/userInfoTitleTextColor"
+                        android:textSize="@dimen/user_info_title_text_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/orders_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2"
+                        android:textColor="@color/userInfoCountTextColor"
+                        android:textSize="@dimen/user_info_count_text_size" />
+
+                    <TextView
+                        android:id="@+id/orders_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/user_info_item_margin_top"
+                        android:text="未接订单"
+                        android:textColor="@color/userInfoTitleTextColor"
+                        android:textSize="@dimen/user_info_title_text_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/done_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="24"
+                        android:textColor="@color/userInfoCountTextColor"
+                        android:textSize="@dimen/user_info_count_text_size" />
+
+                    <TextView
+                        android:id="@+id/done_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/user_info_item_margin_top"
+                        android:text="已发订单"
+                        android:textColor="@color/userInfoTitleTextColor"
+                        android:textSize="@dimen/user_info_title_text_size" />
+                </LinearLayout>
+            </android.support.v7.widget.LinearLayoutCompat>
+        </LinearLayout>
+
+    </android.support.v7.widget.ContentFrameLayout>
+</android.support.constraint.ConstraintLayout>
