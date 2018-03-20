@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/user_arc_margin_bottom"
-            app:arcHeight="20dp"
+            app:arcHeight="@dimen/user_arc_height"
             app:bgColor="@color/colorPrimary" />
 
         <LinearLayout
