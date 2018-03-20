@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ContentFrameLayout;
 import android.view.MenuItem;
@@ -24,17 +25,18 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            ActionBar actionBar = getSupportActionBar();
             switch (item.getItemId()) {
                 case R.id.navigation_release:
-                    mTextMessage.setText(R.string.title_release);
+                    actionBar.setTitle(R.string.title_release);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment.instantiate(MainActivity.this, ReleaseFragment.class.getName())).commitAllowingStateLoss();
                     return true;
                 case R.id.navigation_list:
-                    mTextMessage.setText(R.string.title_list);
+                    actionBar.setTitle(R.string.title_list);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment.instantiate(MainActivity.this, ListItemFragment.class.getName())).commitAllowingStateLoss();
                     return true;
                 case R.id.navigation_user:
-                    mTextMessage.setText(R.string.title_user);
+                    actionBar.setTitle(R.string.title_user);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment.instantiate(MainActivity.this, UserFragment.class.getName())).commitAllowingStateLoss();
                     return true;
             }
