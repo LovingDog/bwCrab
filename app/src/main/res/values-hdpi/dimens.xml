@@ -4,6 +4,7 @@
     <dimen name="user_icon_height">76dp</dimen>
     <dimen name="user_icon_margin_top">56dp</dimen>
     <dimen name="user_name_margin_top">5dp</dimen>
+    <dimen name="user_name_text_size">23sp</dimen>
     <dimen name="user_info_height">114dp</dimen>
     <dimen name="user_info_margin_start">20dp</dimen>
     <dimen name="user_info_margin_end">20dp</dimen>
@@ -15,4 +16,14 @@
     <dimen name="user_info_count_text_size">24sp</dimen>
     <dimen name="user_arc_margin_bottom">10dp</dimen>
     <dimen name="user_arc_height">20dp</dimen>
+
+    <dimen name="user_title_margin_top">23dp</dimen>
+    <dimen name="user_title_margin_start">33dp</dimen>
+    <dimen name="user_title_name_margin_start">9dp</dimen>
+    <dimen name="user_list_margin_top">11dp</dimen>
+    <dimen name="customer_name_text_size">21sp</dimen>
+    <dimen name="customer_info_margin_top">11dp</dimen>
+    <dimen name="customer_info_margin_start">20dp</dimen>
+    <dimen name="customer_info_margin_bottom">7dp</dimen>
+    <dimen name="divider_size">12dp</dimen>
 </resources>
