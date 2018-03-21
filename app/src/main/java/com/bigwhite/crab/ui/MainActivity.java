@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.bigwhite.crab.R;
+import com.bigwhite.crab.base.MyApplication;
+import com.squareup.leakcanary.RefWatcher;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -84,5 +86,13 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.fragment_container, ReleaseFragment.instantiate(this, ReleaseFragment.class.getName()));
         transaction.commitAllowingStateLoss();
+    }
+	
+	//在fragement中onDestroy方式使用这个，activity默认 有该方法
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = MyApplication.getApplicationWatcher(this);
+        refWatcher.watch(this);
     }
 }
