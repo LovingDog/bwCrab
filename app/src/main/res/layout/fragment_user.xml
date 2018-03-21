@@ -7,7 +7,7 @@
     android:background="@color/pageBackground"
     android:fitsSystemWindows="true"
     android:theme="@style/AppTheme.MainActivity.UserManager"
-    tools:context="com.bigwhite.crab.ui.UserFragment">
+    tools:context="com.bigwhite.crab.ui.fragment.UserFragment">
 
     <!--<android.support.design.widget.AppBarLayout-->
     <!--android:id="@+id/appbar"-->

@@ -27,10 +27,8 @@
     <string name="default_user_name">"shesevenday"</string>
 
     <string name="product_description">正宗洋澄湖大闸蟹，一万一斤，童叟无欺！！！</string>
-    <string name="dollar">"$"</string>
+    <string name="CNY">"¥"</string>
     <string name="integral">积分</string>
-    <string name="product_price">$1350</string>
-    <string name="product_integral">888积分</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

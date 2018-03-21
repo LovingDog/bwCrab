@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bigwhite.crab.R;
 import com.bigwhite.crab.base.MyApplication;
+import com.bigwhite.crab.ui.fragment.ListItemFragment;
 import com.squareup.leakcanary.RefWatcher;
 
 public class MainActivity extends AppCompatActivity {
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.commitAllowingStateLoss();
     }
 	
-	//在fragement中onDestroy方式使用这个，activity默认 有该方法
+	//鍦╢ragement涓璷nDestroy鏂瑰紡浣跨敤杩欎釜锛宎ctivity榛樿 鏈夎鏂规硶
     @Override
     protected void onDestroy() {
         super.onDestroy();
