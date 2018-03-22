@@ -20,4 +20,6 @@
     <color name="userInfoLine">#B8B8B8</color>
     <color name="userInfoCountTextColor">#43A4FF</color>
     <color name="userInfoTitleTextColor">#333333</color>
+    <color name="customerDividerColor">#CBCBCB</color>
+    <color name="customerInfoColor">#555555</color>
 </resources>

@@ -28,6 +28,12 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private int mOrientation;
 
+    public DividerItemDecoration(Context context) {
+        final TypedArray a = context.obtainStyledAttributes(ATTRS);
+        mDivider = a.getDrawable(0);mDivider.setAlpha(0);
+        a.recycle();
+    }
+
     public DividerItemDecoration(Context context, int orientation) {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = a.getDrawable(0);
@@ -44,11 +50,11 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void onDraw(Canvas c, RecyclerView parent) {
-        if (mOrientation == VERTICAL_LIST) {
+        //if (mOrientation == VERTICAL_LIST) {
             drawVertical(c, parent);
-        } else {
+        //} else {
             drawHorizontal(c, parent);
-        }
+        //}
 
     }
 
@@ -88,10 +94,15 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
-        if (mOrientation == VERTICAL_LIST) {
-            outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
-        } else {
-            outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
+//        if (mOrientation == VERTICAL_LIST) {
+//            outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
+//        } else {
+//            outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
+//        }
+        outRect.left = 2;
+        outRect.bottom = 2;
+        if (itemPosition % 2 == 0) {
+            outRect.left = 0;
         }
     }
 }
