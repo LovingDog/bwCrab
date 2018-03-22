@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bigwhite.crab.R;
 import com.bigwhite.crab.model.CustomerOrderInfo;
 import com.bigwhite.crab.model.UserInfo;
+import com.bigwhite.crab.ui.adapter.UserAdapter;
 import com.bumptech.glide.Glide;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnNetWorkErrorListener;
