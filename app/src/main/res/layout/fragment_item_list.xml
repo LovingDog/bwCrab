@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.github.jdsjlzx.recyclerview.LRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:name="com.bigwhite.crab.ui.ItemFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
-    tools:context="com.bigwhite.crab.ui.fragment.ListItemFragment"
-    tools:listitem="@layout/fragment_item" />
+    android:orientation="vertical"
+    tools:context="com.bigwhite.crab.ui.fragment.ListItemFragment">
+
+    <TextView
+        android:id="@+id/merchandise_list_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/title_list"
+        android:textSize="25sp" />
+
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:id="@+id/item_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp" />
+</LinearLayout>

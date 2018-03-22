@@ -1,0 +1,31 @@
+<resources>
+
+    <dimen name="user_icon_width">29dp</dimen>
+    <dimen name="user_icon_height">29dp</dimen>
+    <dimen name="user_icon_margin_top">21dp</dimen>
+    <dimen name="user_name_margin_top">3dp</dimen>
+    <dimen name="user_name_text_size">9sp</dimen>
+    <dimen name="user_info_height">43dp</dimen>
+    <dimen name="user_info_margin_start">8dp</dimen>
+    <dimen name="user_info_margin_end">8dp</dimen>
+    <dimen name="user_info_margin_top">7dp</dimen>
+    <dimen name="user_info_item_margin_top">4dp</dimen>
+    <dimen name="user_info_layout_radius">2dp</dimen>
+    <dimen name="user_info_layout_elevation">3dp</dimen>
+    <dimen name="user_info_title_text_size">7sp</dimen>
+    <dimen name="user_info_count_text_size">9sp</dimen>
+    <dimen name="user_arc_margin_bottom">4dp</dimen>
+    <dimen name="user_arc_height">20dp</dimen>
+
+    <dimen name="user_title_margin_top">9dp</dimen>
+    <dimen name="user_title_margin_start">8dp</dimen>
+    <dimen name="user_title_name_margin_start">8dp</dimen>
+    <dimen name="user_list_margin_top">4dp</dimen>
+    <dimen name="customer_name_padding_top">6dp</dimen>
+    <dimen name="customer_name_padding_bottom">5dp</dimen>
+    <dimen name="customer_name_text_size">8sp</dimen>
+    <dimen name="customer_info_margin_top">4dp</dimen>
+    <dimen name="customer_info_margin_start">8dp</dimen>
+    <dimen name="customer_info_margin_bottom">3dp</dimen>
+    <dimen name="divider_size">5dp</dimen>
+</resources>

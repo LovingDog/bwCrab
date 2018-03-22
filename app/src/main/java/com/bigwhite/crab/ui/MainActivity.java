@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 import com.bigwhite.crab.R;
 import com.bigwhite.crab.base.MyApplication;
 import com.bigwhite.crab.ui.fragment.ListItemFragment;
+import com.bigwhite.crab.ui.fragment.UserFragment;
 import com.squareup.leakcanary.RefWatcher;
 
 public class MainActivity extends AppCompatActivity {
@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
         transaction.add(R.id.fragment_container, ReleaseFragment.instantiate(this, ReleaseFragment.class.getName()));
         transaction.commitAllowingStateLoss();
     }
-	
-	//在fragement中onDestroy方式使用这个，activity默认 有该方法
+
+    //在fragement中onDestroy方式使用这个，activity默认 有该方法
     @Override
     protected void onDestroy() {
         super.onDestroy();
