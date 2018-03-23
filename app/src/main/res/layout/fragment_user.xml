@@ -25,10 +25,8 @@
 
     <!--</android.support.design.widget.AppBarLayout>-->
     <RelativeLayout
-        android:layout_width="368dp"
-        android:layout_height="495dp"
-        tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.ContentFrameLayout
             android:id="@+id/content_layout"
@@ -54,8 +52,9 @@
                     android:layout_width="@dimen/user_icon_width"
                     android:layout_height="@dimen/user_icon_height"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/user_icon_margin_top"
+                    android:layout_marginTop="?android:attr/actionBarSize"
                     android:src="@mipmap/avatar" />
+                <!--android:layout_marginTop="@dimen/user_icon_margin_top"-->
 
                 <TextView
                     android:id="@+id/user_name"
@@ -67,7 +66,7 @@
                     android:textColor="@color/userNameTextColor"
                     android:textSize="@dimen/user_name_text_size" />
 
-                <android.support.v7.widget.LinearLayoutCompat
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/user_info_height"
                     android:layout_marginEnd="@dimen/user_info_margin_end"
@@ -75,10 +74,7 @@
                     android:layout_marginTop="@dimen/user_info_margin_top"
                     android:background="@drawable/info_shape_corner"
                     android:elevation="@dimen/user_info_layout_elevation"
-                    android:orientation="horizontal"
-                    app:divider="@drawable/line"
-                    app:dividerPadding="5dp"
-                    app:showDividers="beginning|middle|end">
+                    android:gravity="center_vertical">
 
                     <LinearLayout
                         android:id="@+id/release_layout"
@@ -107,6 +103,11 @@
                             android:textSize="@dimen/user_info_title_text_size" />
                     </LinearLayout>
 
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="@dimen/user_info_divider_height"
+                        android:background="@color/userInfoLine" />
+
                     <LinearLayout
                         android:id="@+id/orders_layout"
                         android:layout_width="match_parent"
@@ -134,6 +135,11 @@
                             android:textSize="@dimen/user_info_title_text_size" />
                     </LinearLayout>
 
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="@dimen/user_info_divider_height"
+                        android:background="@color/userInfoLine" />
+
                     <LinearLayout
                         android:id="@+id/done_layout"
                         android:layout_width="match_parent"
@@ -160,7 +166,7 @@
                             android:textColor="@color/userInfoTitleTextColor"
                             android:textSize="@dimen/user_info_title_text_size" />
                     </LinearLayout>
-                </android.support.v7.widget.LinearLayoutCompat>
+                </LinearLayout>
             </LinearLayout>
 
         </android.support.v7.widget.ContentFrameLayout>
@@ -195,14 +201,14 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-        android:layout_below="@id/title_layout"
+            android:layout_below="@id/title_layout"
             android:layout_marginTop="@dimen/user_list_margin_top"
             android:visibility="visible" />
         <!--<com.github.jdsjlzx.recyclerview.LRecyclerView-->
-            <!--android:id="@+id/recycler_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_below="@id/title_layout"-->
-            <!--android:layout_marginTop="@dimen/user_list_margin_top" />-->
+        <!--android:id="@+id/recycler_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@id/title_layout"-->
+        <!--android:layout_marginTop="@dimen/user_list_margin_top" />-->
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

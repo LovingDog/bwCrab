@@ -31,7 +31,6 @@ public class UserAdapter extends RecyclerView.Adapter {
     public void setData(List<CustomerOrderInfo> ordersList) {
         mOrdersList.clear();
         mOrdersList.addAll(ordersList);
-        notifyDataSetChanged();
     }
 
     @Override

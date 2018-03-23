@@ -63,11 +63,11 @@ public class UserFragment extends Fragment implements View.OnClickListener, OnRe
         info1.setPoint("380");
         mOrdersList.add(info1);
         CustomerOrderInfo info2 = new CustomerOrderInfo();
-        info1.setName("周小美");
-        info1.setPhone("18661866172");
-        info1.setAddress("江苏省润和创智中心");
-        info1.setPoint("380");
-        mOrdersList.add(info1);
+        info2.setName("周小美");
+        info2.setPhone("18661866172");
+        info2.setAddress("江苏省润和创智中心");
+        info2.setPoint("380");
+        mOrdersList.add(info2);
     }
 
     @Override

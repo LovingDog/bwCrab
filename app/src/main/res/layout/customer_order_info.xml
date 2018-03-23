@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:background="@drawable/customer_order_background"
     android:orientation="vertical">
 
     <TextView
+        android:layout_marginEnd="@dimen/customer_info_margin_start"
+        android:drawableEnd="@mipmap/ic_arrow"
         android:id="@+id/customer_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
         android:paddingBottom="@dimen/customer_name_padding_bottom"
         android:paddingEnd="0dp"
         android:paddingStart="@dimen/customer_info_margin_start"
         android:paddingTop="@dimen/customer_name_padding_top"
-        android:text="汪涵平"
         android:textColor="@android:color/black"
         android:textSize="@dimen/customer_name_text_size" />
 
@@ -43,7 +43,6 @@
             android:id="@+id/customer_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="江苏省润和创智中心"
             android:textColor="@color/customerInfoColor"
             android:textSize="@dimen/user_info_title_text_size" />
 
@@ -67,7 +66,6 @@
             android:id="@+id/customer_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="18661866172"
             android:textColor="@color/customerInfoColor"
             android:textSize="@dimen/user_info_title_text_size" />
 
@@ -91,7 +89,6 @@
             android:id="@+id/customer_point"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="380"
             android:textColor="@color/customerInfoColor"
             android:textSize="@dimen/user_info_title_text_size" />
 
