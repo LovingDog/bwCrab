@@ -7,13 +7,18 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bigwhite.crab.R;
-import com.bigwhite.crab.model.CustomerOrderInfo;
+import com.bigwhite.crab.http.DataLogic;
+import com.bigwhite.crab.http.HttpTask;
+import com.bigwhite.crab.http.QueryData;
+import com.bigwhite.crab.model.OrderInfo;
+import com.bigwhite.crab.model.OrdersList;
 import com.bigwhite.crab.model.UserInfo;
 import com.bigwhite.crab.ui.adapter.UserAdapter;
 import com.bumptech.glide.Glide;
@@ -32,7 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Fragment to show the user.
  */
 public class UserFragment extends Fragment implements View.OnClickListener, OnRefreshListener, OnLoadMoreListener,
-        OnNetWorkErrorListener {
+        OnNetWorkErrorListener, HttpTask.HttpTaskListener {
 
     private TextView mReleaseCount;
     private TextView mOrdersCount;
@@ -45,29 +50,18 @@ public class UserFragment extends Fragment implements View.OnClickListener, OnRe
     private UserAdapter mUserAdapter;
 
     private UserInfo mUserInfo;
-    private List<CustomerOrderInfo> mOrdersList;
-    private int mCurrentType;
+    private List<OrderInfo> mInfoList = new ArrayList<>();
+    private OrdersList mOrderList;
+    private int mCurrentType = TYPE_ORDER_MODEL;
     private static final int TYPE_RELEASE_MODEL = 0;
     private static final int TYPE_ORDER_MODEL = 1;
     private static final int TYPE_DONE_MODEL = 2;
 
+    private static final int ID_GET_USER = 0;
+    private static final int ID_GET_ALL_ORDERS = 1;
+
     public UserFragment() {
         // Required empty public constructor
-        mUserInfo = new UserInfo();
-        mOrdersList = new ArrayList<>();
-
-        CustomerOrderInfo info1 = new CustomerOrderInfo();
-        info1.setName("汪涵平");
-        info1.setPhone("18661866172");
-        info1.setAddress("江苏省润和创智中心");
-        info1.setPoint("380");
-        mOrdersList.add(info1);
-        CustomerOrderInfo info2 = new CustomerOrderInfo();
-        info1.setName("周小美");
-        info1.setPhone("18661866172");
-        info1.setAddress("江苏省润和创智中心");
-        info1.setPoint("380");
-        mOrdersList.add(info1);
     }
 
     @Override
@@ -103,32 +97,28 @@ public class UserFragment extends Fragment implements View.OnClickListener, OnRe
         mUserIcon.setOnClickListener(this);
 
         mLRecyclerView = (LRecyclerView) view.findViewById(R.id.recycler_view);
+        mLRecyclerView.setOnRefreshListener(this);
+        mLRecyclerView.setOnLoadMoreListener(this);
+        mLRecyclerView.setOnNetWorkErrorListener(this);
     }
 
     private void initData() {
-        String name = mUserInfo.getName();
-        if (!TextUtils.isEmpty(name)) {
-            mUserName.setText(name);
-        }
-        String iconURL = mUserInfo.getIconURL();
-        if (!TextUtils.isEmpty(iconURL)) {
-            Glide.with(this).load(iconURL).placeholder(R.mipmap.avatar).into(mUserIcon);
-        }
-
         mUserAdapter = new UserAdapter(getContext());
-        mUserAdapter.setData(mOrdersList);
+        mUserAdapter.setData(mInfoList);
         mLAdapter = new LRecyclerViewAdapter(mUserAdapter);
         mLRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mLRecyclerView.setAdapter(mLAdapter);
         mLRecyclerView.setPullRefreshEnabled(true);
-        mLRecyclerView.setOnRefreshListener(this);
-        mLRecyclerView.setOnLoadMoreListener(this);
-        mLRecyclerView.setOnNetWorkErrorListener(this);
-        mLRecyclerView.refreshComplete(mOrdersList.size());
         DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         decoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.recyclerview_divider));
         mLRecyclerView.addItemDecoration(decoration);
-        mLAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        new QueryData(ID_GET_USER, this).getData();
+        new QueryData(ID_GET_ALL_ORDERS, this).getData();
     }
 
     @Override
@@ -143,33 +133,113 @@ public class UserFragment extends Fragment implements View.OnClickListener, OnRe
             case R.id.release_layout:
                 mTitleView.setText(R.string.default_release_title);
                 mCurrentType = TYPE_RELEASE_MODEL;
+                if (mOrderList == null) {
+                    new QueryData(ID_GET_ALL_ORDERS, this).getData();
+                } else {
+                    initOrderList(mOrderList, mCurrentType);
+                }
                 break;
             case R.id.orders_layout:
                 mTitleView.setText(R.string.default_orders_title);
                 mCurrentType = TYPE_ORDER_MODEL;
+                if (mOrderList == null) {
+                    new QueryData(ID_GET_ALL_ORDERS, this).getData();
+                } else {
+                    initOrderList(mOrderList, mCurrentType);
+                }
                 break;
             case R.id.done_layout:
                 mTitleView.setText(R.string.default_done_title);
                 mCurrentType = TYPE_DONE_MODEL;
+                if (mOrderList == null) {
+                    new QueryData(ID_GET_ALL_ORDERS, this).getData();
+                } else {
+                    initOrderList(mOrderList, mCurrentType);
+                }
                 break;
         }
     }
 
     @Override
     public void onRefresh() {
-        // TODO: Refresh the data.
-        mLRecyclerView.refreshComplete(mOrdersList.size());
+        new QueryData(ID_GET_ALL_ORDERS, this).getData();
     }
 
     @Override
     public void onLoadMore() {
-        // TODO: Load more data.
-        mLRecyclerView.refreshComplete(mOrdersList.size());
+        new QueryData(ID_GET_ALL_ORDERS, this).getData();
     }
 
     @Override
     public void reload() {
-        // TODO: Load more data.
-        mLRecyclerView.refreshComplete(mOrdersList.size());
+        new QueryData(ID_GET_ALL_ORDERS, this).getData();
+    }
+
+    @Override
+    public Object getData(int id) {
+        switch (id) {
+            case ID_GET_USER:
+                return DataLogic.getInstance().getUserInfo();
+            case ID_GET_ALL_ORDERS:
+                return DataLogic.getInstance().getOrdersInfo();
+        }
+        return null;
+    }
+
+    @Override
+    public void onSuccess(int id, Object object) {
+        if (object != null) {
+            switch (id) {
+                case ID_GET_USER:
+                    UserInfo userInfo = (UserInfo) object;
+                    initUser(userInfo);
+                    break;
+                case ID_GET_ALL_ORDERS:
+                    OrdersList ordersList = (OrdersList) object;
+                    initOrderList(ordersList, mCurrentType);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Init the user info.
+     *
+     * @param userInfo
+     */
+    private void initUser(UserInfo userInfo) {
+        String name = userInfo.getName();
+        if (!TextUtils.isEmpty(name)) {
+            mUserName.setText(name);
+        }
+        String iconURL = userInfo.getIconURL();
+        if (!TextUtils.isEmpty(iconURL)) {
+            Glide.with(this).load(iconURL).placeholder(R.mipmap.avatar).into(mUserIcon);
+        }
+        mUserInfo = userInfo;
+    }
+
+    /**
+     * @param ordersList
+     */
+    private void initOrderList(OrdersList ordersList, int type) {
+        mReleaseCount.setText("" + ordersList.getRelease().size());
+        mOrdersCount.setText("" + ordersList.getOrder().size());
+        mDoneCount.setText("" + ordersList.getDone().size());
+        mOrderList = ordersList;
+        mInfoList.clear();
+        switch (type) {
+            case TYPE_RELEASE_MODEL:
+                mInfoList.addAll(ordersList.getRelease());
+                break;
+            case TYPE_ORDER_MODEL:
+                mInfoList.addAll(ordersList.getOrder());
+                break;
+            case TYPE_DONE_MODEL:
+                mInfoList.addAll(ordersList.getDone());
+                break;
+        }
+        mLAdapter.notifyDataSetChanged();
+        mLRecyclerView.refreshComplete(mInfoList.size());
     }
 }

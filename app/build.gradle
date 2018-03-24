@@ -53,4 +53,5 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.2'
     compile 'com.github.jdsjlzx:LRecyclerView:1.5.0'
+    compile 'com.alibaba:fastjson:1.2.46'
 }

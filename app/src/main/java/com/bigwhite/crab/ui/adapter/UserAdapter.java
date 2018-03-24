@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bigwhite.crab.R;
-import com.bigwhite.crab.model.CustomerOrderInfo;
-import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter;
+import com.bigwhite.crab.model.OrderInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +25,10 @@ public class UserAdapter extends RecyclerView.Adapter {
         mContext = context;
     }
 
-    private List<CustomerOrderInfo> mOrdersList = new ArrayList<>();
+    private List<OrderInfo> mOrdersList;
 
-    public void setData(List<CustomerOrderInfo> ordersList) {
-        mOrdersList.clear();
-        mOrdersList.addAll(ordersList);
-        notifyDataSetChanged();
+    public void setData(List<OrderInfo> ordersList) {
+        mOrdersList = ordersList;
     }
 
     @Override
@@ -42,7 +39,7 @@ public class UserAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        CustomerOrderInfo info = mOrdersList.get(i);
+        OrderInfo info = mOrdersList.get(i);
         ((UserViewHolder) viewHolder).initData(info);
     }
 
@@ -65,7 +62,7 @@ public class UserAdapter extends RecyclerView.Adapter {
             point = (TextView) itemView.findViewById(R.id.customer_point);
         }
 
-        public void initData(CustomerOrderInfo info) {
+        public void initData(OrderInfo info) {
             name.setText(info.getName());
             address.setText(info.getAddress());
             phone.setText(info.getPhone());

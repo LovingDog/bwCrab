@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Administrator on 2018/3/21 0021.
  */
 
-public class CustomerOrderInfo implements Serializable {
+public class OrderInfo implements Serializable {
     private int id;
     private String name;
     private String phone;
