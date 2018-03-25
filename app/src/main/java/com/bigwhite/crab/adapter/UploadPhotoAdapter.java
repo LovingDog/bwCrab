@@ -1,13 +1,19 @@
 package com.bigwhite.crab.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bigwhite.crab.R;
+import com.bumptech.glide.Glide;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/3/22.
@@ -15,27 +21,37 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 public class UploadPhotoAdapter extends RecyclerView.Adapter {
 
+    private List<String> mImagePathList = new ArrayList<>();
+    private Context mContext;
+    public UploadPhotoAdapter(Context context) {
+        mContext = context;
+    }
     public class PhotoViewHolder extends RecyclerView.ViewHolder{
         private ImageView uploadPhotoImage;
         public PhotoViewHolder(View itemView) {
             super(itemView);
             uploadPhotoImage = (ImageView) itemView.findViewById(R.id.upload_item_imageview);
         }
+
+        public void setImage(String imagePath) {
+//            Glide.with(mContext).load(imagePath).into(uploadPhotoImage);
+        }
+    }
+
+    private void addImage(String imagePath) {
+        mImagePathList.add(imagePath);
+        notifyDataSetChanged();
+    }
+
+    private void removeImage(String imagePath) {
+        mImagePathList.remove(imagePath);
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return 0;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return super.getItemViewType(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
+        return 6;
+//        return mImagePathList.size() + 1;
     }
 
     @Override
@@ -47,6 +63,8 @@ public class UploadPhotoAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-
+        Log.i("ren_kang", "onBindViewHolder");
+//        String imagePath = mImagePathList.get(i);
+//        ((PhotoViewHolder) viewHolder).setImage(imagePath);
     }
 }

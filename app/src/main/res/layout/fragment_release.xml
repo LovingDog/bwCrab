@@ -1,16 +1,25 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context="com.bigwhite.crab.ui.ReleaseFragment">
+
+    <TextView
+        android:id="@+id/merchandise_list_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:background="@color/white"
+        android:text="@string/title_release"
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/tv_product_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_marginStart="15dp"
         android:layout_marginTop="16dp"
         android:textColor="#555555"
@@ -20,12 +29,11 @@
     <EditText
         android:id="@+id/et_product_description"
         android:background="@drawable/edittext_bg"
-        android:layout_width="wrap_content"
+        android:layout_width="345dp"
         android:layout_height="75dp"
-        android:layout_alignStart="@+id/tv_product_description"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="12dp"
         android:gravity="left|top"
         android:inputType="textMultiLine" />
 
@@ -33,9 +41,8 @@
         android:id="@+id/tv_market_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/et_product_description"
-        android:layout_below="@+id/et_product_description"
         android:layout_marginTop="13dp"
+        android:layout_marginStart="15dp"
         android:textColor="#555555"
         android:textSize="7pt"
         android:text="市场价格" />
@@ -43,21 +50,18 @@
     <EditText
         android:id="@+id/et_product_price"
         android:background="@drawable/edittext_bg"
-        android:layout_width="wrap_content"
+        android:layout_width="345dp"
         android:layout_height="44dp"
-        android:layout_alignStart="@+id/tv_market_price"
-        android:layout_below="@+id/tv_market_price"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="15dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="12dp" />
 
     <TextView
         android:id="@+id/tv_convertibility"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/et_product_description"
-        android:layout_below="@+id/et_product_price"
         android:layout_marginTop="13dp"
+        android:layout_marginStart="15dp"
         android:textColor="#555555"
         android:textSize="7pt"
         android:text="兑换积分" />
@@ -65,21 +69,18 @@
     <EditText
         android:id="@+id/et_convertibility"
         android:background="@drawable/edittext_bg"
-        android:layout_width="wrap_content"
+        android:layout_width="345dp"
         android:layout_height="44dp"
-        android:layout_alignStart="@+id/tv_market_price"
-        android:layout_below="@+id/tv_convertibility"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="15dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="12dp" />
 
     <TextView
         android:id="@+id/tv_convertibility_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/et_product_description"
-        android:layout_below="@+id/et_convertibility"
         android:layout_marginTop="13dp"
+        android:layout_marginStart="15dp"
         android:textColor="#555555"
         android:textSize="7pt"
         android:text="对应兑换码" />
@@ -87,32 +88,29 @@
     <EditText
         android:id="@+id/et_convertibility_code"
         android:background="@drawable/edittext_bg"
-        android:layout_width="wrap_content"
+        android:layout_width="345dp"
         android:layout_height="44dp"
-        android:layout_alignStart="@+id/tv_market_price"
-        android:layout_below="@+id/tv_convertibility_code"
-        android:layout_alignParentEnd="true"
         android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="12dp"
+        android:textSize="7pt"
         android:hint="如MYH789HO"/>
 
     <TextView
         android:id="@+id/tv_upload_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/et_product_description"
-        android:layout_below="@+id/et_convertibility_code"
         android:layout_marginTop="13dp"
         android:textColor="#555555"
+        android:layout_marginStart="15dp"
         android:textSize="7pt"
         android:text="上传照片(最多可上传6张)" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/release_recyclerview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tv_upload_image"
-        android:layout_below="@+id/tv_upload_image"
-        android:layout_alignParentEnd="true"
+        android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="12dp" />
-</RelativeLayout>
+</LinearLayout>
