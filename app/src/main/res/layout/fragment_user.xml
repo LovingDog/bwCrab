@@ -9,20 +9,6 @@
     android:theme="@style/AppTheme.MainActivity.UserManager"
     tools:context="com.bigwhite.crab.ui.fragment.UserFragment">
 
-    <!--<android.support.design.widget.AppBarLayout-->
-    <!--android:id="@+id/appbar"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:theme="@style/AppTheme.MainActivity.UserManager">-->
-
-    <!--<android.support.v7.widget.Toolbar-->
-    <!--android:id="@+id/toolbar"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="?attr/actionBarSize"-->
-    <!--android:visibility="gone"-->
-    <!--app:layout_scrollFlags="scroll|enterAlways"-->
-    <!--app:popupTheme="@style/AppTheme.MainActivity.UserManager" />-->
-
     <!--</android.support.design.widget.AppBarLayout>-->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -204,11 +190,5 @@
             android:layout_below="@id/title_layout"
             android:layout_marginTop="@dimen/user_list_margin_top"
             android:visibility="visible" />
-        <!--<com.github.jdsjlzx.recyclerview.LRecyclerView-->
-        <!--android:id="@+id/recycler_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_below="@id/title_layout"-->
-        <!--android:layout_marginTop="@dimen/user_list_margin_top" />-->
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

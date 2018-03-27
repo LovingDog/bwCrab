@@ -220,6 +220,8 @@ public class UserFragment extends Fragment implements View.OnClickListener, OnRe
     }
 
     /**
+     * Init the order list.
+     *
      * @param ordersList
      */
     private void initOrderList(OrdersList ordersList, int type) {

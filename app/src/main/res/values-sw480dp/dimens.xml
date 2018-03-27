@@ -19,7 +19,7 @@
     <dimen name="user_info_count_text_size">27.0sp</dimen>
     <dimen name="user_info_divider_height">58.5dp</dimen>
     <dimen name="user_arc_margin_bottom">12.0dp</dimen>
-    <dimen name="user_arc_height">60.0dp</dimen>
+    <dimen name="user_arc_height">52.5dp</dimen>
     <dimen name="user_title_margin_top">25.5dp</dimen>
     <dimen name="user_title_margin_start">22.5dp</dimen>
     <dimen name="user_title_name_margin_start">10.5dp</dimen>
