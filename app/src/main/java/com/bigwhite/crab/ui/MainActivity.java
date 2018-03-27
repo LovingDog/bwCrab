@@ -21,8 +21,10 @@ import com.squareup.leakcanary.RefWatcher;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
-    private ContentFrameLayout mFragmentLayout;
+    private int mCurrentId = INDEX_RELEASE;
+    private static final int INDEX_RELEASE = 0;
+    private static final int INDEX_LIST = 1;
+    private static final int INDEX_USER = 2;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -32,17 +34,27 @@ public class MainActivity extends AppCompatActivity {
             ActionBar actionBar = getSupportActionBar();
             switch (item.getItemId()) {
                 case R.id.navigation_release:
-//                    actionBar.setTitle(R.string.title_release);
+                    if (mCurrentId == INDEX_RELEASE) {
+                        return false;
+                    }
+                    mCurrentId = INDEX_RELEASE;
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, Fragment
                             .instantiate(MainActivity.this, ReleaseFragment.class.getName())).commitAllowingStateLoss();
                     return true;
                 case R.id.navigation_list:
-//                    actionBar.setTitle(R.string.title_list);
+                    if (mCurrentId == INDEX_LIST) {
+                        return false;
+                    }
+                    mCurrentId = INDEX_LIST;
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, Fragment
                             .instantiate(MainActivity.this, ListItemFragment.class.getName()))
                             .commitAllowingStateLoss();
                     return true;
                 case R.id.navigation_user:
+                    if (mCurrentId == INDEX_USER) {
+                        return false;
+                    }
+                    mCurrentId = INDEX_USER;
 //                    actionBar.setTitle(R.string.title_user);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, Fragment
                             .instantiate(MainActivity.this, UserFragment.class.getName())).commitAllowingStateLoss();
@@ -57,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         setupActionBar();
-        mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -90,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.commitAllowingStateLoss();
     }
 
-    //在fragement中onDestroy方式使用这个，activity默认 有该方法
+    //在fragment中onDestroy方式使用这个，activity默认 有该方法
     @Override
     protected void onDestroy() {
         super.onDestroy();
