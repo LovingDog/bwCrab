@@ -21,7 +21,7 @@
     <dimen name="user_title_margin_top">17dp</dimen>
     <dimen name="user_title_margin_start">15dp</dimen>
     <dimen name="user_title_name_margin_start">7dp</dimen>
-    <dimen name="user_list_margin_top">9dp</dimen>
+    <dimen name="user_list_margin_top">5dp</dimen>
     <dimen name="customer_name_padding_top">11dp</dimen>
     <dimen name="customer_name_padding_bottom">10dp</dimen>
     <dimen name="customer_name_text_size">16sp</dimen>

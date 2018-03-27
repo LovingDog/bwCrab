@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -32,18 +33,18 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_release:
 //                    actionBar.setTitle(R.string.title_release);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, Fragment
                             .instantiate(MainActivity.this, ReleaseFragment.class.getName())).commitAllowingStateLoss();
                     return true;
                 case R.id.navigation_list:
 //                    actionBar.setTitle(R.string.title_list);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, Fragment
                             .instantiate(MainActivity.this, ListItemFragment.class.getName()))
                             .commitAllowingStateLoss();
                     return true;
                 case R.id.navigation_user:
 //                    actionBar.setTitle(R.string.title_user);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ReleaseFragment
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, Fragment
                             .instantiate(MainActivity.this, UserFragment.class.getName())).commitAllowingStateLoss();
                     return true;
             }
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         ListItemFragment.instantiate(this, ListItemFragment.class.getName());
         UserFragment.instantiate(this, UserFragment.class.getName());
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_container, ReleaseFragment.instantiate(this, ReleaseFragment.class.getName()));
+        transaction.add(R.id.fragment_container, Fragment.instantiate(this, ReleaseFragment.class.getName()));
         transaction.commitAllowingStateLoss();
     }
 
