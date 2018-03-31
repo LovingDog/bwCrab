@@ -7,9 +7,11 @@ import com.bigwhite.crab.bean.IpInfo;
 import com.bigwhite.crab.bean.Movies;
 import com.bigwhite.crab.bean.TokenResult;
 import com.bigwhite.crab.bean.UserHttpResult;
+import com.squareup.okhttp.RequestBody;
 
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.Part;
 import retrofit.http.Query;
 import rx.Observable;
 
@@ -19,38 +21,15 @@ import rx.Observable;
 public interface APIService {
 
     /**
-     * 用户发短信的接口
-     *
-     * @return RxJava 对象
-     */
-    @POST("sendSMS.json?")
-    Observable<UserHttpResult<Object>> senSMS(@Query("telphone") String telphone, @Query("type") int type);
-    /**
      * 用户登录的接口
-     *
-     * @param username 用户名
-     * @param pwd      密码
      * @return RxJava 对象
      */
-    @POST("okhttp/UserInfoServlert")
-    Observable<UserHttpResult<TokenResult>> userLogin(@Query("username") String username, @Query("pwd") String pwd);
+    @POST("addGoods.do")
+    Observable<UserHttpResult> userUploadImg(
+            @Query("info") String info,
+            @Query("price") String price,
+            @Query("integral") int integral,
+            @Query("exchangeCode") String exchangeCode,
+            @Part("file\";fileName = \"test.jpg\"")RequestBody img) ;
 
-    /**
-     * 查询ip地址信息的接口
-     *
-     * @param ip 需查询的ip
-     * @return RxJava 对象
-     */
-    @GET("service/getIpInfo.php")
-    Observable<IPHttpResult<IpInfo>> queryIp(@Query("ip") String ip);
-
-    /**
-     * 查询豆瓣排名前250的电影
-     *
-     * @param start 从第几部开始
-     * @param count 几页(一页有12部)
-     * @return
-     */
-    @GET("v2/movie/top250")
-    Observable<Movies> getMovies(@Query("start") int start, @Query("count") int count);
 }

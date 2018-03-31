@@ -1,5 +1,6 @@
 package com.bigwhite.crab.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -7,8 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.bigwhite.crab.R;
+import com.bigwhite.crab.bean.info.MobileInfo;
+import com.bigwhite.crab.ui.ReleaseFragment;
+import com.bigwhite.crab.utils.Utils;
 import com.bumptech.glide.Glide;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
@@ -31,6 +37,9 @@ public class UploadPhotoAdapter extends RecyclerView.Adapter {
         public PhotoViewHolder(View itemView) {
             super(itemView);
             uploadPhotoImage = (ImageView) itemView.findViewById(R.id.upload_item_imageview);
+            int width = Utils.getMobileInfo((Activity) mContext).getmScreenWidth();
+            int lastWidth = (width / ReleaseFragment.RELASE_IMAGE_COLUMNCOUNT ) - 5;
+            uploadPhotoImage.setLayoutParams(new RelativeLayout.LayoutParams(lastWidth, lastWidth));
         }
 
         public void setImage(String imagePath) {

@@ -23,9 +23,9 @@ public class RetrofitUtils {
 
     public static Retrofit newInstence(String url) {
         mRetrofit = null;
-        OkHttpClient client = new OkHttpClient();//初始化一个client,不然retrofit会自己默认添加一个
-        client.setReadTimeout(READ_TIMEOUT, TimeUnit.MINUTES);//设置读取时间为一分钟
-        client.setConnectTimeout(CONN_TIMEOUT, TimeUnit.SECONDS);//设置连接时间为12s
+        OkHttpClient client = new OkHttpClient();
+        client.setReadTimeout(READ_TIMEOUT, TimeUnit.MINUTES);
+        client.setConnectTimeout(CONN_TIMEOUT, TimeUnit.SECONDS);
 
         mRetrofit = new Retrofit.Builder()
                 .client(client)//添加一个client,不然retrofit会自己默认添加一个

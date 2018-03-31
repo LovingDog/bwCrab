@@ -1,5 +1,10 @@
 package com.bigwhite.crab.utils;
 
+import android.app.Activity;
+import android.view.WindowManager;
+
+import com.bigwhite.crab.bean.info.MobileInfo;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -25,4 +30,11 @@ public class Utils {
         return m.matches();
     }
 
+    public static MobileInfo getMobileInfo(Activity context) {
+        WindowManager windowManager = context.getWindowManager();
+        MobileInfo mobileInfo = new MobileInfo();
+        mobileInfo.setmScreenWidth(windowManager.getDefaultDisplay().getWidth());
+        mobileInfo.setmScreenHeight(windowManager.getDefaultDisplay().getHeight());
+        return mobileInfo;
+    }
 }
