@@ -1,10 +1,12 @@
 package com.bigwhite.crab.utils;
 
 import android.app.Activity;
+import android.os.Environment;
 import android.view.WindowManager;
 
 import com.bigwhite.crab.bean.info.MobileInfo;
 
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -36,5 +38,12 @@ public class Utils {
         mobileInfo.setmScreenWidth(windowManager.getDefaultDisplay().getWidth());
         mobileInfo.setmScreenHeight(windowManager.getDefaultDisplay().getHeight());
         return mobileInfo;
+    }
+
+    public static File getSaveImgPath() {
+        return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                .getAbsolutePath()
+        + "/bwcrab/"  + System.currentTimeMillis() + ".jpg"
+        );
     }
 }
