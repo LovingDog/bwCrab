@@ -10,10 +10,12 @@ public class UploadMerchantPresenter implements UploadContract.UploadPresenter {
 
     private UploadContract.UploadMerchantView mUploadMerchantView;
     private UploadMerchantModel mMerchantModel;
-    public UploadMerchantPresenter(UploadContract.UploadMerchantView uploadMerchantView){
+
+    public UploadMerchantPresenter(UploadContract.UploadMerchantView uploadMerchantView) {
         this.mUploadMerchantView = uploadMerchantView;
         mMerchantModel = new UploadMerchantModel();
     }
+
     @Override
     public void upload() {
         mMerchantModel.Upload(this.mUploadMerchantView.getUploadData(), new OnHttpCallBack() {

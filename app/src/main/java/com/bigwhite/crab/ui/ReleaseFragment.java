@@ -1,7 +1,10 @@
 package com.bigwhite.crab.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,6 +21,7 @@ import android.view.ViewGroup;
 import com.bigwhite.crab.R;
 import com.bigwhite.crab.ui.dummy.upload.UploadImgInfoController;
 import com.bigwhite.crab.ui.dummy.upload.UploadMerchantController;
+import com.bigwhite.crab.utils.ToastUtils;
 import com.bigwhite.crab.utils.Utils;
 
 import java.io.File;
@@ -29,6 +33,7 @@ public class ReleaseFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     public static final int RELASE_IMAGE_COLUMNCOUNT = 6;
     private static final int REQUEST_CAMERA = 101;
+    private static final int REQUEST_PHOTOS = 102;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,26 +71,38 @@ public class ReleaseFragment extends Fragment {
         // Inflate the layout for this fragment
         Log.i("ren_kang", "onCreateView");
         View view = inflater.inflate(R.layout.fragment_release, container, false);
-        mUploadImgInfoController = new UploadImgInfoController(getActivity(),view);
+        mUploadImgInfoController = new UploadImgInfoController(getActivity(), view);
         mUploadImgInfoController.initView();
         mUploadImgInfoController.initImgData();
         mUploadImgInfoController.setListener(new UploadImgInfoController.StartCameraCaptureListener() {
             @Override
-            public void startCaptureListener() {
-                startCameraCapture();
+            public void startCaptureListener(boolean camera) {
+                if (camera) {
+                    startCameraCapture();
+                } else {
+                    startPhotosChoose();
+                }
             }
         });
         return view;
     }
-    
+
     private void startCameraCapture() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         mFile = Utils.getSaveImgPath();
         mFile.getParentFile().mkdirs();
-        Uri uri = FileProvider.getUriForFile(getActivity(),"com.bigwhite.crab.fileprovider",mFile);
+        Uri uri = FileProvider.getUriForFile(getActivity(), "com.bigwhite.crab.fileprovider", mFile);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
+    private void startPhotosChoose() {
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_PHOTOS);
     }
 
     @Override
@@ -99,12 +116,19 @@ public class ReleaseFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CAMERA) {
-            mUploadImgInfoController.addImg(mFile.getAbsolutePath());
+            if (mFile.exists()) {
+                mUploadImgInfoController.addImg(mFile.getAbsolutePath());
+            }
             //can refresh
 //            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
 //            Uri contentUri = Uri.fromFile(file);
 //            mediaScanIntent.setData(contentUri);
 //            sendBroadcast(mediaScanIntent);
+        } else if (requestCode == REQUEST_PHOTOS && data != null) {
+            String path = Utils.getIntentPath(getActivity(), data);
+            if (new File(path).exists()) {
+                mUploadImgInfoController.addImg(path);
+            }
         }
     }
 }

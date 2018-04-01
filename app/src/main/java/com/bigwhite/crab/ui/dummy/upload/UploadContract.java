@@ -10,20 +10,24 @@ import java.io.File;
 
 public class UploadContract {
 
-     interface UploadMerchantView{
+    interface UploadMerchantView {
         void uploadSuccess();
+
         void upLoadFail();
+
         void reFreshActivity();
-         UploadInfo getUploadData();
-         File getFile();
+
+        UploadInfo getUploadData();
+
+        File getFile();
     }
 
-    interface UploadPresenter{
+    interface UploadPresenter {
         void upload();
     }
 
-     interface UploadModel{
-         void Upload(UploadInfo info,OnHttpCallBack callBack);
-     }
+    interface UploadModel {
+        void Upload(UploadInfo info, OnHttpCallBack callBack);
+    }
 
 }
