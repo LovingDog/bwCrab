@@ -7,8 +7,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.bigwhite.crab.R;
+import com.bigwhite.crab.utils.ToastUtils;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by admin on 2018/3/31.
@@ -57,6 +59,14 @@ public class UploadMerchantController implements UploadContract.UploadMerchantVi
 
     @Override
     public UploadInfo getUploadData() {
+        if (isCompleteInfo()) {
+            UploadInfo uploadInfo = new UploadInfo();
+            uploadInfo.setmInfo(mInfo.getText().toString().trim());
+            uploadInfo.setmPrice(mPrice.getText().toString().trim());
+            uploadInfo.setIntegral(Integer.parseInt(mIntegral.getText().toString().trim()));
+            uploadInfo.setExchangeCode(mExchangeCode.getText().toString().trim());
+            List<String>
+        }
         return null;
     }
 
@@ -69,13 +79,20 @@ public class UploadMerchantController implements UploadContract.UploadMerchantVi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_upload:
-                if (!TextUtils.isEmpty(mInfo.getText().toString().trim())
-                        && !TextUtils.isEmpty(mPrice.getText().toString().trim())
-                        && !TextUtils.isEmpty(mIntegral.getText().toString().trim())
-                        && !TextUtils.isEmpty(mExchangeCode.getText().toString().trim())) {
+                if (isCompleteInfo()) {
                     mUploadMerchantPresenter.upload();
+                } else {
+                    ToastUtils.showToast(mContext.getApplicationContext(), mContext.getResources()
+                            .getString(R.string.release_info_complete));
                 }
                 break;
         }
+    }
+
+    private boolean isCompleteInfo() {
+        return !TextUtils.isEmpty(mInfo.getText().toString().trim())
+                && !TextUtils.isEmpty(mPrice.getText().toString().trim())
+                && !TextUtils.isEmpty(mIntegral.getText().toString().trim())
+                && !TextUtils.isEmpty(mExchangeCode.getText().toString().trim());
     }
 }

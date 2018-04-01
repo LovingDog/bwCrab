@@ -19,6 +19,7 @@ import com.bigwhite.crab.utils.SpacesItemDecoration;
 import com.bigwhite.crab.utils.Utils;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by admin on 2018/3/31.
@@ -51,6 +52,13 @@ public class UploadImgInfoController {
         if (mUploadPhotoAdapter != null) {
             mUploadPhotoAdapter.addImage(path);
         }
+    }
+
+    public List getImageList() {
+        if (mUploadPhotoAdapter != null) {
+            return mUploadPhotoAdapter.getImagesList();
+        }
+        return null;
     }
 
     public void setListener(final StartCameraCaptureListener startCameraCaptureListener) {

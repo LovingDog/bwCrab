@@ -46,6 +46,10 @@ public class ReleaseFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public UploadImgInfoController getmUploadImgInfoController() {
+        return mUploadImgInfoController;
+    }
+
     public static com.bigwhite.crab.ui.fragment.ReleaseFragment newInstance(String param1, String param2) {
         com.bigwhite.crab.ui.fragment.ReleaseFragment fragment = new com.bigwhite.crab.ui.fragment.ReleaseFragment();
         Bundle args = new Bundle();

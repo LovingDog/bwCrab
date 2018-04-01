@@ -29,7 +29,7 @@ public class UploadMerchantModel implements UploadContract.UploadModel {
         }
         RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"), info.getmFile());
         RetrofitUtils.newInstence(GlobalField.BASEURL)
-                .create(APIService.class)//创建Rxjava---->LoginService对象
+                .create(APIService.class)
                 .userUploadImg(info.getmInfo(), info.getmPrice(), info.getIntegral(), info.getExchangeCode(), requestBody)
                 .subscribeOn(Schedulers.newThread())//在新线程中执行登录请求
                 .observeOn(AndroidSchedulers.mainThread())//在主线程中执行
