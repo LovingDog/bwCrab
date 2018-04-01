@@ -8,9 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bigwhite.crab.R;
-import com.bigwhite.crab.model.OrderInfo;
+import com.bigwhite.crab.ui.dummy.order.Goods;
+import com.bigwhite.crab.ui.dummy.order.GoodsInfo;
+import com.bigwhite.crab.ui.dummy.order.OrderList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,10 +26,10 @@ public class UserAdapter extends RecyclerView.Adapter {
         mContext = context;
     }
 
-    private List<OrderInfo> mOrdersList;
+    private List<GoodsInfo> mGoodsInfos;
 
-    public void setData(List<OrderInfo> ordersList) {
-        mOrdersList = ordersList;
+    public void setData(OrderList orderList) {
+        mGoodsInfos = orderList.getContent();
     }
 
     @Override
@@ -39,13 +40,13 @@ public class UserAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        OrderInfo info = mOrdersList.get(i);
+        GoodsInfo info = mGoodsInfos.get(i);
         ((UserViewHolder) viewHolder).initData(info);
     }
 
     @Override
     public int getItemCount() {
-        return mOrdersList.size();
+        return mGoodsInfos.size();
     }
 
     private class UserViewHolder extends RecyclerView.ViewHolder {
@@ -62,11 +63,16 @@ public class UserAdapter extends RecyclerView.Adapter {
             point = (TextView) itemView.findViewById(R.id.customer_point);
         }
 
-        public void initData(OrderInfo info) {
-            name.setText(info.getName());
+        public void initData(GoodsInfo info) {
+            name.setText(info.getUsername());
             address.setText(info.getAddress());
             phone.setText(info.getPhone());
-            point.setText(info.getPoint());
+            Goods goods = info.getGoods();
+            int pointCount = 0;
+            if (goods != null) {
+                pointCount = goods.getIntegral();
+            }
+            point.setText(pointCount + "");
         }
     }
 }

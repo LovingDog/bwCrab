@@ -26,11 +26,11 @@
 
     <!-- UserFragment-->
     <string name="default_user_name">"shesevenday"</string>
-    <string name="default_release_count">3</string>
+    <string name="default_release_count">0</string>
     <string name="default_release_title">"已发布"</string>
-    <string name="default_orders_count">2</string>
+    <string name="default_orders_count">0</string>
     <string name="default_orders_title">"未接订单"</string>
-    <string name="default_done_count">24</string>
+    <string name="default_done_count">0</string>
     <string name="default_done_title">"已发订单"</string>
 
     <string name="product_description">正宗洋澄湖大闸蟹，一万一斤，童叟无欺！！！</string>

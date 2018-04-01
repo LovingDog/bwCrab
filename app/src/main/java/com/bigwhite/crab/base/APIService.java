@@ -1,11 +1,5 @@
 package com.bigwhite.crab.base;
 
-
-
-import com.bigwhite.crab.bean.IPHttpResult;
-import com.bigwhite.crab.bean.IpInfo;
-import com.bigwhite.crab.bean.Movies;
-import com.bigwhite.crab.bean.TokenResult;
 import com.bigwhite.crab.bean.UserHttpResult;
 import com.squareup.okhttp.RequestBody;
 
@@ -22,6 +16,7 @@ public interface APIService {
 
     /**
      * 用户登录的接口
+     *
      * @return RxJava 对象
      */
     @POST("addGoods.do")
@@ -30,6 +25,18 @@ public interface APIService {
             @Query("price") String price,
             @Query("integral") int integral,
             @Query("exchangeCode") String exchangeCode,
-            @Part("file\";fileName = \"test.jpg\"")RequestBody img) ;
+            @Part("file\";fileName = \"test.jpg\"") RequestBody img);
+
+    /**
+     * 用户订单的接口
+     *
+     * @return
+     */
+    @GET("findByPage.do")
+    Observable<UserHttpResult> getOrderInfo(
+            @Query("pageNow") int pageNow,
+            @Query("pageSize") int pageSize,
+            @Query("status") int status
+    );
 
 }

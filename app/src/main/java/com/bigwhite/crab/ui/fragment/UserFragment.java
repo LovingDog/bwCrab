@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +16,11 @@ import com.bigwhite.crab.R;
 import com.bigwhite.crab.http.DataLogic;
 import com.bigwhite.crab.http.HttpTask;
 import com.bigwhite.crab.http.QueryData;
-import com.bigwhite.crab.model.OrderInfo;
-import com.bigwhite.crab.model.OrdersList;
 import com.bigwhite.crab.model.UserInfo;
 import com.bigwhite.crab.ui.adapter.UserAdapter;
+import com.bigwhite.crab.ui.dummy.order.OrderCallback;
+import com.bigwhite.crab.ui.dummy.order.OrderList;
+import com.bigwhite.crab.ui.dummy.order.OrderRequest;
 import com.bumptech.glide.Glide;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnNetWorkErrorListener;
@@ -28,8 +28,8 @@ import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -37,7 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Fragment to show the user.
  */
 public class UserFragment extends Fragment implements View.OnClickListener, OnRefreshListener, OnLoadMoreListener,
-        OnNetWorkErrorListener, HttpTask.HttpTaskListener {
+        OnNetWorkErrorListener, OrderCallback, HttpTask.HttpTaskListener {
 
     private TextView mReleaseCount;
     private TextView mOrdersCount;
@@ -48,10 +48,11 @@ public class UserFragment extends Fragment implements View.OnClickListener, OnRe
     private LRecyclerView mLRecyclerView;
     private LRecyclerViewAdapter mLAdapter;
     private UserAdapter mUserAdapter;
-
     private UserInfo mUserInfo;
-    private List<OrderInfo> mInfoList = new ArrayList<>();
-    private OrdersList mOrderList;
+    private Map<Integer, OrderList> mOrders = new HashMap<>();
+    private OrderList mCurrentOrderList = new OrderList();
+
+    private int mCurrentPageSize = 0;
     private int mCurrentType = TYPE_ORDER_MODEL;
     private static final int TYPE_RELEASE_MODEL = 0;
     private static final int TYPE_ORDER_MODEL = 1;
@@ -104,7 +105,7 @@ public class UserFragment extends Fragment implements View.OnClickListener, OnRe
 
     private void initData() {
         mUserAdapter = new UserAdapter(getContext());
-        mUserAdapter.setData(mInfoList);
+        mUserAdapter.setData(mCurrentOrderList);
         mLAdapter = new LRecyclerViewAdapter(mUserAdapter);
         mLRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mLRecyclerView.setAdapter(mLAdapter);
@@ -133,60 +134,50 @@ public class UserFragment extends Fragment implements View.OnClickListener, OnRe
             case R.id.release_layout:
                 mTitleView.setText(R.string.default_release_title);
                 mCurrentType = TYPE_RELEASE_MODEL;
-                if (mOrderList == null) {
-                    new QueryData(ID_GET_ALL_ORDERS, this).getData();
-                } else {
-                    initOrderList(mOrderList, mCurrentType);
-                }
+                DataLogic.getInstance().getOrderList(new OrderRequest(mCurrentType), this);
                 break;
             case R.id.orders_layout:
                 mTitleView.setText(R.string.default_orders_title);
                 mCurrentType = TYPE_ORDER_MODEL;
-                if (mOrderList == null) {
-                    new QueryData(ID_GET_ALL_ORDERS, this).getData();
-                } else {
-                    initOrderList(mOrderList, mCurrentType);
-                }
+                DataLogic.getInstance().getOrderList(new OrderRequest(mCurrentType), this);
                 break;
             case R.id.done_layout:
                 mTitleView.setText(R.string.default_done_title);
                 mCurrentType = TYPE_DONE_MODEL;
-                if (mOrderList == null) {
-                    new QueryData(ID_GET_ALL_ORDERS, this).getData();
-                } else {
-                    initOrderList(mOrderList, mCurrentType);
-                }
+                DataLogic.getInstance().getOrderList(new OrderRequest(mCurrentType), this);
                 break;
         }
     }
 
     @Override
     public void onRefresh() {
-        new QueryData(ID_GET_ALL_ORDERS, this).getData();
+        DataLogic.getInstance().getOrderList(new OrderRequest(mCurrentType), this);
     }
 
     @Override
     public void onLoadMore() {
-        new QueryData(ID_GET_ALL_ORDERS, this).getData();
+        DataLogic.getInstance().getOrderList(new OrderRequest(mCurrentType), this);
     }
 
     @Override
     public void reload() {
-        new QueryData(ID_GET_ALL_ORDERS, this).getData();
+        DataLogic.getInstance().getOrderList(new OrderRequest(mCurrentType), this);
     }
 
     @Override
+    @Deprecated
     public Object getData(int id) {
         switch (id) {
             case ID_GET_USER:
                 return DataLogic.getInstance().getUserInfo();
             case ID_GET_ALL_ORDERS:
-                return DataLogic.getInstance().getOrdersInfo();
+//                return DataLogic.getInstance().getOrderList();
         }
         return null;
     }
 
     @Override
+    @Deprecated
     public void onSuccess(int id, Object object) {
         if (object != null) {
             switch (id) {
@@ -195,8 +186,6 @@ public class UserFragment extends Fragment implements View.OnClickListener, OnRe
                     initUser(userInfo);
                     break;
                 case ID_GET_ALL_ORDERS:
-                    OrdersList ordersList = (OrdersList) object;
-                    initOrderList(ordersList, mCurrentType);
                     break;
             }
         }
@@ -221,27 +210,50 @@ public class UserFragment extends Fragment implements View.OnClickListener, OnRe
 
     /**
      * Init the order list.
-     *
-     * @param ordersList
      */
-    private void initOrderList(OrdersList ordersList, int type) {
-        mReleaseCount.setText("" + ordersList.getRelease().size());
-        mOrdersCount.setText("" + ordersList.getOrder().size());
-        mDoneCount.setText("" + ordersList.getDone().size());
-        mOrderList = ordersList;
-        mInfoList.clear();
-        switch (type) {
+    private void initOrderList() {
+        OrderList releaseList = mOrders.get(TYPE_RELEASE_MODEL);
+        OrderList orderList = mOrders.get(TYPE_ORDER_MODEL);
+        OrderList doneList = mOrders.get(TYPE_DONE_MODEL);
+
+        int releaseCount = 0;
+        if (releaseList != null) {
+            releaseCount = releaseList.getTotalElements();
+        }
+        int orderCount = 0;
+        if (orderList != null) {
+            orderCount = releaseList.getTotalElements();
+        }
+        int doneCount = 0;
+        if (doneList != null) {
+            doneCount = doneList.getTotalElements();
+        }
+        mReleaseCount.setText("" + releaseCount);
+        mOrdersCount.setText("" + orderCount);
+        mDoneCount.setText("" + doneCount);
+        switch (mCurrentType) {
             case TYPE_RELEASE_MODEL:
-                mInfoList.addAll(ordersList.getRelease());
+                mCurrentOrderList = releaseList;
                 break;
             case TYPE_ORDER_MODEL:
-                mInfoList.addAll(ordersList.getOrder());
+                mCurrentOrderList = orderList;
                 break;
             case TYPE_DONE_MODEL:
-                mInfoList.addAll(ordersList.getDone());
+                mCurrentOrderList = doneList;
                 break;
         }
         mLAdapter.notifyDataSetChanged();
-        mLRecyclerView.refreshComplete(mInfoList.size());
+        int size = 0;
+        if (mCurrentOrderList != null) {
+            size = mCurrentOrderList.size();
+        }
+        mLRecyclerView.refreshComplete(size);
+    }
+
+    @Override
+    public void onCompleted(int status, OrderList list) {
+        mOrders.remove(status);
+        mOrders.put(status, list);
+        initOrderList();
     }
 }
