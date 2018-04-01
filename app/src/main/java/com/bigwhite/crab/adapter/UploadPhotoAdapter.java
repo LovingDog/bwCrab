@@ -73,6 +73,10 @@ public class UploadPhotoAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public List getImagesList() {
+        return mImagePathList;
+    }
+
     public void removeImage(String imagePath) {
         mImagePathList.remove(imagePath);
         notifyDataSetChanged();
