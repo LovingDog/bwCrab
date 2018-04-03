@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.bigwhite.crab.R;
 import com.bigwhite.crab.adapter.UploadPhotoAdapter;
+import com.bigwhite.crab.base.BaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,7 +21,7 @@ import com.bigwhite.crab.adapter.UploadPhotoAdapter;
  * Use the {@link ReleaseFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ReleaseFragment extends Fragment {
+public class ReleaseFragment extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";

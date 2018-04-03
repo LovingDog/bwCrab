@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigwhite.crab.R;
+import com.bigwhite.crab.base.BaseFragment;
 import com.bigwhite.crab.model.MerchandiseInfo;
 import com.bigwhite.crab.ui.adapter.ListItemAdapter;
 import com.bigwhite.crab.utils.DividerItemDecoration;
@@ -32,7 +33,7 @@ import java.util.List;
 /**
  * A fragment representing a list of Items.
  */
-public class ListItemFragment extends Fragment implements View.OnClickListener, OnRefreshListener, OnLoadMoreListener,
+public class ListItemFragment extends BaseFragment implements View.OnClickListener, OnRefreshListener, OnLoadMoreListener,
         OnNetWorkErrorListener {
 
     private static final String ARG_COLUMN_COUNT = "column-count";

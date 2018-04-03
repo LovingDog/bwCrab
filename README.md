@@ -201,7 +201,7 @@ public class LoginPresenter implements LoginContract.ILoginPresenter {
                 mLoginView.showInfo("登录成功,您的用户toekn为:" + tokenResult.getToken());//提示用户登录成功
             }
             @Override
-            public void onFaild(String errorMsg) {
+            public void onFailed(String errorMsg) {
                 mLoginView.hideProgress();//隐藏进度条
                 mLoginView.showErrorMsg(errorMsg);//登录失败  显示错误信息
             }
@@ -243,20 +243,20 @@ public class LoginModel implements LoginContract.ILoginModel {
                     public void onError(Throwable e) {
                         KLog.e(e.getMessage() + "--");
                         e.printStackTrace();
-                        //失败的时候调用-----一下可以忽略 直接 callBack.onFaild("请求失败");
+                        //失败的时候调用-----一下可以忽略 直接 callBack.onFailed("请求失败");
                         if (e instanceof HttpException) {
                             HttpException httpException = (HttpException) e;
                             //httpException.response().errorBody().string()
                             int code = httpException.code();
                             if (code == 500 || code == 404) {
-                                callBack.onFaild("服务器出错");
+                                callBack.onFailed("服务器出错");
                             }
                         } else if (e instanceof ConnectException) {
-                            callBack.onFaild("网络断开,请打开网络!");
+                            callBack.onFailed("网络断开,请打开网络!");
                         } else if (e instanceof SocketTimeoutException) {
-                            callBack.onFaild("网络连接超时!!");
+                            callBack.onFailed("网络连接超时!!");
                         } else {
-                            callBack.onFaild("发生未知错误" + e.getMessage());
+                            callBack.onFailed("发生未知错误" + e.getMessage());
                             KLog.e("Myloy", e.getMessage());
                         }
                     }
@@ -265,7 +265,7 @@ public class LoginModel implements LoginContract.ILoginModel {
                         if (loginResultUserHttpResult.getResultCode() == 0) {
                             callBack.onSuccessful(loginResultUserHttpResult.getData());//登录成功------获取完数据,返回给P---P获取到数据之后就将数据交回给V
                         } else {
-                            callBack.onFaild("用户名或密码错误!");//登录失败
+                            callBack.onFailed("用户名或密码错误!");//登录失败
                         }
                     }
                 });
@@ -604,7 +604,7 @@ public class MoviePresenter implements MovieContract.IMoviePresenter {
                 mIMovieView.showBottom(start - 5);//实现换页效果
             }
             @Override
-            public void onFaild(String errorMsg) {
+            public void onFailed(String errorMsg) {
                 mIMovieView.hideProgress();//通知V层隐藏对话框
                 mIMovieView.showInfo(errorMsg);//通知V层显示错误信息
             }
@@ -642,20 +642,20 @@ public class MovieModel implements MovieContract.IMovieModel {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        //失败的时候回调-----一下可以忽略 直接 callBack.onFaild("请求失败");
+                        //失败的时候回调-----一下可以忽略 直接 callBack.onFailed("请求失败");
                         if (e instanceof HttpException) {
                             HttpException httpException = (HttpException) e;
                             //httpException.response().errorBody().string()
                             int code = httpException.code();
                             if (code == 500 || code == 404) {
-                                callBack.onFaild("服务器出错");
+                                callBack.onFailed("服务器出错");
                             }
                         } else if (e instanceof ConnectException) {
-                            callBack.onFaild("网络断开,请打开网络!");
+                            callBack.onFailed("网络断开,请打开网络!");
                         } else if (e instanceof SocketTimeoutException) {
-                            callBack.onFaild("网络连接超时!!");
+                            callBack.onFailed("网络连接超时!!");
                         } else {
-                            callBack.onFaild("发生未知错误" + e.getMessage());
+                            callBack.onFailed("发生未知错误" + e.getMessage());
                             KLog.e(e.getMessage());
                         }
                     }

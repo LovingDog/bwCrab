@@ -25,7 +25,7 @@ public class UploadMerchantPresenter implements UploadContract.UploadPresenter {
             }
 
             @Override
-            public void onFaild(String errorMsg) {
+            public void onFailed(String errorMsg) {
                 mUploadMerchantView.upLoadFail();
             }
         });

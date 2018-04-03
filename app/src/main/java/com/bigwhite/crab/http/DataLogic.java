@@ -1,10 +1,15 @@
 package com.bigwhite.crab.http;
 
+import android.util.Log;
+
+import com.alibaba.fastjson.JSONObject;
 import com.bigwhite.crab.base.APIService;
 import com.bigwhite.crab.base.GlobalField;
+import com.bigwhite.crab.base.HttpCallBack;
+import com.bigwhite.crab.bean.JsonResultBean;
 import com.bigwhite.crab.bean.UserHttpResult;
-import com.bigwhite.crab.model.UserInfo;
-import com.bigwhite.crab.ui.dummy.order.OrderCallback;
+import com.bigwhite.crab.ui.dummy.login.LoginRequest;
+import com.bigwhite.crab.ui.dummy.login.UserInfo;
 import com.bigwhite.crab.ui.dummy.order.OrderList;
 import com.bigwhite.crab.ui.dummy.order.OrderRequest;
 import com.bigwhite.crab.utils.GsonUtil;
@@ -27,27 +32,73 @@ public class DataLogic {
         return instance;
     }
 
-    public UserInfo getUserInfo() {
-        // TODO:
-        UserInfo userInfo = new UserInfo();
-        userInfo.setId(1);
-        userInfo.setName("Test");
-        userInfo.setIconURL("");
-        return userInfo;
+    private static Object parseObject(String text, Class clazz) {
+        JsonResultBean resultBean;
+        try {
+            return JSONObject.parseObject(text, clazz);
+        } catch (Exception e) {
+            resultBean = new JsonResultBean();
+            resultBean.setResult("error");
+            resultBean.setDesc("");
+            resultBean.setObject("");
+        }
+        return resultBean;
     }
 
-    public void getOrderList(final OrderRequest request, final OrderCallback callback) {
-        RetrofitUtils.newInstence(GlobalField.BASE_ORDER_URL)
+    /**
+     * User login.
+     *
+     * @param type
+     * @param request
+     * @param callBack
+     */
+    public void userLogin(final int type, final LoginRequest request, final HttpCallBack callBack) {
+        Log.d("heqiang", "userLogin -- type = " + type);
+        new QueryData(1, new HttpTask.HttpTaskListener() {
+            @Override
+            public Object getData(int id) {
+                String str = HttpUtil.get("http://101.37.149.35:8686/login.do?phone=" + request.getPhone() +
+                        "&password=" + request.getPassword());
+                Log.d("heqiang", "userLogin -- getData str = " + str);
+                return parseObject(str, JsonResultBean.class);
+            }
+
+            @Override
+            public void onSuccess(int id, Object object) {
+                if (object instanceof JsonResultBean) {
+                    String desc = ((JsonResultBean) object).getDesc();
+                    if ("request success".equalsIgnoreCase(desc)) {
+                        UserInfo userInfo = GsonUtil.parseJsonWithGson(((JsonResultBean) object).getObject().toString(),
+                                UserInfo.class);
+                        callBack.onCompleted(type, userInfo);
+                    } else {
+                        callBack.onError(type, desc);
+                    }
+                }
+
+            }
+        }).getData();
+    }
+
+    /**
+     * Not work.
+     *
+     * @param type
+     * @param request
+     * @param callBack
+     */
+    public void userLoginRetrofit(final int type, final LoginRequest request, final HttpCallBack callBack) {
+        RetrofitUtils.newInstence(GlobalField.BASE_URL)
                 .create(APIService.class)
-                .getOrderInfo(request.getPageNow(), request.getPageSize(), request.getStatus())
+                .useLogin(request.getPhone(), request.getPassword())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<UserHttpResult>() {
-                    private OrderList orderList = null;
+                    private UserInfo userInfo = null;
 
                     @Override
                     public void onCompleted() {
-                        callback.onCompleted(request.getStatus(), orderList);
+                        callBack.onCompleted(type, userInfo);
                     }
 
                     @Override
@@ -58,7 +109,78 @@ public class DataLogic {
                     @Override
                     public void onNext(UserHttpResult userHttpResult) {
                         String jsonData = userHttpResult.getData().toString();
-                        orderList =  GsonUtil.parseJsonWithGson(jsonData, OrderList.class);
+                        userInfo = GsonUtil.parseJsonWithGson(jsonData, UserInfo.class);
+                    }
+                });
+    }
+
+    /**
+     * Get tht order list.
+     *
+     * @param type
+     * @param request
+     * @param callBack
+     */
+    public void getOrderList(final int type, final OrderRequest request, final HttpCallBack<OrderList> callBack) {
+        new QueryData(1, new HttpTask.HttpTaskListener() {
+            @Override
+            public Object getData(int id) {
+                String str = HttpUtil.get("http://101.37.149.35:8686/order/findByPage" +
+                        ".do?pageNow=" + request.getPageNow() + "&pageSize=" + request
+                        .getPageSize() + "&status=" + request.getStatus() + "&merchantId=" + request.getMerchantId()
+                        + "&token=" + request.getToken());
+                Log.d("heqiang", "userLogin -- getOrderList str = " + str);
+                return parseObject(str, JsonResultBean.class);
+            }
+
+            @Override
+            public void onSuccess(int id, Object object) {
+                if (object instanceof JsonResultBean) {
+                    String desc = ((JsonResultBean) object).getDesc();
+                    if ("request success".equalsIgnoreCase(desc)) {
+                        OrderList orderList = GsonUtil.parseJsonWithGson(((JsonResultBean) object).getObject()
+                                .toString(), OrderList.class);
+                        callBack.onCompleted(type, orderList);
+                    } else {
+                        callBack.onError(type, desc);
+                    }
+                }
+            }
+        }).getData();
+    }
+
+    /**
+     * Get tht order list.
+     *
+     * @param type
+     * @param request
+     * @param callBack
+     */
+    public void getOrderListRetrofit(final int type, final OrderRequest request, final HttpCallBack<OrderList>
+            callBack) {
+        RetrofitUtils.newInstence(GlobalField.BASE_URL)
+                .create(APIService.class)
+                .getOrderInfo(request.getPageNow(), request.getPageSize(), request.getStatus(),
+                        request.getMerchantId(), request.getToken())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<UserHttpResult>() {
+                    private OrderList orderList = null;
+
+                    @Override
+                    public void onCompleted() {
+                        callBack.onCompleted(type, orderList);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onError(type, e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(UserHttpResult userHttpResult) {
+                        String jsonData = userHttpResult.getData().toString();
+                        orderList = GsonUtil.parseJsonWithGson(jsonData, OrderList.class);
                     }
                 });
     }

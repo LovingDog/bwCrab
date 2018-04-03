@@ -1,13 +1,18 @@
 package com.bigwhite.crab.ui.dummy.order;
 
+import com.bigwhite.crab.base.BaseRequest;
+
 /**
  * Created by Administrator on 2018/4/1 0001.
  */
 
-public class OrderRequest {
+public class OrderRequest implements BaseRequest {
     private int pageNow;
     private int pageSize;
     private int status;
+    private int merchantId;
+    private String token;
+
 
     public OrderRequest(int status) {
         this.pageNow = 0;
@@ -49,5 +54,21 @@ public class OrderRequest {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(int merchantId) {
+        this.merchantId = merchantId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

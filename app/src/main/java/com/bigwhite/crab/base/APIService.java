@@ -3,7 +3,6 @@ package com.bigwhite.crab.base;
 import com.bigwhite.crab.bean.UserHttpResult;
 import com.squareup.okhttp.RequestBody;
 
-import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
@@ -34,13 +33,33 @@ public interface APIService {
     /**
      * 用户订单的接口
      *
+     * @param pageNow
+     * @param pageSize
+     * @param status
+     * @param merchantId
+     * @param token
      * @return
      */
-    @GET("findByPage.do")
+    @GET("/goods/findByPage.do")
     Observable<UserHttpResult> getOrderInfo(
             @Query("pageNow") int pageNow,
             @Query("pageSize") int pageSize,
-            @Query("status") int status
+            @Query("status") int status,
+            @Query("merchantId") int merchantId,
+            @Query("token") String token
+    );
+
+    /**
+     * 用户登录的接口
+     *
+     * @param phone
+     * @param password
+     * @return
+     */
+    @GET("/login.do")
+    Observable<UserHttpResult> useLogin(
+            @Query("phone") String phone,
+            @Query("password") String password
     );
 
 }
