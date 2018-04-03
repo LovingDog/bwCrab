@@ -5,6 +5,7 @@ import com.bigwhite.crab.base.GlobalField;
 import com.bigwhite.crab.base.OnHttpCallBack;
 import com.bigwhite.crab.bean.UserHttpResult;
 import com.bigwhite.crab.http.RetrofitUtils;
+import com.bigwhite.crab.utils.ToastUtils;
 import com.socks.library.KLog;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
@@ -27,7 +28,7 @@ public class UploadMerchantModel implements UploadContract.UploadModel {
         if (info.getmFile() == null) {
             return;
         }
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"), info.getmFile());
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), info.getmFile());
         RetrofitUtils.newInstence(GlobalField.BASEURL)
                 .create(APIService.class)
                 .userUploadImg(info.getmInfo(), info.getmPrice(), info.getIntegral(), info.getExchangeCode(), requestBody)
@@ -37,16 +38,17 @@ public class UploadMerchantModel implements UploadContract.UploadModel {
                     @Override
                     public void onCompleted() {
                         //完成的时候调用
+                        int a = 0;
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        int a = 0;
                     }
 
                     @Override
                     public void onNext(UserHttpResult userHttpResult) {
-
+                        int a = 0;
                     }
 
                 });

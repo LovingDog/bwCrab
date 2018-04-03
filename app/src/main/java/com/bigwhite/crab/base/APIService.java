@@ -3,7 +3,9 @@ package com.bigwhite.crab.base;
 import com.bigwhite.crab.bean.UserHttpResult;
 import com.squareup.okhttp.RequestBody;
 
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
 import retrofit.http.Query;
@@ -19,6 +21,8 @@ public interface APIService {
      *
      * @return RxJava 对象
      */
+
+    @Multipart
     @POST("addGoods.do")
     Observable<UserHttpResult> userUploadImg(
             @Query("info") String info,
