@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.bigwhite.crab.R;
 import com.bigwhite.crab.adapter.UploadPhotoAdapter;
+import com.bigwhite.crab.preference.AppPreference;
 import com.bigwhite.crab.ui.ReleaseFragment;
 import com.bigwhite.crab.utils.SpacesItemDecoration;
 import com.bigwhite.crab.utils.ToastUtils;
@@ -126,6 +127,7 @@ public class UploadMerchantController implements UploadContract.UploadMerchantVi
             uploadInfo.setmPrice(mPrice.getText().toString().trim());
             uploadInfo.setIntegral(Integer.parseInt(mIntegral.getText().toString().trim()));
             uploadInfo.setExchangeCode(mExchangeCode.getText().toString().trim());
+            uploadInfo.setToken(new AppPreference(mContext).getLoginToken());
             List<String> pathList = mUploadPhotoAdapter.getImagesList();
             uploadInfo.setmFile(new File(pathList.get(0)));
             return uploadInfo;

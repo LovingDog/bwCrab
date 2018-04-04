@@ -108,7 +108,7 @@ public class DataLogic {
 
                     @Override
                     public void onNext(UserHttpResult userHttpResult) {
-                        String jsonData = userHttpResult.getData().toString();
+                        String jsonData = userHttpResult.getObject().toString();
                         userInfo = GsonUtil.parseJsonWithGson(jsonData, UserInfo.class);
                     }
                 });
@@ -179,7 +179,7 @@ public class DataLogic {
 
                     @Override
                     public void onNext(UserHttpResult userHttpResult) {
-                        String jsonData = userHttpResult.getData().toString();
+                        String jsonData = userHttpResult.getObject().toString();
                         orderList = GsonUtil.parseJsonWithGson(jsonData, OrderList.class);
                     }
                 });
