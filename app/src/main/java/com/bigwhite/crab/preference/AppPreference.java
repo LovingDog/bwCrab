@@ -14,13 +14,12 @@ public class AppPreference extends BasePreference {
         super(context, Preference.APP_PREFERENCE);
     }
 
-    public void setLogin(boolean isLogin) {
+    public void setLogin(String token) {
         editor = preferences.edit();
-        editor.putBoolean(LOGIN, isLogin);
+        editor.putString(LOGIN, token);
         editor.apply();
     }
-
-    public boolean isLogin() {
-        return preferences.getBoolean(LOGIN, false);
+    public String getLoginToken() {
+        return preferences.getString(LOGIN, "");
     }
 }

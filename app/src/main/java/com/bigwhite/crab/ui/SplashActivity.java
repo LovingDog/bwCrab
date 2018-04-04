@@ -52,7 +52,7 @@ public class SplashActivity extends AppCompatActivity implements SplashOutListen
     @Override
     public void LoginSuccessListener() {
         this.finish();
-        if (mAppPreference.isLogin()) {
+        if (mAppPreference.getLoginToken().equals("")) {
             startActivity(new Intent(this, LoginActivity.class));
         } else {
             startActivity(new Intent(this, MainActivity.class));

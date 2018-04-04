@@ -42,5 +42,14 @@ public interface APIService {
             @Query("pageSize") int pageSize,
             @Query("status") int status
     );
-
+    /**
+     * 登录的接口
+     *
+     * @return
+     */
+    @GET("login.do")
+    Observable<UserHttpResult> userLogin(
+            @Query("phone") String pageNow,
+            @Query("password") String pageSize
+    );
 }
