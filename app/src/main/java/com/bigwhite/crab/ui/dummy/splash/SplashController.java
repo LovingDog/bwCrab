@@ -77,14 +77,14 @@ public class SplashController {
                     @Override
                     public void onNext(UserHttpResult userHttpResult) {
                         String obj = userHttpResult.getObject().toString();
-                        if (obj != null ) {
-                            mSplashOutListener.LoginSuccessListener();
-                        }
+
                         LoginInfo loginInfo = GsonUtil.parseJsonWithGson(obj,LoginInfo.class);
                         AppPreference appPreference = new AppPreference(mContext);
                         appPreference.setLogin(loginInfo.getToken());
-                        ToastUtils.showToast(mContext,loginInfo.getToken());
-
+                        ToastUtils.showToast(mContext.getApplicationContext(),loginInfo.getToken());
+                        if (obj != null ) {
+                            mSplashOutListener.LoginSuccessListener();
+                        }
                     }
 
                 });

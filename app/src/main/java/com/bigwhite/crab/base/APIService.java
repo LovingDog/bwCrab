@@ -29,7 +29,9 @@ public interface APIService {
             @Query("price") String price,
             @Query("integral") int integral,
             @Query("exchangeCode") String exchangeCode,
-            @Part("file\";fileName = \"test.jpg\"") RequestBody img);
+            @Query("token") String token,
+            @Query("merchantId") String merchantId,
+            @Part("files\";fileName = \"test.jpg\"") RequestBody img);
 
     /**
      * 用户订单的接口

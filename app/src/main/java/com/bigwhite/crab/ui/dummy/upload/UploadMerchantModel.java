@@ -5,6 +5,7 @@ import com.bigwhite.crab.base.GlobalField;
 import com.bigwhite.crab.base.OnHttpCallBack;
 import com.bigwhite.crab.bean.UserHttpResult;
 import com.bigwhite.crab.http.RetrofitUtils;
+import com.bigwhite.crab.preference.AppPreference;
 import com.bigwhite.crab.utils.ToastUtils;
 import com.socks.library.KLog;
 import com.squareup.okhttp.MediaType;
@@ -29,9 +30,9 @@ public class UploadMerchantModel implements UploadContract.UploadModel {
             return;
         }
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), info.getmFile());
-        RetrofitUtils.newInstence(GlobalField.BASEURL)
+        RetrofitUtils.newInstence(GlobalField.GOODS_BASEURL)
                 .create(APIService.class)
-                .userUploadImg(info.getmInfo(), info.getmPrice(), info.getIntegral(), info.getExchangeCode(), requestBody)
+                .userUploadImg(info.getmInfo(), info.getmPrice(), info.getIntegral(), info.getExchangeCode(),info.getToken(),"2.0", requestBody)
                 .subscribeOn(Schedulers.newThread())//在新线程中执行登录请求
                 .observeOn(AndroidSchedulers.mainThread())//在主线程中执行
                 .subscribe(new Subscriber<UserHttpResult>() {
