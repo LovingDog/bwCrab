@@ -13,6 +13,16 @@ public class UploadInfo {
     private String exchangeCode;
     private File mFile;
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    private String token;
+
     public String getmInfo() {
         return mInfo;
     }

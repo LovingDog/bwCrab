@@ -4,49 +4,49 @@ package com.bigwhite.crab.bean;
  * Created by HDL on 2016/7/30.
  */
 public class UserHttpResult<T> {
-    private int result;
-    private String result_info;
-    private Object data;
+    private int code;
+    private String desc;
+    private Object object;
 
     public UserHttpResult() {
     }
 
     public UserHttpResult(int result, String result_info, Object data) {
-        this.result = result;
-        this.result_info = result_info;
-        this.data = data;
+        this.code = result;
+        this.desc = result_info;
+        this.object = data;
     }
 
-    public int getResult() {
-        return result;
+    public int getCode() {
+        return code;
     }
 
-    public void setResult(int result) {
-        this.result = result;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public String getResult_info() {
-        return result_info;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setResult_info(String result_info) {
-        this.result_info = result_info;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    public Object getData() {
-        return data;
+    public Object getObject() {
+        return object;
     }
 
-    public void setData(Object data) {
-        this.data = data;
+    public void setObject(Object object) {
+        this.object = object;
     }
 
     @Override
     public String toString() {
         return "UserHttpResult{" +
-                "result=" + result +
-                ", result_info='" + result_info + '\'' +
-                ", data=" + data +
+                "code=" + code +
+                ", desc='" + desc + '\'' +
+                ", object=" + object +
                 '}';
     }
 }

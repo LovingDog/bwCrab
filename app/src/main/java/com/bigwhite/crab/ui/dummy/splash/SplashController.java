@@ -5,8 +5,24 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 
+import com.bigwhite.crab.base.APIService;
+import com.bigwhite.crab.base.GlobalField;
+import com.bigwhite.crab.bean.LoginInfo;
+import com.bigwhite.crab.bean.UserHttpResult;
+import com.bigwhite.crab.http.RetrofitUtils;
+import com.bigwhite.crab.preference.AppPreference;
+import com.bigwhite.crab.utils.GsonUtil;
 import com.bigwhite.crab.utils.PermissionsActivity;
 import com.bigwhite.crab.utils.PermissionsChecker;
+import com.bigwhite.crab.utils.ToastUtils;
+import com.bigwhite.crab.utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by wanghanping on 2018/3/20.
@@ -41,6 +57,36 @@ public class SplashController {
 
     public void doLoginSession(){
         //do login
-        mSplashOutListener.LoginSuccessListener();
+
+        RetrofitUtils.newInstence(GlobalField.BASE_URL)
+                .create(APIService.class)
+                .userLogin("18226981749", Utils.md5("123456"))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<UserHttpResult>() {
+                    @Override
+                    public void onCompleted() {
+                        int a = 0;
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        int a = 0;
+                    }
+
+                    @Override
+                    public void onNext(UserHttpResult userHttpResult) {
+                        String obj = userHttpResult.getObject().toString();
+
+                        LoginInfo loginInfo = GsonUtil.parseJsonWithGson(obj,LoginInfo.class);
+                        AppPreference appPreference = new AppPreference(mContext);
+                        appPreference.setLogin(loginInfo.getToken());
+                        ToastUtils.showToast(mContext.getApplicationContext(),loginInfo.getToken());
+                        if (obj != null ) {
+                            mSplashOutListener.LoginSuccessListener();
+                        }
+                    }
+
+                });
     }
 }

@@ -28,7 +28,9 @@ public interface APIService {
             @Query("price") String price,
             @Query("integral") int integral,
             @Query("exchangeCode") String exchangeCode,
-            @Part("file\";fileName = \"test.jpg\"") RequestBody img);
+            @Query("token") String token,
+            @Query("merchantId") String merchantId,
+            @Part("files\";fileName = \"test.jpg\"") RequestBody img);
 
     /**
      * 用户订单的接口
@@ -61,5 +63,14 @@ public interface APIService {
             @Query("phone") String phone,
             @Query("password") String password
     );
-
+    /**
+     * 登录的接口
+     *
+     * @return
+     */
+    @GET("login.do")
+    Observable<UserHttpResult> userLogin(
+            @Query("phone") String pageNow,
+            @Query("password") String pageSize
+    );
 }
