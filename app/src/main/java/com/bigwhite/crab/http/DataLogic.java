@@ -122,6 +122,7 @@ public class DataLogic {
      * @param callBack
      */
     public void getOrderList(final int type, final OrderRequest request, final HttpCallBack<OrderList> callBack) {
+        Log.d("heqiang", "userLogin -- getOrderList token = " + request.getToken());
         new QueryData(1, new HttpTask.HttpTaskListener() {
             @Override
             public Object getData(int id) {

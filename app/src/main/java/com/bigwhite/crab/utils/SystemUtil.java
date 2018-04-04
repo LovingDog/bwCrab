@@ -1,16 +1,15 @@
 package com.bigwhite.crab.utils;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.bigwhite.crab.base.GlobalField;
 import com.bigwhite.crab.base.MyApplication;
-import com.bigwhite.crab.ui.dummy.login.UserInfo;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -110,17 +109,13 @@ public class SystemUtil {
     /**
      * Save the user to shared preference.
      *
-     * @param userInfo
+     * @param token
      */
-    public static void saveUser(UserInfo userInfo) {
+    public static void saveToken(String token) {
         SharedPreferences preferences = getSharedPreference();
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putLong(GlobalField.KEY_ID, userInfo.getId());
-        editor.putString(GlobalField.KEY_NAME, userInfo.getName());
-        editor.putString(GlobalField.KEY_INFO, userInfo.getInfo());
-        editor.putString(GlobalField.KEY_PASSWORD, userInfo.getPassword());
-        editor.putString(GlobalField.KEY_PHONE, userInfo.getPhone());
-        editor.putString(GlobalField.KEY_TOKEN, userInfo.getToken());
+        editor.putString(GlobalField.KEY_TOKEN, token);
+        Log.d("heqiang", "SystemUtil -- saveUser KEY_TOKEN = " + token);
         editor.apply();
     }
 
@@ -129,16 +124,10 @@ public class SystemUtil {
      *
      * @return
      */
-    public static UserInfo getUser() {
-        UserInfo userInfo = new UserInfo();
+    public static String getToken() {
         SharedPreferences preferences = getSharedPreference();
-        userInfo.setId(preferences.getLong(GlobalField.KEY_ID, 0));
-        userInfo.setName(preferences.getString(GlobalField.KEY_NAME, ""));
-        userInfo.setInfo(preferences.getString(GlobalField.KEY_INFO, ""));
-        userInfo.setPassword(preferences.getString(GlobalField.KEY_PASSWORD, ""));
-        userInfo.setPhone(preferences.getString(GlobalField.KEY_PHONE, ""));
-        userInfo.setToken(preferences.getString(GlobalField.KEY_TOKEN, ""));
-        return userInfo;
+        Log.d("heqiang", "SystemUtil -- getToken KEY_TOKEN = " + preferences.getString(GlobalField.KEY_TOKEN, ""));
+        return preferences.getString(GlobalField.KEY_TOKEN, "");
     }
 
     /**

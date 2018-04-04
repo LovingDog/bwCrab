@@ -14,6 +14,7 @@ import com.bigwhite.crab.preference.AppPreference;
 import com.bigwhite.crab.utils.GsonUtil;
 import com.bigwhite.crab.utils.PermissionsActivity;
 import com.bigwhite.crab.utils.PermissionsChecker;
+import com.bigwhite.crab.utils.SystemUtil;
 import com.bigwhite.crab.utils.ToastUtils;
 import com.bigwhite.crab.utils.Utils;
 
@@ -37,25 +38,25 @@ public class SplashController {
         this.mContext = context;
     }
 
-    public void setmSplashOutListener(SplashOutListener splashOutListener){
+    public void setmSplashOutListener(SplashOutListener splashOutListener) {
         this.mSplashOutListener = splashOutListener;
     }
 
-    public void initPermissionCheck(){
+    public void initPermissionCheck() {
         mChecker = new PermissionsChecker(mContext);
-        String[] graint = new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ,Manifest.permission.READ_EXTERNAL_STORAGE};
+        String[] graint = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE
+                , Manifest.permission.READ_EXTERNAL_STORAGE};
         if (mChecker.lacksPermissions(graint)) {
             Intent intent = new Intent(mContext, PermissionsActivity.class);
             intent.putExtra(PermissionsActivity.EXTRA_PERMISSIONS, graint);
             ActivityCompat.startActivityForResult(mContext, intent, 102, null);
-        }else {
+        } else {
             mSplashOutListener.PermissonCheckoutListener();
             doLoginSession();
         }
     }
 
-    public void doLoginSession(){
+    public void doLoginSession() {
         //do login
 
         RetrofitUtils.newInstence(GlobalField.BASE_URL)
@@ -78,11 +79,12 @@ public class SplashController {
                     public void onNext(UserHttpResult userHttpResult) {
                         String obj = userHttpResult.getObject().toString();
 
-                        LoginInfo loginInfo = GsonUtil.parseJsonWithGson(obj,LoginInfo.class);
+                        LoginInfo loginInfo = GsonUtil.parseJsonWithGson(obj, LoginInfo.class);
                         AppPreference appPreference = new AppPreference(mContext);
                         appPreference.setLogin(loginInfo.getToken());
-                        ToastUtils.showToast(mContext.getApplicationContext(),loginInfo.getToken());
-                        if (obj != null ) {
+                        SystemUtil.saveToken(loginInfo.getToken());
+                        ToastUtils.showToast(mContext.getApplicationContext(), loginInfo.getToken());
+                        if (obj != null) {
                             mSplashOutListener.LoginSuccessListener();
                         }
                     }
