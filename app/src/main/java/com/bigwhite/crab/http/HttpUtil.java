@@ -2,6 +2,7 @@ package com.bigwhite.crab.http;
 
 import android.net.ParseException;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -27,6 +28,7 @@ public class HttpUtil {
     public static String get(String uri) {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         String str = invoke(httpClient, new HttpGet(uri));
+        Log.d("HttpUtil", "get uri = " + uri + ", str = " + str);
         httpClient.getConnectionManager().shutdown();
         return str;
     }

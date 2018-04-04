@@ -311,6 +311,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         UserInfo userInfo = (UserInfo) o;
         mAppPreference.setLogin(userInfo.getToken());
         SystemUtil.saveToken(userInfo.getToken());
+        SystemUtil.saveId(userInfo.getId());
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

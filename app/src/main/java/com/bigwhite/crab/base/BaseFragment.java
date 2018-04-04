@@ -18,6 +18,7 @@ public abstract class BaseFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         token = SystemUtil.getToken();
+        id = SystemUtil.getId();
     }
 
     public BaseRequest getRequest(){

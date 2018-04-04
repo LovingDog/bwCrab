@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import com.bigwhite.crab.base.APIService;
 import com.bigwhite.crab.base.GlobalField;
@@ -83,6 +84,7 @@ public class SplashController {
                         AppPreference appPreference = new AppPreference(mContext);
                         appPreference.setLogin(loginInfo.getToken());
                         SystemUtil.saveToken(loginInfo.getToken());
+                        SystemUtil.saveId(loginInfo.getId());
                         ToastUtils.showToast(mContext.getApplicationContext(), loginInfo.getToken());
                         if (obj != null) {
                             mSplashOutListener.LoginSuccessListener();

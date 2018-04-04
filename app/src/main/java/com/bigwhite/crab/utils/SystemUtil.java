@@ -115,7 +115,6 @@ public class SystemUtil {
         SharedPreferences preferences = getSharedPreference();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(GlobalField.KEY_TOKEN, token);
-        Log.d("heqiang", "SystemUtil -- saveUser KEY_TOKEN = " + token);
         editor.apply();
     }
 
@@ -126,12 +125,35 @@ public class SystemUtil {
      */
     public static String getToken() {
         SharedPreferences preferences = getSharedPreference();
-        Log.d("heqiang", "SystemUtil -- getToken KEY_TOKEN = " + preferences.getString(GlobalField.KEY_TOKEN, ""));
         return preferences.getString(GlobalField.KEY_TOKEN, "");
     }
 
     /**
+     * Save the id.
+     *
+     * @param id
+     */
+    public static void saveId(long id) {
+        SharedPreferences preferences = getSharedPreference();
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putLong(GlobalField.KEY_ID, id);
+        editor.apply();
+    }
+
+    /**
+     * Get the user.
+     *
+     * @return
+     */
+    public static long getId() {
+        SharedPreferences preferences = getSharedPreference();
+        return preferences.getLong(GlobalField.KEY_ID, 0);
+    }
+
+
+    /**
      * MD5 security.
+     *
      * @param string
      * @return
      */

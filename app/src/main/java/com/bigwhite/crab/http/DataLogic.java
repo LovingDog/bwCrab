@@ -51,15 +51,14 @@ public class DataLogic {
      * @param type
      * @param request
      * @param callBack
+     * @deprecated
      */
     public void userLogin(final int type, final LoginRequest request, final HttpCallBack callBack) {
-        Log.d("heqiang", "userLogin -- type = " + type);
-        new QueryData(1, new HttpTask.HttpTaskListener() {
+        new QueryData(type, new HttpTask.HttpTaskListener() {
             @Override
             public Object getData(int id) {
                 String str = HttpUtil.get("http://101.37.149.35:8686/login.do?phone=" + request.getPhone() +
                         "&password=" + request.getPassword());
-                Log.d("heqiang", "userLogin -- getData str = " + str);
                 return parseObject(str, JsonResultBean.class);
             }
 
@@ -120,17 +119,16 @@ public class DataLogic {
      * @param type
      * @param request
      * @param callBack
+     * @deprecated
      */
     public void getOrderList(final int type, final OrderRequest request, final HttpCallBack<OrderList> callBack) {
-        Log.d("heqiang", "userLogin -- getOrderList token = " + request.getToken());
-        new QueryData(1, new HttpTask.HttpTaskListener() {
+        new QueryData(type, new HttpTask.HttpTaskListener() {
             @Override
             public Object getData(int id) {
                 String str = HttpUtil.get("http://101.37.149.35:8686/order/findByPage" +
                         ".do?pageNow=" + request.getPageNow() + "&pageSize=" + request
                         .getPageSize() + "&status=" + request.getStatus() + "&merchantId=" + request.getMerchantId()
                         + "&token=" + request.getToken());
-                Log.d("heqiang", "userLogin -- getOrderList str = " + str);
                 return parseObject(str, JsonResultBean.class);
             }
 
