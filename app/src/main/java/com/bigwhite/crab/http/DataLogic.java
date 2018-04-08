@@ -125,8 +125,8 @@ public class DataLogic {
         new QueryData(type, new HttpTask.HttpTaskListener() {
             @Override
             public Object getData(int id) {
-                String str = HttpUtil.get("http://101.37.149.35:8686/order/findByPage" +
-                        ".do?pageNow=" + request.getPageNow() + "&pageSize=" + request
+                String str = HttpUtil.get(GlobalField.GOODS_ORDER_URL +
+                        "findByPage.do?pageNow=" + request.getPageNow() + "&pageSize=" + request
                         .getPageSize() + "&status=" + request.getStatus() + "&merchantId=" + request.getMerchantId()
                         + "&token=" + request.getToken());
                 return parseObject(str, JsonResultBean.class);

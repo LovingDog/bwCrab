@@ -5,6 +5,9 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.DocumentsContract;
@@ -15,6 +18,9 @@ import android.view.WindowManager;
 import com.bigwhite.crab.bean.info.MobileInfo;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
@@ -111,6 +117,59 @@ public class Utils {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static Bitmap compressImageFromFile(String srcPath, int requestW) {
+        if (requestW == 0) {
+            Bitmap bitmap = BitmapFactory.decodeFile(srcPath);
+            return bitmap;
+        }
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        Bitmap bitmap = BitmapFactory.decodeFile(srcPath, options);
+        int mSampleSize = 1;
+        int w = options.outWidth;
+        int h = options.outHeight;
+        if (w <= 0 || h <= 0) {
+            return null;
+        }
+        int requestH = requestW;
+        while ((h / mSampleSize > requestH) || (w / mSampleSize > requestW)) {
+            mSampleSize = mSampleSize << 1;
+        }
+        options.inJustDecodeBounds = false;
+        options.inMutable = true;
+        options.inSampleSize = mSampleSize;
+        bitmap = BitmapFactory.decodeFile(srcPath, options);
+        return bitmap;
+    }
+
+    public static boolean saveMyBitmap(File f, Bitmap mBitmap) throws IOException {
+        boolean saveComplete = true;
+        try {
+            f.createNewFile();
+            FileOutputStream fOut = null;
+            fOut = new FileOutputStream(f);
+            int width = mBitmap.getWidth();
+            int height = mBitmap.getHeight();
+
+//
+//			matrix.postScale(scaleWidth, scaleHeight);
+            mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, (int) width, (int) height, new Matrix(), true);
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+            fOut.flush();
+            fOut.close();
+
+            mBitmap.recycle();
+            System.gc();
+        } catch (FileNotFoundException e) {
+            saveComplete = false;
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+            saveComplete = false;
+        }
+        return saveComplete;
     }
 
 }

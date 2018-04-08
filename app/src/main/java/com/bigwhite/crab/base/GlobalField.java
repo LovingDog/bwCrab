@@ -16,4 +16,5 @@ public class GlobalField {
     public static final String KEY_TOKEN = "token";
 
     public static final String GOODS_BASEURL = "http://101.37.149.35:8686/goods/";
+    public static final String GOODS_ORDER_URL = "http://101.37.149.35:8686/order/";
 }

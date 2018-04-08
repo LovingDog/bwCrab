@@ -105,13 +105,13 @@ public class UploadMerchantController implements UploadContract.UploadMerchantVi
     }
 
     @Override
-    public void uploadSuccess() {
-
+    public void uploadSuccess(Object o) {
+        ToastUtils.showToast(mContext.getApplicationContext(), mContext.getResources().getString(R.string.release_add_completed));
     }
 
     @Override
     public void upLoadFail() {
-
+        ToastUtils.showToast(mContext.getApplicationContext(), mContext.getResources().getString(R.string.release_add_completed));
     }
 
     @Override

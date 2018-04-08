@@ -63,7 +63,7 @@ public class ReleaseFragment extends Fragment {
         // Inflate the layout for this fragment
         Log.i("ren_kang", "onCreateView");
         View view = inflater.inflate(R.layout.fragment_release, container, false);
-        mUploadController = new UploadMerchantController(getActivity(),view);
+        mUploadController = new UploadMerchantController(getActivity(), view);
         mUploadController.initView();
         mUploadController.initImgData();
         mUploadController.setListener(new UploadMerchantController.StartCameraCaptureListener() {

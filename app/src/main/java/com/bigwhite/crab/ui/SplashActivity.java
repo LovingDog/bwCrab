@@ -1,9 +1,10 @@
 package com.bigwhite.crab.ui;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
 
 import com.bigwhite.crab.R;
 import com.bigwhite.crab.preference.AppPreference;
@@ -39,21 +40,26 @@ public class SplashActivity extends AppCompatActivity implements SplashOutListen
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 102 && resultCode == PermissionsActivity.PERMISSIONS_GRANTED) {
-            mSplashController.doLoginSession();
+            judgeLogin();
         }
     }
 
     @Override
     public void PermissonCheckoutListener() {
+        judgeLogin();
     }
 
     @Override
     public void LoginSuccessListener() {
         this.finish();
+        startActivity(new Intent(this,MainActivity.class));
+    }
+
+    private void judgeLogin() {
         if (mAppPreference.getLoginToken().equals("")) {
             startActivity(new Intent(this, LoginActivity.class));
-        }else {
-            startActivity(new Intent(this,MainActivity.class));
+        } else {
+            mSplashController.doLoginSession();
         }
     }
 }

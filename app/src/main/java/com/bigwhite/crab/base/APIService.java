@@ -3,6 +3,8 @@ package com.bigwhite.crab.base;
 import com.bigwhite.crab.bean.UserHttpResult;
 import com.squareup.okhttp.RequestBody;
 
+import okhttp3.MultipartBody;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
@@ -30,7 +32,7 @@ public interface APIService {
             @Query("exchangeCode") String exchangeCode,
             @Query("token") String token,
             @Query("merchantId") String merchantId,
-            @Part("files\";fileName = \"test.jpg\"") RequestBody img);
+            @Part("files") MultipartBody.Part part);
 
     /**
      * 用户订单的接口
@@ -42,7 +44,7 @@ public interface APIService {
      * @param token
      * @return
      */
-    @GET("/goods/findByPage.do")
+    @GET("findByPage.do")
     Observable<UserHttpResult> getOrderInfo(
             @Query("pageNow") int pageNow,
             @Query("pageSize") int pageSize,

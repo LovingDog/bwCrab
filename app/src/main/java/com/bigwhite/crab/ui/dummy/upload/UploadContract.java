@@ -11,7 +11,7 @@ import java.io.File;
 public class UploadContract {
 
     interface UploadMerchantView {
-        void uploadSuccess();
+        void uploadSuccess(Object o);
 
         void upLoadFail();
 

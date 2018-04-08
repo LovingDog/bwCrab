@@ -21,7 +21,7 @@ public class UploadMerchantPresenter implements UploadContract.UploadPresenter {
         mMerchantModel.Upload(this.mUploadMerchantView.getUploadData(), new OnHttpCallBack() {
             @Override
             public void onSuccessful(Object o) {
-                mUploadMerchantView.uploadSuccess();
+                mUploadMerchantView.uploadSuccess(o);
             }
 
             @Override
