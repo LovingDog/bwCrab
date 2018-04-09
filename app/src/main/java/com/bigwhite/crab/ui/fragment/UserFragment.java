@@ -210,7 +210,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
      * Get the orders.
      */
     private void getOrders() {
-        DataLogic.getInstance().getOrderList(ID_GET_ORDERS, (OrderRequest) getRequest(), this);
+        DataLogic.getInstance().getOrderListRetrofit(ID_GET_ORDERS, (OrderRequest) getRequest(), this);
     }
 
     @Override

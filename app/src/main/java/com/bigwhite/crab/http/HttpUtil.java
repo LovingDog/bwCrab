@@ -4,6 +4,9 @@ import android.net.ParseException;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.bigwhite.crab.preference.AppPreference;
+import com.bigwhite.crab.utils.SystemUtil;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -27,6 +30,11 @@ import java.util.Map;
 public class HttpUtil {
     public static String get(String uri) {
         DefaultHttpClient httpClient = new DefaultHttpClient();
+        String token = new AppPreference(SystemUtil.getApplication()).getLoginToken();
+        HttpGet httpGet = new HttpGet(uri);
+        httpGet.addHeader("Authorization", token); //认证token
+        httpGet.addHeader("token", token); //认证token
+        httpGet.setHeader("Cookie","JSESSIONID=2C8FA17E79CC6FF65F92ACE50A2D2412");
         String str = invoke(httpClient, new HttpGet(uri));
         Log.d("HttpUtil", "get uri = " + uri + ", str = " + str);
         httpClient.getConnectionManager().shutdown();

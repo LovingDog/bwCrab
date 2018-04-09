@@ -330,7 +330,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         LoginRequest request = new LoginRequest();
         request.setPhone(phone);
         request.setPassword(SystemUtil.md5(password));
-        DataLogic.getInstance().userLogin(TYPE_LOGIN, request, this);
+        DataLogic.getInstance().userLoginRetrofit(TYPE_LOGIN, request, this);
     }
 }
 
