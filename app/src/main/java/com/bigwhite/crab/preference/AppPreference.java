@@ -2,6 +2,9 @@ package com.bigwhite.crab.preference;
 
 import android.content.Context;
 
+import java.util.UUID;
+
+
 /**
  * Created by wanghanping on 2018/3/20.
  */
@@ -9,6 +12,7 @@ import android.content.Context;
 public class AppPreference extends BasePreference {
 
     public static final String LOGIN = "is_login_mode";
+    public static final String UUID = "uuid";
     public static final String MERCHANT_ID = "login_merchant_id";
 
     public AppPreference(Context context) {
@@ -27,6 +31,16 @@ public class AppPreference extends BasePreference {
     }
     public String getLoginToken() {
         return preferences.getString(LOGIN, "");
+    }
+
+
+    public void setCookies(StringBuffer cookies) {
+        editor = preferences.edit();
+        editor.putString(UUID, cookies.toString());
+        editor.apply();
+    }
+    public String getCookies() {
+        return preferences.getString(UUID, "");
     }
 
     public int getmerchantId() {

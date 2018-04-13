@@ -32,8 +32,8 @@ public class HttpUtil {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         String token = new AppPreference(SystemUtil.getApplication()).getLoginToken();
         HttpGet httpGet = new HttpGet(uri);
-        httpGet.addHeader("Authorization", token); //认证token
-        httpGet.addHeader("token", token); //认证token
+        httpGet.addHeader("Authorization", token); //璁よ瘉token
+        httpGet.addHeader("token", token); //璁よ瘉token
         httpGet.setHeader("Cookie","JSESSIONID=2C8FA17E79CC6FF65F92ACE50A2D2412");
         String str = invoke(httpClient, new HttpGet(uri));
         Log.d("HttpUtil", "get uri = " + uri + ", str = " + str);

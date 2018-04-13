@@ -10,7 +10,6 @@ public class UploadInfo {
     private String mInfo;
     private String mPrice;
     private int integral;
-    private String exchangeCode;
     private File mFile;
 
     public String getToken() {
@@ -45,14 +44,6 @@ public class UploadInfo {
 
     public void setIntegral(int integral) {
         this.integral = integral;
-    }
-
-    public String getExchangeCode() {
-        return exchangeCode;
-    }
-
-    public void setExchangeCode(String exchangeCode) {
-        this.exchangeCode = exchangeCode;
     }
 
     public File getmFile() {

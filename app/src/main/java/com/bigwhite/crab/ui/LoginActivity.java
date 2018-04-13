@@ -31,11 +31,14 @@ import android.widget.TextView;
 
 import com.bigwhite.crab.R;
 import com.bigwhite.crab.base.HttpCallBack;
+import com.bigwhite.crab.bean.LoginInfo;
 import com.bigwhite.crab.http.DataLogic;
 import com.bigwhite.crab.preference.AppPreference;
 import com.bigwhite.crab.ui.dummy.login.LoginRequest;
 import com.bigwhite.crab.ui.dummy.login.UserInfo;
+import com.bigwhite.crab.utils.GsonUtil;
 import com.bigwhite.crab.utils.SystemUtil;
+import com.bigwhite.crab.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -312,6 +315,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mAppPreference.setLogin(userInfo.getToken());
         mAppPreference.setMerchantId((int) userInfo.getId());
         Intent intent = new Intent(this, MainActivity.class);
+        AppPreference appPreference = new AppPreference(this);
+        appPreference.setLogin(userInfo.getToken());
         startActivity(intent);
     }
 
@@ -329,7 +334,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void login(String phone, String password) {
         LoginRequest request = new LoginRequest();
         request.setPhone(phone);
-        request.setPassword(SystemUtil.md5(password));
+        request.setPassword(Utils.md5(password));
         DataLogic.getInstance().userLoginRetrofit(TYPE_LOGIN, request, this);
     }
 }

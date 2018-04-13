@@ -7,12 +7,15 @@ import com.bigwhite.crab.base.APIService;
 import com.bigwhite.crab.base.GlobalField;
 import com.bigwhite.crab.base.HttpCallBack;
 import com.bigwhite.crab.bean.JsonResultBean;
+import com.bigwhite.crab.bean.LoginInfo;
 import com.bigwhite.crab.bean.UserHttpResult;
+import com.bigwhite.crab.preference.AppPreference;
 import com.bigwhite.crab.ui.dummy.login.LoginRequest;
 import com.bigwhite.crab.ui.dummy.login.UserInfo;
 import com.bigwhite.crab.ui.dummy.order.OrderList;
 import com.bigwhite.crab.ui.dummy.order.OrderRequest;
 import com.bigwhite.crab.utils.GsonUtil;
+import com.bigwhite.crab.utils.Utils;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -46,40 +49,6 @@ public class DataLogic {
     }
 
     /**
-     * User login.
-     *
-     * @param type
-     * @param request
-     * @param callBack
-     * @deprecated
-     */
-    public void userLogin(final int type, final LoginRequest request, final HttpCallBack callBack) {
-        new QueryData(type, new HttpTask.HttpTaskListener() {
-            @Override
-            public Object getData(int id) {
-                String str = HttpUtil.get("http://101.37.149.35:8686/login.do?phone=" + request.getPhone() +
-                        "&password=" + request.getPassword());
-                return parseObject(str, JsonResultBean.class);
-            }
-
-            @Override
-            public void onSuccess(int id, Object object) {
-                if (object instanceof JsonResultBean) {
-                    String desc = ((JsonResultBean) object).getDesc();
-                    if ("request success".equalsIgnoreCase(desc)) {
-                        UserInfo userInfo = GsonUtil.parseJsonWithGson(((JsonResultBean) object).getObject().toString(),
-                                UserInfo.class);
-                        callBack.onCompleted(type, userInfo);
-                    } else {
-                        callBack.onError(type, desc);
-                    }
-                }
-
-            }
-        }).getData();
-    }
-
-    /**
      * Not work.
      *
      * @param type
@@ -87,9 +56,9 @@ public class DataLogic {
      * @param callBack
      */
     public void userLoginRetrofit(final int type, final LoginRequest request, final HttpCallBack callBack) {
-        RetrofitUtils.newInstence(GlobalField.BASE_URL)
+        RetrofitUtils.newInstence(GlobalField.BASE_URL,true)
                 .create(APIService.class)
-                .useLogin(request.getPhone(), request.getPassword())
+                .userLogin(request.getPhone(), request.getPassword())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<UserHttpResult>() {
@@ -107,46 +76,13 @@ public class DataLogic {
 
                     @Override
                     public void onNext(UserHttpResult userHttpResult) {
+
                         String jsonData = userHttpResult.getObject().toString();
                         userInfo = GsonUtil.parseJsonWithGson(jsonData, UserInfo.class);
                     }
                 });
     }
 
-    /**
-     * Get tht order list.
-     *
-     * @param type
-     * @param request
-     * @param callBack
-     * @deprecated
-     */
-    public void getOrderList(final int type, final OrderRequest request, final HttpCallBack<OrderList> callBack) {
-        new QueryData(type, new HttpTask.HttpTaskListener() {
-            @Override
-            public Object getData(int id) {
-                String str = HttpUtil.get(GlobalField.GOODS_ORDER_URL +
-                        "findByPage.do?pageNow=" + request.getPageNow() + "&pageSize=" + request
-                        .getPageSize() + "&status=" + request.getStatus() + "&merchantId=" + request.getMerchantId()
-                        + "&token=" + request.getToken());
-                return parseObject(str, JsonResultBean.class);
-            }
-
-            @Override
-            public void onSuccess(int id, Object object) {
-                if (object instanceof JsonResultBean) {
-                    String desc = ((JsonResultBean) object).getDesc();
-                    if ("request success".equalsIgnoreCase(desc)) {
-                        OrderList orderList = GsonUtil.parseJsonWithGson(((JsonResultBean) object).getObject()
-                                .toString(), OrderList.class);
-                        callBack.onCompleted(type, orderList);
-                    } else {
-                        callBack.onError(type, desc);
-                    }
-                }
-            }
-        }).getData();
-    }
 
     /**
      * Get tht order list.
@@ -157,7 +93,7 @@ public class DataLogic {
      */
     public void getOrderListRetrofit(final int type, final OrderRequest request, final HttpCallBack<OrderList>
             callBack) {
-        RetrofitUtils.newInstence(GlobalField.BASE_URL)
+        RetrofitUtils.newInstence(GlobalField.GOODS_ORDER_URL,false)
                 .create(APIService.class)
                 .getOrderInfo(request.getPageNow(), request.getPageSize(), request.getStatus(),
                         request.getMerchantId(), request.getToken())
@@ -179,6 +115,7 @@ public class DataLogic {
                     @Override
                     public void onNext(UserHttpResult userHttpResult) {
                         String jsonData = userHttpResult.getObject().toString();
+                        Log.d("wanghp007", "onNext: orderList.getCode == " +jsonData);
                         orderList = GsonUtil.parseJsonWithGson(jsonData, OrderList.class);
                     }
                 });

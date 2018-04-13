@@ -29,7 +29,6 @@ public class UploadMerchantController implements UploadContract.UploadMerchantVi
     private EditText mInfo;
     private EditText mPrice;
     private EditText mIntegral;
-    private EditText mExchangeCode;
     private Button mUploadBt;
     private UploadMerchantPresenter mUploadMerchantPresenter;
     private View mView;
@@ -46,7 +45,6 @@ public class UploadMerchantController implements UploadContract.UploadMerchantVi
         mInfo = (EditText) mView.findViewById(R.id.et_product_description);
         mPrice = (EditText) mView.findViewById(R.id.et_product_price);
         mIntegral = (EditText) mView.findViewById(R.id.et_convertibility);
-        mExchangeCode = (EditText) mView.findViewById(R.id.et_convertibility_code);
         mUploadBt = (Button) mView.findViewById(R.id.bt_upload);
         mReleaseImageRecyclerView = (RecyclerView) mView.findViewById(R.id.release_recyclerview);
     }
@@ -126,7 +124,6 @@ public class UploadMerchantController implements UploadContract.UploadMerchantVi
             uploadInfo.setmInfo(mInfo.getText().toString().trim());
             uploadInfo.setmPrice(mPrice.getText().toString().trim());
             uploadInfo.setIntegral(Integer.parseInt(mIntegral.getText().toString().trim()));
-            uploadInfo.setExchangeCode(mExchangeCode.getText().toString().trim());
             uploadInfo.setToken(new AppPreference(mContext).getLoginToken());
             List<String> pathList = mUploadPhotoAdapter.getImagesList();
             uploadInfo.setmFile(new File(pathList.get(0)));
@@ -157,7 +154,6 @@ public class UploadMerchantController implements UploadContract.UploadMerchantVi
     private boolean isCompleteInfo() {
         return !TextUtils.isEmpty(mInfo.getText().toString().trim())
                 && !TextUtils.isEmpty(mPrice.getText().toString().trim())
-                && !TextUtils.isEmpty(mIntegral.getText().toString().trim())
-                && !TextUtils.isEmpty(mExchangeCode.getText().toString().trim());
+                && !TextUtils.isEmpty(mIntegral.getText().toString().trim());
     }
 }
