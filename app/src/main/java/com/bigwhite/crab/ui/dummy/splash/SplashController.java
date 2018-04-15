@@ -2,6 +2,7 @@ package com.bigwhite.crab.ui.dummy.splash;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
@@ -55,7 +56,7 @@ public class SplashController {
         }
     }
 
-    public void doLoginSession(){
+    public void doLoginSession(final Context context){
         //do login
 
         RetrofitUtils.newInstence(GlobalField.BASE_URL,true)
@@ -78,6 +79,7 @@ public class SplashController {
                     public void onNext(UserHttpResult userHttpResult) {
                         String obj = userHttpResult.getObject().toString();
 
+                        ToastUtils.showToast(context.getApplicationContext(),obj);
                         LoginInfo loginInfo = GsonUtil.parseJsonWithGson(obj,LoginInfo.class);
                         AppPreference appPreference = new AppPreference(mContext);
                         appPreference.setLogin(loginInfo.getToken());

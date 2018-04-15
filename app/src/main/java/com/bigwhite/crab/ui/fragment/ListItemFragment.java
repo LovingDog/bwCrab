@@ -1,10 +1,8 @@
 package com.bigwhite.crab.ui.fragment;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +12,11 @@ import android.widget.TextView;
 
 import com.bigwhite.crab.R;
 import com.bigwhite.crab.base.BaseFragment;
-import com.bigwhite.crab.model.MerchandiseInfo;
-import com.bigwhite.crab.ui.adapter.ListItemAdapter;
+import com.bigwhite.crab.bean.MerchantList;
+import com.bigwhite.crab.preference.AppPreference;
+import com.bigwhite.crab.ui.dummy.merchant.MerchantListInfoPresenter;
+import com.bigwhite.crab.ui.dummy.merchant.MerchantsContract;
+import com.bigwhite.crab.ui.dummy.order.Goods;
 import com.bigwhite.crab.utils.DividerItemDecoration;
 import com.bumptech.glide.Glide;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
@@ -34,13 +35,15 @@ import java.util.List;
  * A fragment representing a list of Items.
  */
 public class ListItemFragment extends BaseFragment implements View.OnClickListener, OnRefreshListener, OnLoadMoreListener,
-        OnNetWorkErrorListener {
+        OnNetWorkErrorListener,MerchantsContract.MerchantListView{
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private LRecyclerView mLRecyclerView;
     private int mColumnCount = 2;
-    public List<MerchandiseInfo> mDatas;
-    private ListItemAdapter mItemAdapter;
+    public List<Goods> mDatas;
+    private MerchantListInfoPresenter mPresenter;
+    private CommonAdapter mItemAdapter;
+    private boolean mLoadMore;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -65,15 +68,8 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+        mPresenter = new MerchantListInfoPresenter(this);
         mDatas = new ArrayList<>();
-        MerchandiseInfo item = new MerchandiseInfo();
-        for (int i = 0; i < 20; i++) {
-            item.setmId(i);
-            item.setmPrice(1350);
-            item.setmIntegral(888);
-            item.setmDescription(getString(R.string.product_description));
-            mDatas.add(item);
-        }
     }
 
     @Override
@@ -85,22 +81,9 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
         // Set the adapter
 //        mItemAdapter = new ListItemAdapter(context);
 //        mItemAdapter.setData(mDatas);
-        mLRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-        CommonAdapter mItemAdapter = new CommonAdapter(context, R.layout.layout_crab_detail, mDatas) {
-            @Override
-            protected void convert(ViewHolder holder, Object o, int position) {
-                holder.setText(R.id.product_price, getString(R.string.CNY) + ((MerchandiseInfo) o).getmPrice());
-                ((TextView) holder.getView(R.id.product_price)).getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.setText(R.id.product_integral, ((MerchandiseInfo) o).getmIntegral() + "");
-                holder.setText(R.id.product_description, ((MerchandiseInfo) o).getmDescription());
-                ImageView preview = holder.getView(R.id.product_preview);
-                Glide.with(context).load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1521629002821&di=e04f7922f0bddff18469e0335e087f9d&imgtype=0&" +
-                        "src=http%3A%2F%2Fimg14.360buyimg.com%2Fn2%2Fjfs%2Ft148%2F307%2F1675000766%2F403308%2F42bc856f%2F53b4ed8cN340de8d2.jpg").into(preview);
-            }
-        };
-        mLRecyclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
-        LRecyclerViewAdapter LRecyclerViewAdapter = new LRecyclerViewAdapter(mItemAdapter);
-        mLRecyclerView.setAdapter(LRecyclerViewAdapter);
+        mLoadMore = false;
+        mPresenter.upLoad();
+        setAdapter(mDatas);
         mLRecyclerView.setPullRefreshEnabled(true);
         mLRecyclerView.setOnRefreshListener(this);
         mLRecyclerView.setOnLoadMoreListener(this);
@@ -108,7 +91,6 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
         mLRecyclerView.addItemDecoration(new DividerItemDecoration(context));
         return view;
     }
-
 
     @Override
     public void onDestroyView() {
@@ -123,18 +105,91 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onRefresh() {
         // TODO: Refresh the data.
-        mLRecyclerView.refreshComplete(mDatas.size());
+        mLoadMore = false;
+        mPresenter.upLoad();
     }
 
     @Override
     public void onLoadMore() {
         // TODO: Load more data.
+        mLoadMore = true;
         mLRecyclerView.refreshComplete(mDatas.size());
     }
 
     @Override
     public void reload() {
         // TODO: Load more data.
+        mPresenter.upLoad();
+
+    }
+
+    public void setAdapter(List<Goods> mDatas) {
+        mItemAdapter = new CommonAdapter(getActivity(), R.layout.layout_crab_detail, mDatas) {
+            @Override
+            protected void convert(ViewHolder holder, Object o, int position) {
+                holder.setText(R.id.product_price, getString(R.string.CNY) + ((Goods) o).getPrice());
+                ((TextView) holder.getView(R.id.product_price)).getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.setText(R.id.product_integral, ((Goods) o).getIntegral()+ "");
+                holder.setText(R.id.product_description, ((Goods) o).getInfo());
+                ImageView preview = holder.getView(R.id.product_preview);
+                Glide.with(getActivity()).load(((Goods) o).getPics()).into(preview);
+            }
+        };
+        mLRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), mColumnCount));
+        mLRecyclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
+        LRecyclerViewAdapter LRecyclerViewAdapter = new LRecyclerViewAdapter(mItemAdapter);
+        mLRecyclerView.setAdapter(LRecyclerViewAdapter);
+    }
+
+    @Override
+    public void uploadSuccess(Object o) {
+        if (!mLoadMore) {
+            mDatas.clear();
+        }
         mLRecyclerView.refreshComplete(mDatas.size());
+        MerchantList orderList = (MerchantList) o;
+        List<Goods> goods = orderList.getContent();
+        Goods item = new Goods();
+        for (int i = 0; i < goods.size(); i++) {
+            Goods good = goods.get(i);
+            item.setId(good.getId());
+            item.setPrice(good.getPrice());
+            item.setIntegral(good.getIntegral());
+            item.setInfo(good.getInfo());
+            String pic = (good.getPics().split(";"))[0];
+            item.setPics(pic);
+            mDatas.add(item);
+        }
+        setAdapter(mDatas);
+    }
+
+    @Override
+    public void upLoadFail() {
+
+    }
+
+    @Override
+    public void reFreshActivity() {
+
+    }
+
+    @Override
+    public int getPageNow() {
+        return 0;
+    }
+
+    @Override
+    public int getPageSize() {
+        return 10;
+    }
+
+    @Override
+    public String getToke() {
+        return new AppPreference(getActivity()).getLoginToken();
+    }
+
+    @Override
+    public int getMerchantid() {
+        return new AppPreference(getActivity()).getmerchantId();
     }
 }

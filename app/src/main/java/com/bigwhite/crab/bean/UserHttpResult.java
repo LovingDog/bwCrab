@@ -3,7 +3,7 @@ package com.bigwhite.crab.bean;
 /**
  * Created by HDL on 2016/7/30.
  */
-public class UserHttpResult<T> {
+public class UserHttpResult<Object> {
     private int code;
     private String desc;
     private Object object;
@@ -11,11 +11,12 @@ public class UserHttpResult<T> {
     public UserHttpResult() {
     }
 
-    public UserHttpResult(int result, String result_info, Object data) {
-        this.code = result;
-        this.desc = result_info;
+    public UserHttpResult(int resultCode, String resultMes, Object data) {
+        this.code = resultCode;
+        this.desc = resultMes;
         this.object = data;
     }
+
 
     public int getCode() {
         return code;

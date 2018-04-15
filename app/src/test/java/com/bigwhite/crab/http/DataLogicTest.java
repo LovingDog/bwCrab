@@ -1,15 +1,12 @@
 package com.bigwhite.crab.http;
 
-import com.bigwhite.crab.ui.dummy.order.Goods;
 import com.bigwhite.crab.ui.dummy.order.GoodsInfo;
-import com.bigwhite.crab.ui.dummy.order.OrderList;
+import com.bigwhite.crab.bean.OrderList;
 import com.bigwhite.crab.utils.GsonUtil;
 
 import org.junit.Test;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Administrator on 2018/4/1 0001.

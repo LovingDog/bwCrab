@@ -18,9 +18,8 @@ import com.bigwhite.crab.base.HttpCallBack;
 import com.bigwhite.crab.http.DataLogic;
 import com.bigwhite.crab.ui.dummy.login.UserInfo;
 import com.bigwhite.crab.ui.adapter.UserAdapter;
-import com.bigwhite.crab.ui.dummy.order.OrderList;
+import com.bigwhite.crab.bean.OrderList;
 import com.bigwhite.crab.ui.dummy.order.OrderRequest;
-import com.bumptech.glide.Glide;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnNetWorkErrorListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
@@ -55,6 +54,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
 
     private static final int ID_GET_USER = 0;
     private static final int ID_GET_ORDERS = 1;
+    private boolean mLoadMore = false;
 
     public UserFragment() {
         // Required empty public constructor
@@ -145,16 +145,19 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public void onRefresh() {
+        mLoadMore = false;
         getOrders();
     }
 
     @Override
     public void onLoadMore() {
+        mLoadMore = true;
         getOrders();
     }
 
     @Override
     public void reload() {
+        mLoadMore = false;
         getOrders();
     }
 
@@ -179,13 +182,25 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
      * Init the order list.
      */
     private void initOrderList(OrderList list) {
-        mCurrentOrderList = list;
+        mUserAdapter.setmLoadMore(mLoadMore);
+        mUserAdapter.setData(list);
         mLAdapter.notifyDataSetChanged();
         int size = 0;
         if (mCurrentOrderList != null) {
             size = mCurrentOrderList.size();
         }
         mLRecyclerView.refreshComplete(size);
+        switch (mCurrentType) {
+            case TYPE_RELEASE_MODEL:
+                mReleaseCount.setText(String.valueOf(list.getTotalElements()));
+                break;
+            case TYPE_ORDER_MODEL:
+                mOrdersCount.setText(String.valueOf(list.getTotalElements()));
+                break;
+            case TYPE_DONE_MODEL:
+                mDoneCount.setText(String.valueOf(list.getTotalElements()));
+                break;
+        }
     }
 
 
@@ -210,12 +225,17 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
      * Get the orders.
      */
     private void getOrders() {
-        DataLogic.getInstance().getOrderListRetrofit(ID_GET_ORDERS, (OrderRequest) getRequest(), this);
+        DataLogic.getInstance().getOrderListRetrofit(ID_GET_ORDERS, (OrderRequest) getRequest(), this,getActivity());
     }
 
     @Override
     public BaseRequest getRequest() {
         OrderRequest request = new OrderRequest(mCurrentType);
+        if (mLoadMore) {
+            request.setPageNow(request.getPageNow()+1);
+        } else {
+            request.setPageNow(0);
+        }
         request.setMerchantId((int) id);
         request.setToken(token);
         return request;

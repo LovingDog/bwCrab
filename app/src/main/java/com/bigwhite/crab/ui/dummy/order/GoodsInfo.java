@@ -8,12 +8,7 @@ import java.util.List;
 
 public class GoodsInfo {
     private long id;
-    private String username;
-    private String phone;
-    private String address;
-    private Goods goods;
-    private int status;
-    private String kuaidiNum;
+    private String createtime;
 
     public long getId() {
         return id;
@@ -21,6 +16,22 @@ public class GoodsInfo {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(String createtime) {
+        this.createtime = createtime;
+    }
+
+    public String getUptatime() {
+        return updatetime;
+    }
+
+    public void setUptatime(String uptatime) {
+        this.updatetime = uptatime;
     }
 
     public String getUsername() {
@@ -71,9 +82,35 @@ public class GoodsInfo {
         this.kuaidiNum = kuaidiNum;
     }
 
+    private String updatetime;
+    private String username;
+    private String phone;
+    private String address;
+    private Goods goods;
+
+    public String getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(String updatetime) {
+        this.updatetime = updatetime;
+    }
+
+    private int status;
+    private String kuaidiNum;
+
     @Override
     public String toString() {
-        return "GoodsInfo:{id = " + id + ", username = " + username + ", phone = " + phone + ", address = " + address
-                + ", " + "goods = " + goods + ", status = " + status + ", kuaidiNum = " + kuaidiNum + "}";
+        return "GoodsInfo{" +
+                "id=" + id +
+                ", createtime='" + createtime + '\'' +
+                ", updatetime='" + updatetime + '\'' +
+                ", username='" + username + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", goods=" + goods +
+                ", status=" + status +
+                ", kuaidiNum='" + kuaidiNum + '\'' +
+                '}';
     }
 }

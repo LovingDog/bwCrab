@@ -10,8 +10,9 @@ import android.widget.TextView;
 import com.bigwhite.crab.R;
 import com.bigwhite.crab.ui.dummy.order.Goods;
 import com.bigwhite.crab.ui.dummy.order.GoodsInfo;
-import com.bigwhite.crab.ui.dummy.order.OrderList;
+import com.bigwhite.crab.bean.OrderList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +22,11 @@ import java.util.List;
 public class UserAdapter extends RecyclerView.Adapter {
 
     private Context mContext;
+    private boolean mLoadMore;
+
+    public void setmLoadMore(boolean mLoadMore) {
+        this.mLoadMore = mLoadMore;
+    }
 
     public UserAdapter(Context context) {
         mContext = context;
@@ -29,7 +35,17 @@ public class UserAdapter extends RecyclerView.Adapter {
     private List<GoodsInfo> mGoodsInfos;
 
     public void setData(OrderList orderList) {
-        mGoodsInfos = orderList.getContent();
+        if (mLoadMore) {
+            if (mGoodsInfos == null) {
+                mGoodsInfos = new ArrayList<>();
+            }
+            for (GoodsInfo goodsInfo :
+                    orderList.getContent()) {
+                mGoodsInfos.add(goodsInfo);
+            }
+        } else {
+            mGoodsInfos = orderList.getContent();
+        }
     }
 
     @Override
@@ -46,7 +62,11 @@ public class UserAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mGoodsInfos.size();
+        if (mGoodsInfos != null) {
+            return mGoodsInfos.size();
+        } else {
+            return 0;
+        }
     }
 
     private class UserViewHolder extends RecyclerView.ViewHolder {

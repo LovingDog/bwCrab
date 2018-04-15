@@ -6,11 +6,71 @@ package com.bigwhite.crab.ui.dummy.order;
 
 public class Goods {
     private int id;
+    private String createtime;
+    private String updatetime;
+
+    public String getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(String createtime) {
+        this.createtime = createtime;
+    }
+
+    public String getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(String updatetime) {
+        this.updatetime = updatetime;
+    }
+
     private String info;
     private String price;
     private int integral;
-    private String exchangeCode;
     private String pics;
+
+    public String getPics() {
+        return pics;
+    }
+
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "id=" + id +
+                ", createtime='" + createtime + '\'' +
+                ", updatetime='" + updatetime + '\'' +
+                ", info='" + info + '\'' +
+                ", price='" + price + '\'' +
+                ", integral=" + integral +
+                ", pics='" + pics + '\'' +
+                ", count=" + count +
+                ", remainNum=" + remainNum +
+                '}';
+    }
+
+    public void setPics(String pics) {
+        this.pics = pics;
+    }
+
+    private int count;
+    private int remainNum;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getRemainNum() {
+        return remainNum;
+    }
+
+    public void setRemainNum(int remainNum) {
+        this.remainNum = remainNum;
+    }
 
     public int getId() {
         return id;
@@ -44,25 +104,6 @@ public class Goods {
         this.integral = integral;
     }
 
-    public String getExchangeCode() {
-        return exchangeCode;
-    }
 
-    public void setExchangeCode(String exchangeCode) {
-        this.exchangeCode = exchangeCode;
-    }
 
-    public String getPics() {
-        return pics;
-    }
-
-    public void setPics(String pics) {
-        this.pics = pics;
-    }
-
-    @Override
-    public String toString() {
-        return "Goods:{id = " + id + ", info = " + info + ", price = " + price + ", integral = " + integral + ", " +
-                "exchangeCode = " + exchangeCode + ",pics = " + pics + "}";
-    }
 }

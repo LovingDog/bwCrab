@@ -1,21 +1,18 @@
 package com.bigwhite.crab.http;
 
-import android.util.Log;
+import android.content.Context;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bigwhite.crab.base.APIService;
 import com.bigwhite.crab.base.GlobalField;
 import com.bigwhite.crab.base.HttpCallBack;
 import com.bigwhite.crab.bean.JsonResultBean;
-import com.bigwhite.crab.bean.LoginInfo;
 import com.bigwhite.crab.bean.UserHttpResult;
-import com.bigwhite.crab.preference.AppPreference;
 import com.bigwhite.crab.ui.dummy.login.LoginRequest;
 import com.bigwhite.crab.ui.dummy.login.UserInfo;
-import com.bigwhite.crab.ui.dummy.order.OrderList;
+import com.bigwhite.crab.bean.OrderList;
 import com.bigwhite.crab.ui.dummy.order.OrderRequest;
 import com.bigwhite.crab.utils.GsonUtil;
-import com.bigwhite.crab.utils.Utils;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -91,32 +88,31 @@ public class DataLogic {
      * @param request
      * @param callBack
      */
+
+
     public void getOrderListRetrofit(final int type, final OrderRequest request, final HttpCallBack<OrderList>
-            callBack) {
+            callBack, final Context context) {
         RetrofitUtils.newInstence(GlobalField.GOODS_ORDER_URL,false)
                 .create(APIService.class)
                 .getOrderInfo(request.getPageNow(), request.getPageSize(), request.getStatus(),
                         request.getMerchantId(), request.getToken())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<UserHttpResult>() {
-                    private OrderList orderList = null;
-
+                .subscribe(new Subscriber<UserHttpResult<OrderList>>() {
                     @Override
                     public void onCompleted() {
-                        callBack.onCompleted(type, orderList);
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        callBack.onError(type, e.getMessage());
+                        callBack.onError(type,"");
                     }
 
                     @Override
-                    public void onNext(UserHttpResult userHttpResult) {
-                        String jsonData = userHttpResult.getObject().toString();
-                        Log.d("wanghp007", "onNext: orderList.getCode == " +jsonData);
-                        orderList = GsonUtil.parseJsonWithGson(jsonData, OrderList.class);
+                    public void onNext(UserHttpResult<OrderList> userHttpResult) {
+                        OrderList orderList = (OrderList) userHttpResult.getObject();
+                        callBack.onCompleted(type,orderList);
                     }
                 });
     }

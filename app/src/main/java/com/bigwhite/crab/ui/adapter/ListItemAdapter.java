@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigwhite.crab.R;
-import com.bigwhite.crab.model.MerchandiseInfo;
+import com.bigwhite.crab.ui.dummy.order.Goods;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.List;
 public class ListItemAdapter extends RecyclerView.Adapter {
 
     private Context mContext;
-    private List<MerchandiseInfo> mItemsList = new ArrayList<>();
+    private List<Goods> mItemsList = new ArrayList<>();
     private static final String DEMO_URL = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1521629002821&di=e04f7922f0bddff18469e0335e087f9d&imgtype=0&" +
             "src=http%3A%2F%2Fimg14.360buyimg.com%2Fn2%2Fjfs%2Ft148%2F307%2F1675000766%2F403308%2F42bc856f%2F53b4ed8cN340de8d2.jpg";
 
@@ -31,7 +31,7 @@ public class ListItemAdapter extends RecyclerView.Adapter {
         mContext = context;
     }
 
-    public void setData(List<MerchandiseInfo> itemsList) {
+    public void setData(List<Goods> itemsList) {
         mItemsList.clear();
         mItemsList.addAll(itemsList);
         notifyDataSetChanged();
@@ -45,8 +45,8 @@ public class ListItemAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        MerchandiseInfo info = mItemsList.get(i);
-        ((ItemHolder) viewHolder).setData(info);
+        Goods info = mItemsList.get(i);
+//        ((ItemHolder) viewHolder).setData(info);
     }
 
     @Override
@@ -68,12 +68,12 @@ public class ListItemAdapter extends RecyclerView.Adapter {
             preview = (ImageView) itemView.findViewById(R.id.product_preview);
         }
 
-        public void setData(MerchandiseInfo info) {
-            description.setText(info.getmDescription());
-            integral.setText(info.getmIntegral() + "");
-            price.setText(mContext.getString(R.string.CNY) + info.getmPrice());
-            price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            Glide.with(mContext).load(DEMO_URL).into(preview);
-        }
+//        public void setData(MerchandiseInfo info) {
+//            description.setText(info.getmDescription());
+//            integral.setText(info.getmIntegral() + "");
+//            price.setText(mContext.getString(R.string.CNY) + info.getmPrice());
+//            price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//            Glide.with(mContext).load(DEMO_URL).into(preview);
+//        }
     }
 }

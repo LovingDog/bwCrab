@@ -1,6 +1,9 @@
 package com.bigwhite.crab.base;
 
+import com.bigwhite.crab.bean.MerchantList;
+import com.bigwhite.crab.bean.OrderList;
 import com.bigwhite.crab.bean.UserHttpResult;
+import com.bigwhite.crab.ui.dummy.order.Goods;
 import com.squareup.okhttp.RequestBody;
 
 import okhttp3.MultipartBody;
@@ -25,7 +28,7 @@ public interface APIService {
 
     @Multipart
     @POST("addGoods.do")
-    Observable<UserHttpResult> userUploadImg(
+    Observable<UserHttpResult<OrderList>> userUploadImg(
             @Query("info") String info,
             @Query("price") String price,
             @Query("integral") int integral,
@@ -44,7 +47,7 @@ public interface APIService {
      * @return
      */
     @GET("findPageByCondition.do")
-    Observable<UserHttpResult> getOrderInfo(
+    Observable<UserHttpResult<OrderList>> getOrderInfo(
             @Query("pageNow") int pageNow,
             @Query("pageSize") int pageSize,
             @Query("status") int status,
@@ -65,4 +68,11 @@ public interface APIService {
             @Query("password") String password
     );
 
+    @GET("findPageByCondition.do")
+    Observable<UserHttpResult<MerchantList>> getMerchants(
+            @Query("pageNow") int pageNow,
+            @Query("pageSize") int pageSize,
+            @Query("merchantId") int merchantId,
+            @Query("token") String token
+    );
 }
