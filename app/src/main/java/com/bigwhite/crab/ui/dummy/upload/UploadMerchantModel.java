@@ -30,11 +30,13 @@ public class UploadMerchantModel implements UploadContract.UploadModel {
         if (info.getmFile() == null) {
             return;
         }
-        MultipartBody.Part part = MultipartBody.Part.createFormData("image",info.getmFile().getName(), okhttp3.RequestBody.create(okhttp3.MediaType.parse("multipart/form-data"),info.getmFile()));
+        MultipartBody.Part part = MultipartBody.Part.createFormData("image",info.getmFile().getName(),
+                okhttp3.RequestBody.create(okhttp3.MediaType.parse("multipart/form-data"),info.getmFile()));
         RetrofitUtils.newInstence(GlobalField.GOODS_BASEURL,true)
                 .create(APIService.class)
 
-                .userUploadImg(info.getmInfo(), info.getmPrice(), info.getIntegral(),info.getToken(),"2.0", part)
+                .userUploadImg(info.getmInfo(), info.getmPrice(), info.getIntegral(),info.getToken(),info.getmCount()
+                        ,info.getMerchantId(), part)
                 .subscribeOn(Schedulers.newThread())//在新线程中执行登录请求
                 .observeOn(AndroidSchedulers.mainThread())//在主线程中执行
                 .subscribe(new Subscriber<UserHttpResult>() {

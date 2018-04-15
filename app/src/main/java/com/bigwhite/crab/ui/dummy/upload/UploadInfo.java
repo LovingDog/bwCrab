@@ -11,6 +11,24 @@ public class UploadInfo {
     private String mPrice;
     private int integral;
     private File mFile;
+    private int mCount;
+    private int merchantId;
+
+    public int getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(int merchantId) {
+        this.merchantId = merchantId;
+    }
+
+    public int getmCount() {
+        return mCount;
+    }
+
+    public void setmCount(int mCount) {
+        this.mCount = mCount;
+    }
 
     public String getToken() {
         return token;

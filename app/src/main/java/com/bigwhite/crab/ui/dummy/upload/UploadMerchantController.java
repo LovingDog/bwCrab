@@ -34,6 +34,7 @@ public class UploadMerchantController implements UploadContract.UploadMerchantVi
     private View mView;
     private RecyclerView mReleaseImageRecyclerView;
     private UploadPhotoAdapter mUploadPhotoAdapter;
+    private EditText mCount;
 
     public UploadMerchantController(Activity context, View view) {
         this.mContext = context;
@@ -45,6 +46,7 @@ public class UploadMerchantController implements UploadContract.UploadMerchantVi
         mInfo = (EditText) mView.findViewById(R.id.et_product_description);
         mPrice = (EditText) mView.findViewById(R.id.et_product_price);
         mIntegral = (EditText) mView.findViewById(R.id.et_convertibility);
+        mCount = (EditText) mView.findViewById(R.id.et_convertibility_code);
         mUploadBt = (Button) mView.findViewById(R.id.bt_upload);
         mReleaseImageRecyclerView = (RecyclerView) mView.findViewById(R.id.release_recyclerview);
     }
@@ -125,6 +127,8 @@ public class UploadMerchantController implements UploadContract.UploadMerchantVi
             uploadInfo.setmPrice(mPrice.getText().toString().trim());
             uploadInfo.setIntegral(Integer.parseInt(mIntegral.getText().toString().trim()));
             uploadInfo.setToken(new AppPreference(mContext).getLoginToken());
+            uploadInfo.setmCount(Integer.parseInt(mCount.getText().toString().trim()));
+            uploadInfo.setMerchantId(new AppPreference(mContext).getmerchantId());
             List<String> pathList = mUploadPhotoAdapter.getImagesList();
             uploadInfo.setmFile(new File(pathList.get(0)));
             return uploadInfo;
@@ -154,6 +158,7 @@ public class UploadMerchantController implements UploadContract.UploadMerchantVi
     private boolean isCompleteInfo() {
         return !TextUtils.isEmpty(mInfo.getText().toString().trim())
                 && !TextUtils.isEmpty(mPrice.getText().toString().trim())
+                && !TextUtils.isEmpty(mCount.getText().toString().trim())
                 && !TextUtils.isEmpty(mIntegral.getText().toString().trim());
     }
 }

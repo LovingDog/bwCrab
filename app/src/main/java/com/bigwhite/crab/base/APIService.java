@@ -33,7 +33,8 @@ public interface APIService {
             @Query("price") String price,
             @Query("integral") int integral,
             @Query("token") String token,
-            @Query("merchantId") String merchantId,
+            @Query("count") int count,
+            @Query("merchantId") int merchantId,
             @Part("files") MultipartBody.Part part);
 
     /**
