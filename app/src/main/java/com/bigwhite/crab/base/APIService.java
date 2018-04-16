@@ -6,12 +6,15 @@ import com.bigwhite.crab.bean.UserHttpResult;
 import com.bigwhite.crab.ui.dummy.order.Goods;
 import com.squareup.okhttp.RequestBody;
 
-import okhttp3.MultipartBody;
+import java.util.List;
+import java.util.Map;
+
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
+import retrofit.http.PartMap;
 import retrofit.http.Query;
 import rx.Observable;
 
@@ -28,14 +31,14 @@ public interface APIService {
 
     @Multipart
     @POST("addGoods.do")
-    Observable<UserHttpResult<OrderList>> userUploadImg(
+    Observable<UserHttpResult> userUploadImg(
             @Query("info") String info,
             @Query("price") String price,
             @Query("integral") int integral,
             @Query("token") String token,
             @Query("count") int count,
             @Query("merchantId") int merchantId,
-            @Part("files") MultipartBody.Part part);
+            @PartMap Map<String, RequestBody> map);
 
     /**
      * 用户订单的接口

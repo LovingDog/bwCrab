@@ -1,5 +1,6 @@
 package com.bigwhite.crab.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bigwhite.crab.R;
@@ -18,6 +21,7 @@ import com.bigwhite.crab.ui.dummy.merchant.MerchantListInfoPresenter;
 import com.bigwhite.crab.ui.dummy.merchant.MerchantsContract;
 import com.bigwhite.crab.ui.dummy.order.Goods;
 import com.bigwhite.crab.utils.DividerItemDecoration;
+import com.bigwhite.crab.utils.Utils;
 import com.bumptech.glide.Glide;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnNetWorkErrorListener;
@@ -35,7 +39,7 @@ import java.util.List;
  * A fragment representing a list of Items.
  */
 public class ListItemFragment extends BaseFragment implements View.OnClickListener, OnRefreshListener, OnLoadMoreListener,
-        OnNetWorkErrorListener,MerchantsContract.MerchantListView{
+        OnNetWorkErrorListener, MerchantsContract.MerchantListView {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private LRecyclerView mLRecyclerView;
@@ -44,6 +48,8 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
     private MerchantListInfoPresenter mPresenter;
     private CommonAdapter mItemAdapter;
     private boolean mLoadMore;
+    private int mScreenWidth;
+    private int mDecoration = 30;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -70,6 +76,7 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
         }
         mPresenter = new MerchantListInfoPresenter(this);
         mDatas = new ArrayList<>();
+        mScreenWidth = Utils.getMobileInfo(getActivity()).getmScreenWidth() / 2;
     }
 
     @Override
@@ -124,15 +131,17 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
     }
 
     public void setAdapter(List<Goods> mDatas) {
-        mItemAdapter = new CommonAdapter(getActivity(), R.layout.layout_crab_detail, mDatas) {
+        mItemAdapter = new CommonAdapter<Goods>(getActivity(), R.layout.layout_crab_detail, mDatas) {
             @Override
-            protected void convert(ViewHolder holder, Object o, int position) {
-                holder.setText(R.id.product_price, getString(R.string.CNY) + ((Goods) o).getPrice());
+            protected void convert(ViewHolder holder, Goods good, int position) {
+                holder.setText(R.id.product_price, getString(R.string.CNY) + good.getPrice());
                 ((TextView) holder.getView(R.id.product_price)).getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.setText(R.id.product_integral, ((Goods) o).getIntegral()+ "");
-                holder.setText(R.id.product_description, ((Goods) o).getInfo());
+                holder.setText(R.id.product_integral, good.getIntegral() + "");
+                holder.setText(R.id.product_description, good.getInfo());
                 ImageView preview = holder.getView(R.id.product_preview);
-                Glide.with(getActivity()).load(((Goods) o).getPics()).into(preview);
+                int width = mScreenWidth - mDecoration * 3;
+                preview.setLayoutParams(new LinearLayout.LayoutParams(width, width));
+                Glide.with(getActivity()).load(good.getPics()).placeholder(R.mipmap.thumbnail_bg).override(width, width).into(preview);
             }
         };
         mLRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), mColumnCount));
@@ -149,18 +158,10 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
         mLRecyclerView.refreshComplete(mDatas.size());
         MerchantList orderList = (MerchantList) o;
         List<Goods> goods = orderList.getContent();
-        Goods item = new Goods();
-        for (int i = 0; i < goods.size(); i++) {
-            Goods good = goods.get(i);
-            item.setId(good.getId());
-            item.setPrice(good.getPrice());
-            item.setIntegral(good.getIntegral());
-            item.setInfo(good.getInfo());
-            String pic = (good.getPics().split(";"))[0];
-            item.setPics(pic);
-            mDatas.add(item);
+        for (Goods goods1 : goods) {
+            mDatas.add(goods1);
         }
-        setAdapter(mDatas);
+        setAdapter(goods);
     }
 
     @Override

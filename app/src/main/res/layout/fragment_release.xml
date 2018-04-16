@@ -2,147 +2,154 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true"
-    tools:context="com.bigwhite.crab.ui.ReleaseFragment">
+    android:background="#F5F5F5">
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbarThumbVertical="@android:color/transparent">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/merchandise_list_title"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="@string/title_release"
+                android:textSize="25sp" />
 
-    <TextView
-        android:id="@+id/merchandise_list_title"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:background="@color/white"
-        android:text="@string/title_release"
-        android:textSize="20sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_product_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="16dp"
+                android:text="商品描述"
+                android:textColor="@color/gray"
+                android:textSize="13sp" />
 
-    <TextView
-        android:id="@+id/tv_product_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/gray"
-        android:textSize="13sp"
-        android:text="商品描述" />
+            <EditText
+                android:id="@+id/et_product_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/edittext_bg"
+                android:gravity="left|top"
+                android:inputType="textMultiLine"
+                android:minHeight="44dp"
+                android:padding="5dp"
+                android:textSize="12sp" />
 
-    <EditText
-        android:id="@+id/et_product_description"
-        android:background="@drawable/edittext_bg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="44dp"
-        android:padding="5dp"
-        android:textSize="12sp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="6dp"
-        android:gravity="left|top"
-        android:inputType="textMultiLine" />
+            <TextView
+                android:id="@+id/tv_market_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="13dp"
+                android:text="市场价格"
+                android:textColor="@color/gray"
+                android:textSize="13sp" />
 
-    <TextView
-        android:id="@+id/tv_market_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:layout_marginStart="15dp"
-        android:textColor="@color/gray"
-        android:textSize="13sp"
-        android:text="市场价格" />
+            <EditText
+                android:id="@+id/et_product_price"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/edittext_bg"
+                android:inputType="numberDecimal"
+                android:padding="5dp"
+                android:textSize="12sp" />
 
-    <EditText
-        android:id="@+id/et_product_price"
-        android:background="@drawable/edittext_bg"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:padding="5dp"
-        android:textSize="12sp"
-        android:inputType="numberDecimal"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="6dp" />
+            <TextView
+                android:id="@+id/tv_convertibility"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="13dp"
+                android:text="兑换积分"
+                android:textColor="@color/gray"
+                android:textSize="13sp" />
 
-    <TextView
-        android:id="@+id/tv_convertibility"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:layout_marginStart="15dp"
-        android:textColor="@color/gray"
-        android:textSize="13sp"
-        android:text="兑换积分" />
+            <EditText
+                android:id="@+id/et_convertibility"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/edittext_bg"
+                android:inputType="numberDecimal"
+                android:padding="5dp"
+                android:textSize="12sp" />
 
-    <EditText
-        android:id="@+id/et_convertibility"
-        android:background="@drawable/edittext_bg"
-        android:layout_width="match_parent"
-        android:padding="5dp"
-        android:textSize="12sp"
-        android:layout_height="44dp"
-        android:layout_marginLeft="16dp"
-        android:inputType="numberDecimal"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="6dp" />
+            <TextView
+                android:id="@+id/tv_convertibility_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="13dp"
+                android:text="库存"
+                android:textColor="@color/gray"
+                android:textSize="13sp" />
 
-    <TextView
-        android:id="@+id/tv_convertibility_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:layout_marginStart="15dp"
-        android:textColor="@color/gray"
-        android:textSize="13sp"
-        android:text="库存" />
+            <EditText
+                android:id="@+id/et_convertibility_code"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/edittext_bg"
+                android:hint=""
+                android:inputType="number"
+                android:padding="5dp"
+                android:textSize="10sp" />
 
-    <EditText
-        android:id="@+id/et_convertibility_code"
-        android:background="@drawable/edittext_bg"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:padding="5dp"
-        android:inputType="number"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="6dp"
-        android:textSize="10sp"
-        android:hint=""/>
+            <TextView
+                android:id="@+id/tv_upload_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="13dp"
+                android:text="上传照片(最多可上传6张)"
+                android:textColor="@color/gray"
+                android:textSize="10sp" />
 
-    <TextView
-        android:id="@+id/tv_upload_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:textColor="@color/gray"
-        android:layout_marginStart="15dp"
-        android:textSize="10sp"
-        android:text="上传照片(最多可上传6张)" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/release_recyclerview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="5dp" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/release_recyclerview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp" />
 
 
             <Button
                 android:id="@+id/bt_upload"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
+                android:layout_margin="20dp"
                 android:background="@drawable/corner_login_button"
                 android:text="上  传"
-                android:layout_margin="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
