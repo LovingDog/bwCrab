@@ -32,20 +32,15 @@ public class UserAdapter extends RecyclerView.Adapter {
         mContext = context;
     }
 
-    private List<GoodsInfo> mGoodsInfos;
+    private List<GoodsInfo> mGoodsInfos = new ArrayList<>();
 
     public void setData(OrderList orderList) {
-        if (mLoadMore) {
-            if (mGoodsInfos == null) {
-                mGoodsInfos = new ArrayList<>();
-            }
-            for (GoodsInfo goodsInfo :
-                    orderList.getContent()) {
-                mGoodsInfos.add(goodsInfo);
-            }
-        } else {
-            mGoodsInfos = orderList.getContent();
+        // 如果不是加载更多，清空当前List
+        if (!mLoadMore) {
+            // 清空当前列表
+            mGoodsInfos.clear();
         }
+        mGoodsInfos.addAll(orderList.getContent());
     }
 
     @Override

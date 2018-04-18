@@ -235,8 +235,14 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
         mUserAdapter.setmLoadMore(mLoadMore);
         // 更新当前状态
         if (status == mCurrentType) {
+            // 如果当前已经是最后一页，设置没有更多
+            if (list.isLast()) {
+                mLRecyclerView.setNoMore(true);
+            }
+            // 设置数据
             mUserAdapter.setData(list);
             mLAdapter.notifyDataSetChanged();
+            // 刷新加载数量
             int size = list.size();
             mLRecyclerView.refreshComplete(size);
         }
@@ -309,7 +315,28 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
     public BaseRequest getRequest() {
         OrderRequest request = new OrderRequest();
         if (mLoadMore) {
-            request.setPageNow(request.getPageNow() + 1);
+            //获取总页数
+            int totalPages = 0;
+            int currentPages = 0;
+            boolean isLast = false;
+            switch (mCurrentType) {
+                case ID_GET_ORDER:
+                    isLast = mOrderList.isLast();
+                    currentPages = mOrderList.getNumber();
+                    totalPages = mOrderList.getTotalPages();
+                    break;
+                case ID_GET_DONE:
+                    isLast = mDoneList.isLast();
+                    currentPages = mDoneList.getNumber();
+                    totalPages = mDoneList.getTotalPages();
+                    break;
+            }
+            // 如果已经是最后一页就加载当前页，其他加载下一页
+            if (isLast || totalPages == currentPages + 1) {
+                request.setPageNow(currentPages);
+            } else {
+                request.setPageNow(currentPages + 1);
+            }
         } else {
             request.setPageNow(0);
         }

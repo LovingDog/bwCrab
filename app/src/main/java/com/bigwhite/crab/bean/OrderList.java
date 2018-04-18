@@ -10,20 +10,49 @@ import java.util.List;
  */
 
 public class OrderList {
+    /**
+     * 订单列表
+     */
     private List<GoodsInfo> content = new ArrayList<>();
+    /**
+     * 总共元素
+     */
     private int totalElements;
-    private int totalPages;
-    private boolean last;
+    /**
+     * 当前页数
+     */
     private int number;
-    private int size;
-    private String sort;
-    private int numberOfElements;
+    /**
+     * 总页数
+     */
+    private int totalPages;
+    /**
+     * 是否是第一页
+     */
     private boolean first;
+    /**
+     * 是否是最后一页
+     */
+    private boolean last;
+
+    /**
+     * 一页数量
+     */
+    private int size;
+    /**
+     * 订单总数量
+     */
+    private int numberOfElements;
+    /**
+     * 排序
+     */
+    private String sort;
 
     public OrderList() {
     }
 
-    public OrderList(List<GoodsInfo> content, int totalElements, int totalPages, boolean last, int number, int size, String sort, int numberOfElements, boolean first) {
+    public OrderList(List<GoodsInfo> content, int totalElements, int totalPages, boolean last, int number, int size,
+                     String sort, int numberOfElements, boolean first) {
         this.content = content;
         this.totalElements = totalElements;
         this.totalPages = totalPages;
@@ -35,6 +64,46 @@ public class OrderList {
         this.first = first;
     }
 
+    public List<GoodsInfo> getContent() {
+        return content;
+    }
+
+    public void setContent(List<GoodsInfo> content) {
+        this.content = content;
+    }
+
+    public int getTotalElements() {
+        return totalElements;
+    }
+
+    public void setTotalElements(int totalElements) {
+        this.totalElements = totalElements;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
+    }
+
+    public boolean isFirst() {
+        return first;
+    }
+
+    public void setFirst(boolean first) {
+        this.first = first;
+    }
+
     public boolean isLast() {
         return last;
     }
@@ -43,19 +112,12 @@ public class OrderList {
         this.last = last;
     }
 
-    public int getNumber() {
-        return number;
-    }
-    public void setNumber(int number) {
-        this.number = number;
+    public int getSize() {
+        return size;
     }
 
-    public int getNum() {
-        return number;
-    }
-
-    public void setNum(int num) {
-        this.number = num;
+    public void setSize(int size) {
+        this.size = size;
     }
 
     public int getNumberOfElements() {
@@ -73,48 +135,7 @@ public class OrderList {
     public void setSort(String sort) {
         this.sort = sort;
     }
-
-    public boolean isFirst() {
-        return first;
-    }
-
-    public void setFirst(boolean first) {
-        this.first = first;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public int getTotalPages() {
-        return totalPages;
-    }
-
-    public void setTotalPages(int totalPages) {
-        this.totalPages = totalPages;
-    }
-
-    public int getTotalElements() {
-        return totalElements;
-    }
-
-    public void setTotalElements(int totalElements) {
-        this.totalElements = totalElements;
-    }
-
-    public List<GoodsInfo> getContent() {
-        return content;
-    }
-
-    public void setContent(List<GoodsInfo> content) {
-        this.content = content;
-    }
-
-    public int size() {
+    public int size(){
         return content.size();
     }
 
