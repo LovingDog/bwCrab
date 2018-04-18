@@ -13,6 +13,10 @@ public class OrderRequest implements BaseRequest {
     private int merchantId;
     private String token;
 
+    public OrderRequest() {
+        this.pageNow = 0;
+        this.pageSize = 10;
+    }
 
     public OrderRequest(int status) {
         this.pageNow = 0;

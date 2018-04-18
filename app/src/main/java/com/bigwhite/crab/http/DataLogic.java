@@ -1,12 +1,14 @@
 package com.bigwhite.crab.http;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bigwhite.crab.base.APIService;
 import com.bigwhite.crab.base.GlobalField;
 import com.bigwhite.crab.base.HttpCallBack;
 import com.bigwhite.crab.bean.JsonResultBean;
+import com.bigwhite.crab.bean.MerchantList;
 import com.bigwhite.crab.bean.UserHttpResult;
 import com.bigwhite.crab.ui.dummy.login.LoginRequest;
 import com.bigwhite.crab.ui.dummy.login.UserInfo;
@@ -53,7 +55,9 @@ public class DataLogic {
      * @param callBack
      */
     public void userLoginRetrofit(final int type, final LoginRequest request, final HttpCallBack callBack) {
-        RetrofitUtils.newInstence(GlobalField.BASE_URL,true)
+        Log.d("heqiang", "userLoginRetrofit -- type = " + type + ", phone = " + request.getPhone() + ", password = "
+                + request.getPassword());
+        RetrofitUtils.newInstence(GlobalField.BASE_URL, true)
                 .create(APIService.class)
                 .userLogin(request.getPhone(), request.getPassword())
                 .subscribeOn(Schedulers.newThread())
@@ -63,42 +67,40 @@ public class DataLogic {
 
                     @Override
                     public void onCompleted() {
+                        Log.d("heqiang", "userLoginRetrofit -- onCompleted");
                         callBack.onCompleted(type, userInfo);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.d("heqiang", "userLoginRetrofit -- onError ", e);
                     }
 
                     @Override
                     public void onNext(UserHttpResult userHttpResult) {
-
+                        Log.d("heqiang", "userLoginRetrofit -- onNext");
                         String jsonData = userHttpResult.getObject().toString();
                         userInfo = GsonUtil.parseJsonWithGson(jsonData, UserInfo.class);
                     }
                 });
     }
 
-
     /**
-     * Get tht order list.
+     * Get the goods.
      *
-     * @param type
-     * @param request
-     * @param callBack
+     * @param type     请求类型
+     * @param request  请求参数
+     * @param callBack 请求回调
+     * @param context  请求上下文
      */
-
-
-    public void getOrderListRetrofit(final int type, final OrderRequest request, final HttpCallBack<OrderList>
+    public void getGoodsListRetrofit(final int type, final OrderRequest request, final HttpCallBack<OrderList>
             callBack, final Context context) {
-        RetrofitUtils.newInstence(GlobalField.GOODS_ORDER_URL,false)
+        RetrofitUtils.newInstence(GlobalField.GOODS_URL, false)
                 .create(APIService.class)
-                .getOrderInfo(request.getPageNow(), request.getPageSize(), request.getStatus(),
-                        request.getMerchantId(), request.getToken())
+                .getMerchants(request.getPageNow(), request.getPageSize(), request.getMerchantId(), request.getToken())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<UserHttpResult<OrderList>>() {
+                .subscribe(new Subscriber<UserHttpResult<MerchantList>>() {
                     @Override
                     public void onCompleted() {
 
@@ -106,13 +108,48 @@ public class DataLogic {
 
                     @Override
                     public void onError(Throwable e) {
-                        callBack.onError(type,"");
+
+                    }
+
+                    @Override
+                    public void onNext(UserHttpResult<MerchantList> merchantListUserHttpResult) {
+
+                    }
+                });
+    }
+
+    /**
+     * Get the order list.
+     *
+     * @param type     请求类型
+     * @param request  请求参数
+     * @param callBack 请求回调
+     * @param context  请求上下文
+     */
+    public void getOrderListRetrofitByStatus(final int type, final OrderRequest request, final HttpCallBack<OrderList>
+            callBack, final Context context) {
+        RetrofitUtils.newInstence(GlobalField.ORDER_URL, false)
+                .create(APIService.class)
+                .getOrderInfo(request.getPageNow(), request.getPageSize(), request.getStatus(),
+                        request.getMerchantId(), request.getToken())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<UserHttpResult<OrderList>>() {
+                    private OrderList orderList;
+
+                    @Override
+                    public void onCompleted() {
+                        callBack.onCompleted(type, orderList);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onError(type, "");
                     }
 
                     @Override
                     public void onNext(UserHttpResult<OrderList> userHttpResult) {
-                        OrderList orderList = (OrderList) userHttpResult.getObject();
-                        callBack.onCompleted(type,orderList);
+                        orderList = (OrderList) userHttpResult.getObject();
                     }
                 });
     }

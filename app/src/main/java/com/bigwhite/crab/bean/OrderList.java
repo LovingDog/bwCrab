@@ -14,16 +14,13 @@ public class OrderList {
     private int totalElements;
     private int totalPages;
     private boolean last;
-
     private int number;
-
     private int size;
     private String sort;
     private int numberOfElements;
     private boolean first;
 
     public OrderList() {
-
     }
 
     public OrderList(List<GoodsInfo> content, int totalElements, int totalPages, boolean last, int number, int size, String sort, int numberOfElements, boolean first) {

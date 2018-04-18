@@ -69,7 +69,8 @@
                         android:layout_weight="1"
                         android:background="?attr/selectableItemBackground"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/release_count"
@@ -92,7 +93,8 @@
                     <View
                         android:layout_width="1dp"
                         android:layout_height="@dimen/user_info_divider_height"
-                        android:background="@color/userInfoLine" />
+                        android:background="@color/userInfoLine"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/orders_layout"

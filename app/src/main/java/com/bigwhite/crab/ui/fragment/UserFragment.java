@@ -15,6 +15,7 @@ import com.bigwhite.crab.R;
 import com.bigwhite.crab.base.BaseFragment;
 import com.bigwhite.crab.base.BaseRequest;
 import com.bigwhite.crab.base.HttpCallBack;
+import com.bigwhite.crab.bean.MerchantList;
 import com.bigwhite.crab.http.DataLogic;
 import com.bigwhite.crab.ui.dummy.login.UserInfo;
 import com.bigwhite.crab.ui.adapter.UserAdapter;
@@ -43,17 +44,56 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
     private LRecyclerView mLRecyclerView;
     private LRecyclerViewAdapter mLAdapter;
     private UserAdapter mUserAdapter;
+    /**
+     * 用户信息
+     *
+     * @deprecated
+     */
     private UserInfo mUserInfo;
-    private OrderList mCurrentOrderList = new OrderList();
+    /**
+     * 未接订单
+     */
+    private OrderList mOrderList = new OrderList();
+    /**
+     * 已接订单
+     */
+    private OrderList mDoneList = new OrderList();
+    /**
+     * 发布商品列表
+     *
+     * @deprecated
+     */
+    private MerchantList mMerchantList = new MerchantList();
 
+    /**
+     * 当前页面
+     */
     private int mCurrentPageSize = 0;
-    private int mCurrentType = TYPE_ORDER_MODEL;
-    private static final int TYPE_RELEASE_MODEL = 0;
-    private static final int TYPE_ORDER_MODEL = 1;
-    private static final int TYPE_DONE_MODEL = 2;
+    /**
+     * 当前类型
+     */
+    private int mCurrentType = ID_GET_ORDER;
 
-    private static final int ID_GET_USER = 0;
-    private static final int ID_GET_ORDERS = 1;
+    /**
+     * 获取用户ID
+     *
+     * @deprecated
+     */
+    private static final int ID_GET_USER = 3;
+    /**
+     * 获取未接订单ID
+     */
+    private static final int ID_GET_ORDER = 0;
+    /**
+     * 获取已接订单ID
+     */
+    private static final int ID_GET_DONE = 1;
+    /**
+     * 获取商品订单ID
+     *
+     * @deprecated
+     */
+    private static final int ID_GET_RELEASE = 2;
     private boolean mLoadMore = false;
 
     public UserFragment() {
@@ -79,6 +119,11 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
         initData();
     }
 
+    /**
+     * Init the UI.
+     *
+     * @param view root view
+     */
     private void initUI(View view) {
         view.findViewById(R.id.release_layout).setOnClickListener(this);
         view.findViewById(R.id.orders_layout).setOnClickListener(this);
@@ -98,9 +143,12 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
         mLRecyclerView.setOnNetWorkErrorListener(this);
     }
 
+    /**
+     * Init the data.
+     */
     private void initData() {
         mUserAdapter = new UserAdapter(getActivity());
-        mUserAdapter.setData(mCurrentOrderList);
+        mUserAdapter.setData(mOrderList);
         mLAdapter = new LRecyclerViewAdapter(mUserAdapter);
         mLRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mLRecyclerView.setAdapter(mLAdapter);
@@ -113,7 +161,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getOrders();
+        getAllData();
     }
 
     @Override
@@ -125,20 +173,21 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.release_layout:
-                mTitleView.setText(R.string.default_release_title);
-                mCurrentType = TYPE_RELEASE_MODEL;
-                getOrders();
-                break;
+            //15195756146  123456
+//            case R.id.release_layout:
+//                mTitleView.setText(R.string.default_release_title);
+//                mCurrentType = ID_GET_RELEASE;
+//                getOrders();
+//                break;
             case R.id.orders_layout:
                 mTitleView.setText(R.string.default_orders_title);
-                mCurrentType = TYPE_ORDER_MODEL;
-                getOrders();
+                mCurrentType = ID_GET_ORDER;
+                initOrderList(mCurrentType, mOrderList);
                 break;
             case R.id.done_layout:
                 mTitleView.setText(R.string.default_done_title);
-                mCurrentType = TYPE_DONE_MODEL;
-                getOrders();
+                mCurrentType = ID_GET_DONE;
+                initOrderList(mCurrentType, mDoneList);
                 break;
         }
     }
@@ -146,25 +195,26 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onRefresh() {
         mLoadMore = false;
-        getOrders();
+        getAllData();
     }
 
     @Override
     public void onLoadMore() {
         mLoadMore = true;
-        getOrders();
+        getOrdersByStatus(mCurrentType);
     }
 
     @Override
     public void reload() {
         mLoadMore = false;
-        getOrders();
+        getAllData();
     }
 
     /**
      * Init the user info.
      *
      * @param userInfo
+     * @deprecated
      */
     private void initUser(UserInfo userInfo) {
         String name = userInfo.getName();
@@ -181,23 +231,25 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
     /**
      * Init the order list.
      */
-    private void initOrderList(OrderList list) {
+    private void initOrderList(int status, OrderList list) {
         mUserAdapter.setmLoadMore(mLoadMore);
-        mUserAdapter.setData(list);
-        mLAdapter.notifyDataSetChanged();
-        int size = 0;
-        if (mCurrentOrderList != null) {
-            size = mCurrentOrderList.size();
+        // 更新当前状态
+        if (status == mCurrentType) {
+            mUserAdapter.setData(list);
+            mLAdapter.notifyDataSetChanged();
+            int size = list.size();
+            mLRecyclerView.refreshComplete(size);
         }
-        mLRecyclerView.refreshComplete(size);
-        switch (mCurrentType) {
-            case TYPE_RELEASE_MODEL:
-                mReleaseCount.setText(String.valueOf(list.getTotalElements()));
-                break;
-            case TYPE_ORDER_MODEL:
+        switch (status) {
+//            case ID_GET_RELEASE:
+//                mReleaseCount.setText(String.valueOf(list.getTotalElements()));
+//                break;
+            case ID_GET_ORDER:
+                mOrderList = list;
                 mOrdersCount.setText(String.valueOf(list.getTotalElements()));
                 break;
-            case TYPE_DONE_MODEL:
+            case ID_GET_DONE:
+                mDoneList = list;
                 mDoneCount.setText(String.valueOf(list.getTotalElements()));
                 break;
         }
@@ -207,12 +259,13 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onCompleted(int type, Object o) {
         switch (type) {
-            case ID_GET_ORDERS:
-                initOrderList((OrderList) o);
+            case ID_GET_ORDER:
+            case ID_GET_DONE:
+                initOrderList(type, (OrderList) o);
                 break;
-            case ID_GET_USER:
-                initUser((UserInfo) o);
-                break;
+//            case ID_GET_USER:
+//                initUser((UserInfo) o);
+//                break;
         }
     }
 
@@ -222,17 +275,41 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     /**
-     * Get the orders.
+     * Get all the orders.
      */
-    private void getOrders() {
-        DataLogic.getInstance().getOrderListRetrofit(ID_GET_ORDERS, (OrderRequest) getRequest(), this,getActivity());
+    private void getAllData() {
+        // 获取已经发布的商品
+//        getGoods();
+        // 获取未接订单
+        getOrdersByStatus(ID_GET_ORDER);
+        // 获取已接订单
+        getOrdersByStatus(ID_GET_DONE);
+    }
+
+    /**
+     * 获取已经发布信息
+     */
+    private void getGoods() {
+        OrderRequest request = (OrderRequest) getRequest();
+        DataLogic.getInstance().getGoodsListRetrofit(ID_GET_ORDER, request, this, getActivity());
+    }
+
+    /**
+     * 通过状态获取订单
+     *
+     * @param status
+     */
+    private void getOrdersByStatus(int status) {
+        OrderRequest request = (OrderRequest) getRequest();
+        request.setStatus(status);
+        DataLogic.getInstance().getOrderListRetrofitByStatus(status, request, this, getActivity());
     }
 
     @Override
     public BaseRequest getRequest() {
-        OrderRequest request = new OrderRequest(mCurrentType);
+        OrderRequest request = new OrderRequest();
         if (mLoadMore) {
-            request.setPageNow(request.getPageNow()+1);
+            request.setPageNow(request.getPageNow() + 1);
         } else {
             request.setPageNow(0);
         }
