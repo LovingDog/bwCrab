@@ -185,12 +185,24 @@
 
         </LinearLayout>
 
-        <com.github.jdsjlzx.recyclerview.LRecyclerView
-            android:id="@+id/recycler_view"
+        <android.support.v7.widget.ContentFrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/title_layout"
-            android:layout_marginTop="@dimen/user_list_margin_top"
-            android:visibility="visible" />
+            android:layout_marginTop="@dimen/user_list_margin_top">
+
+            <com.github.jdsjlzx.recyclerview.LRecyclerView
+                android:id="@+id/recycler_view0"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible" />
+
+            <com.github.jdsjlzx.recyclerview.LRecyclerView
+                android:id="@+id/recycler_view1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible" />
+        </android.support.v7.widget.ContentFrameLayout>
+
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
