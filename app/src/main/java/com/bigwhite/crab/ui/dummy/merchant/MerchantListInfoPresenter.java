@@ -30,4 +30,19 @@ public class MerchantListInfoPresenter implements MerchantsContract.MerchantList
             }
         });
     }
+
+    @Override
+    public void delete() {
+        mMerchantListInfoModel.upLoad(mMerchantListView.getGoodId(), mMerchantListView.getToke(), new OnHttpCallBack() {
+            @Override
+            public void onSuccessful(Object o) {
+                mMerchantListView.deleteSuccess();
+            };
+
+            @Override
+            public void onFailed(String errorMsg) {
+                mMerchantListView.deleteFail(errorMsg);
+            }
+        });
+    }
 }

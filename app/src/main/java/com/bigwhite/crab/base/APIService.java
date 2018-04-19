@@ -79,4 +79,10 @@ public interface APIService {
             @Query("merchantId") int merchantId,
             @Query("token") String token
     );
+
+    @GET("remove.do")
+    Observable<UserHttpResult<Object>> deletMmerchantById(
+            @Query("goodsId") int merchantId,
+            @Query("token") String token
+    );
 }

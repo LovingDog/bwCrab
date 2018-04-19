@@ -38,9 +38,40 @@ public class MerchantListInfoModel implements MerchantsContract.MerchantListMode
 
                     @Override
                     public void onNext(UserHttpResult<MerchantList> userHttpResult) {
-                        MerchantList orderList = (MerchantList) userHttpResult.getObject();
+                        MerchantList orderList =  userHttpResult.getObject();
                         callBack.onSuccessful(orderList);
                     }
                 });
+    }
+
+    @Override
+    public void upLoad(int id, String token, final OnHttpCallBack callBack) {
+        RetrofitUtils.newInstence(GlobalField.GOODS_BASEURL,false)
+                .create(APIService.class)
+                .deletMmerchantById(id,token)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<UserHttpResult<Object>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(UserHttpResult<Object> objectUserHttpResult) {
+                        Object o = (MerchantList) objectUserHttpResult.getObject();
+                        if (objectUserHttpResult.getCode() == 1001) {
+                            callBack.onSuccessful(o);
+                        } else {
+                            callBack.onFailed(objectUserHttpResult.getDesc());
+                        }
+                    }
+                });
+
     }
 }

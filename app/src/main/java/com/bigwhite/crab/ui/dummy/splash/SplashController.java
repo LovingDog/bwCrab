@@ -59,7 +59,7 @@ public class SplashController {
     public void doLoginSession(final Context context){
         //do login
 
-        RetrofitUtils.newInstence(GlobalField.BASE_URL,true)
+        RetrofitUtils.newInstence(GlobalField.LOGIN_URL,true)
                 .create(APIService.class)
                 .userLogin("18226981749", Utils.md5("123456"))
                 .subscribeOn(Schedulers.newThread())

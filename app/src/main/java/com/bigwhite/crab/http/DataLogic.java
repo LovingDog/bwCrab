@@ -57,7 +57,7 @@ public class DataLogic {
     public void userLoginRetrofit(final int type, final LoginRequest request, final HttpCallBack callBack) {
         Log.d("heqiang", "userLoginRetrofit -- type = " + type + ", phone = " + request.getPhone() + ", password = "
                 + request.getPassword());
-        RetrofitUtils.newInstence(GlobalField.BASE_URL, true)
+        RetrofitUtils.newInstence(GlobalField.LOGIN_URL, true)
                 .create(APIService.class)
                 .userLogin(request.getPhone(), request.getPassword())
                 .subscribeOn(Schedulers.newThread())

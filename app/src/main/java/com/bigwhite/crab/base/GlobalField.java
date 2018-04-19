@@ -6,7 +6,7 @@ package com.bigwhite.crab.base;
  */
 public class GlobalField {
     public static final String BASE_URL = "http://101.37.149.35:8686/";
-
+    public static final String LOGIN_URL = "http://101.37.149.35:8686/system/";
     public static final String DEFAULT_SHARED_PREFERENCE = "BIG_WHITE";
     public static final String KEY_ID = "id";
     public static final String KEY_NAME = "name";

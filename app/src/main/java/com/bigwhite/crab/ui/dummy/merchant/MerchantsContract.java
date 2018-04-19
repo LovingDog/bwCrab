@@ -14,6 +14,9 @@ public class MerchantsContract {
         void reFreshActivity();
         int getPageNow();
         int getPageSize();
+        int getGoodId();
+        void deleteSuccess();
+        void deleteFail(String error);
         String getToke();
         int getMerchantid();
 
@@ -21,9 +24,11 @@ public class MerchantsContract {
 
     public interface MerchantListPresenter{
         void upLoad();
+        void delete();
     }
 
     public interface MerchantListModel {
         void upLoad(int pageNow,int pageSize,String token,int merchantId,OnHttpCallBack callBack);
+        void upLoad(int id,String token,OnHttpCallBack callBack);
     }
 }

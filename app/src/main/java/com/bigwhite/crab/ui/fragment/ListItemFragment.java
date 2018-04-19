@@ -6,12 +6,15 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigwhite.crab.R;
 import com.bigwhite.crab.base.BaseFragment;
@@ -21,6 +24,8 @@ import com.bigwhite.crab.ui.dummy.merchant.MerchantListInfoPresenter;
 import com.bigwhite.crab.ui.dummy.merchant.MerchantsContract;
 import com.bigwhite.crab.ui.dummy.order.Goods;
 import com.bigwhite.crab.utils.DividerItemDecoration;
+import com.bigwhite.crab.utils.RecyclerViewSpacesItemDecoration;
+import com.bigwhite.crab.utils.ToastUtils;
 import com.bigwhite.crab.utils.Utils;
 import com.bumptech.glide.Glide;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
@@ -33,7 +38,12 @@ import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import static com.bigwhite.crab.utils.RecyclerViewSpacesItemDecoration.BOTTOM_DECORATION;
+import static com.bigwhite.crab.utils.RecyclerViewSpacesItemDecoration.LEFT_DECORATION;
+import static com.bigwhite.crab.utils.RecyclerViewSpacesItemDecoration.RIGHT_DECORATION;
 
 /**
  * A fragment representing a list of Items.
@@ -50,6 +60,9 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
     private boolean mLoadMore;
     private int mScreenWidth;
     private int mDecoration = 30;
+    private HashMap<String, Integer> map;
+    private RecyclerViewSpacesItemDecoration mSpace;
+    private int mGoodId;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -95,9 +108,38 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
         mLRecyclerView.setOnRefreshListener(this);
         mLRecyclerView.setOnLoadMoreListener(this);
         mLRecyclerView.setOnNetWorkErrorListener(this);
-        mLRecyclerView.addItemDecoration(new DividerItemDecoration(context));
+        map = new HashMap<String,Integer>();
+        map.put(BOTTOM_DECORATION,15);
+        map.put(RIGHT_DECORATION,8);
+        map.put(LEFT_DECORATION,8);
+        mSpace = new RecyclerViewSpacesItemDecoration(map);
+        mLRecyclerView.addItemDecoration(mSpace);
         return view;
     }
+
+    public void showPopMenu(View view, final int pos, final Goods good){
+        PopupMenu popupMenu = new PopupMenu(getActivity(),view);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_delete,popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                if (pos < 1) {
+                    return true;
+                }
+                mGoodId = good.getId();
+                mPresenter.delete();
+                mDatas.remove(pos-1);
+                mItemAdapter.notifyItemRangeRemoved(pos-1,pos);
+                return false;
+            }
+        });
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+            }
+        });
+        popupMenu.show();
+    }
+
 
     @Override
     public void onDestroyView() {
@@ -133,13 +175,20 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
     public void setAdapter(List<Goods> mDatas) {
         mItemAdapter = new CommonAdapter<Goods>(getActivity(), R.layout.layout_crab_detail, mDatas) {
             @Override
-            protected void convert(ViewHolder holder, Goods good, int position) {
+            protected void convert(ViewHolder holder, final Goods good, final int position) {
                 holder.setText(R.id.product_price, getString(R.string.CNY) + good.getPrice());
                 ((TextView) holder.getView(R.id.product_price)).getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 holder.setText(R.id.product_integral, good.getIntegral() + "");
                 holder.setText(R.id.product_description, good.getInfo());
-                ImageView preview = holder.getView(R.id.product_preview);
+                final ImageView preview = holder.getView(R.id.product_preview);
                 int width = mScreenWidth - mDecoration * 3;
+                holder.getConvertView().setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        showPopMenu(preview,position,good);
+                        return false;
+                    }
+                });
                 preview.setLayoutParams(new LinearLayout.LayoutParams(width, width));
                 Glide.with(getActivity()).load(good.getPics()).placeholder(R.mipmap.thumbnail_bg).override(width, width).into(preview);
             }
@@ -182,6 +231,25 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
     @Override
     public int getPageSize() {
         return 10;
+    }
+
+    @Override
+    public int getGoodId() {
+        return mGoodId;
+    }
+
+    @Override
+    public void deleteSuccess() {
+        if (mDatas.size() > 0 ) {
+            mLRecyclerView.refreshComplete(mDatas.size());
+            setAdapter(mDatas);
+        }
+        ToastUtils.showToast(getActivity().getApplicationContext(),"删除成功");
+    }
+
+    @Override
+    public void deleteFail(String error) {
+        ToastUtils.showToast(getActivity().getApplicationContext(),error);
     }
 
     @Override
