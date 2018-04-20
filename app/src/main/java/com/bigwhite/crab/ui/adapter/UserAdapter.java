@@ -64,11 +64,12 @@ public class UserAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private class UserViewHolder extends RecyclerView.ViewHolder {
+    public class UserViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView address;
         TextView phone;
         TextView point;
+        GoodsInfo info;
 
         UserViewHolder(View itemView) {
             super(itemView);
@@ -79,6 +80,7 @@ public class UserAdapter extends RecyclerView.Adapter {
         }
 
         public void initData(GoodsInfo info) {
+            this.info = info;
             name.setText(info.getUsername());
             address.setText(info.getAddress());
             phone.setText(info.getPhone());
@@ -88,6 +90,14 @@ public class UserAdapter extends RecyclerView.Adapter {
                 pointCount = goods.getIntegral();
             }
             point.setText(pointCount + "");
+        }
+
+        public GoodsInfo getInfo() {
+            return info;
+        }
+
+        public void setInfo(GoodsInfo info) {
+            this.info = info;
         }
     }
 }

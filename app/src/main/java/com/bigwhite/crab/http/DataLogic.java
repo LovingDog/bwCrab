@@ -13,6 +13,7 @@ import com.bigwhite.crab.bean.UserHttpResult;
 import com.bigwhite.crab.ui.dummy.login.LoginRequest;
 import com.bigwhite.crab.ui.dummy.login.UserInfo;
 import com.bigwhite.crab.bean.OrderList;
+import com.bigwhite.crab.ui.dummy.order.KuaidiRequest;
 import com.bigwhite.crab.ui.dummy.order.OrderRequest;
 import com.bigwhite.crab.utils.GsonUtil;
 
@@ -55,8 +56,6 @@ public class DataLogic {
      * @param callBack
      */
     public void userLoginRetrofit(final int type, final LoginRequest request, final HttpCallBack callBack) {
-        Log.d("heqiang", "userLoginRetrofit -- type = " + type + ", phone = " + request.getPhone() + ", password = "
-                + request.getPassword());
         RetrofitUtils.newInstence(GlobalField.LOGIN_URL, true)
                 .create(APIService.class)
                 .userLogin(request.getPhone(), request.getPassword())
@@ -67,18 +66,16 @@ public class DataLogic {
 
                     @Override
                     public void onCompleted() {
-                        Log.d("heqiang", "userLoginRetrofit -- onCompleted");
                         callBack.onCompleted(type, userInfo);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("heqiang", "userLoginRetrofit -- onError ", e);
+                        callBack.onError(type, e.getMessage());
                     }
 
                     @Override
                     public void onNext(UserHttpResult userHttpResult) {
-                        Log.d("heqiang", "userLoginRetrofit -- onNext");
                         String jsonData = userHttpResult.getObject().toString();
                         userInfo = GsonUtil.parseJsonWithGson(jsonData, UserInfo.class);
                     }
@@ -91,10 +88,9 @@ public class DataLogic {
      * @param type     请求类型
      * @param request  请求参数
      * @param callBack 请求回调
-     * @param context  请求上下文
      */
     public void getGoodsListRetrofit(final int type, final OrderRequest request, final HttpCallBack<OrderList>
-            callBack, final Context context) {
+            callBack) {
         RetrofitUtils.newInstence(GlobalField.GOODS_URL, false)
                 .create(APIService.class)
                 .getMerchants(request.getPageNow(), request.getPageSize(), request.getMerchantId(), request.getToken())
@@ -124,10 +120,9 @@ public class DataLogic {
      * @param type     请求类型
      * @param request  请求参数
      * @param callBack 请求回调
-     * @param context  请求上下文
      */
     public void getOrderListRetrofitByStatus(final int type, final OrderRequest request, final HttpCallBack<OrderList>
-            callBack, final Context context) {
+            callBack) {
         RetrofitUtils.newInstence(GlobalField.ORDER_URL, false)
                 .create(APIService.class)
                 .getOrderInfo(request.getPageNow(), request.getPageSize(), request.getStatus(),
@@ -136,20 +131,63 @@ public class DataLogic {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<UserHttpResult<OrderList>>() {
                     private OrderList orderList;
+                    private boolean success;
 
                     @Override
                     public void onCompleted() {
-                        callBack.onCompleted(type, orderList);
+                        if (success) {
+                            callBack.onCompleted(type, orderList);
+                        } else {
+                            callBack.onError(type, "获取订单失败！");
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        callBack.onError(type, "");
+                        callBack.onError(type, e.getMessage());
                     }
 
                     @Override
                     public void onNext(UserHttpResult<OrderList> userHttpResult) {
-                        orderList = (OrderList) userHttpResult.getObject();
+                        success = "request success".equals(userHttpResult.getDesc());
+                        orderList = userHttpResult.getObject();
+                    }
+                });
+    }
+
+    /**
+     * 更新快递信息
+     *
+     * @param type     请求类型
+     * @param request  请求参数
+     * @param callBack 请求回调
+     */
+    public void updateKuaidi(final int type, final KuaidiRequest request, final HttpCallBack callBack) {
+        RetrofitUtils.newInstence(GlobalField.ORDER_URL, false)
+                .create(APIService.class)
+                .updateKuaidi(request.getId(), request.getKuaidiNum(), request.getToken())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<UserHttpResult>() {
+                    boolean success = false;
+
+                    @Override
+                    public void onCompleted() {
+                        if (success) {
+                            callBack.onCompleted(type, new Object());
+                        } else {
+                            callBack.onError(type, "更新订单号失败！");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onError(type, e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(UserHttpResult userHttpResult) {
+                        success = "request success".equals(userHttpResult.getDesc());
                     }
                 });
     }

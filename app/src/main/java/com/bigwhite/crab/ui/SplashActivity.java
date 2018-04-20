@@ -56,10 +56,11 @@ public class SplashActivity extends AppCompatActivity implements SplashOutListen
     }
 
     private void judgeLogin() {
-        if (mAppPreference.getLoginToken().equals("")) {
-            startActivity(new Intent(this, LoginActivity.class));
-        } else {
-            mSplashController.doLoginSession(this);
-        }
+        startActivity(new Intent(this,MainActivity.class));
+//        if (mAppPreference.getLoginToken().equals("")) {
+//            startActivity(new Intent(this, LoginActivity.class));
+//        } else {
+//            mSplashController.doLoginSession(this);
+//        }
     }
 }

@@ -61,7 +61,7 @@
             android:theme="@style/AppTheme.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".utils.PermissionsActivity" />
-
+        <activity android:name=".ui.OrderDetail"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

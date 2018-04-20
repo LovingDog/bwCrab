@@ -72,6 +72,15 @@ public interface APIService {
             @Query("password") String password
     );
 
+    /**
+     * 获取商品信息
+     *
+     * @param pageNow
+     * @param pageSize
+     * @param merchantId
+     * @param token
+     * @return
+     */
     @GET("findPageByCondition.do")
     Observable<UserHttpResult<MerchantList>> getMerchants(
             @Query("pageNow") int pageNow,
@@ -85,4 +94,21 @@ public interface APIService {
             @Query("goodsId") int merchantId,
             @Query("token") String token
     );
+
+
+    /**
+     * 更新快递信息
+     *
+     * @param id
+     * @param kuaidiNum
+     * @param token
+     * @return
+     */
+    @GET("findPageByCondition.do")
+    Observable<UserHttpResult> updateKuaidi(
+            @Query("id") long id,
+            @Query("kuaidiNum") String kuaidiNum,
+            @Query("token") String token
+    );
+
 }

@@ -1,5 +1,7 @@
 package com.bigwhite.crab.ui.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -18,17 +20,21 @@ import com.bigwhite.crab.base.BaseRequest;
 import com.bigwhite.crab.base.HttpCallBack;
 import com.bigwhite.crab.bean.MerchantList;
 import com.bigwhite.crab.http.DataLogic;
+import com.bigwhite.crab.ui.OrderDetail;
 import com.bigwhite.crab.ui.dummy.login.UserInfo;
 import com.bigwhite.crab.ui.adapter.UserAdapter;
 import com.bigwhite.crab.bean.OrderList;
 import com.bigwhite.crab.ui.dummy.order.GoodsInfo;
+import com.bigwhite.crab.ui.dummy.order.KuaidiRequest;
 import com.bigwhite.crab.ui.dummy.order.OrderRequest;
+import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnNetWorkErrorListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +44,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Fragment to show the user.
  */
 public class UserFragment extends BaseFragment implements View.OnClickListener, OnRefreshListener, OnLoadMoreListener,
-        OnNetWorkErrorListener, HttpCallBack {
+        OnNetWorkErrorListener, HttpCallBack, OnItemClickListener {
 
     private TextView mReleaseCount;
     private TextView mOrdersCount;
@@ -114,6 +120,10 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
      * 获取已接订单ID
      */
     private static final int ID_GET_DONE = 1;
+    /**
+     * 更新快递信息
+     */
+    private static final int ID_UPDATE_KUAIDI = 4;
     /**
      * 获取商品订单ID
      *
@@ -196,42 +206,52 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
      * Init the data.
      */
     private void initData() {
+//        initFadeData();
         /**
          * 初始化未接订单数据
          */
         mUserAdapter0 = new UserAdapter(getActivity());
-//        mUserAdapter0.setData(mOrderList);
+        mUserAdapter0.setData(mOrderList);
         mLAdapter0 = new LRecyclerViewAdapter(mUserAdapter0);
+        mLAdapter0.setOnItemClickListener(this);
         mLRecyclerView0.setAdapter(mLAdapter0);
+        mLRecyclerView0.setLoadMoreEnabled(true);
 
         /**
          * 初始化已接订单数据
          */
         mUserAdapter1 = new UserAdapter(getActivity());
-//        mUserAdapter1.setData(mDoneList);
+        mUserAdapter1.setData(mDoneList);
         mLAdapter1 = new LRecyclerViewAdapter(mUserAdapter1);
-        mLRecyclerView0.setAdapter(mLAdapter1);
-
-        // 假数据
-//        mOrderList.setTotalElements(10);
-//        List<GoodsInfo> goods = new ArrayList<>();
-//        goods.add(new GoodsInfo());
-//        goods.add(new GoodsInfo());
-//        goods.add(new GoodsInfo());
-//        goods.add(new GoodsInfo());
-//        goods.add(new GoodsInfo());
-//        goods.add(new GoodsInfo());
-//        goods.add(new GoodsInfo());
-//        goods.add(new GoodsInfo());
-//        goods.add(new GoodsInfo());
-//        mOrderList.setContent(goods);
-//        mDoneList.setTotalElements(15);
-//        List<GoodsInfo> done = new ArrayList<>();
-//        done.add(new GoodsInfo());
-//        mDoneList.setContent(done);
+        mLAdapter1.setOnItemClickListener(this);
+        mLRecyclerView1.setAdapter(mLAdapter1);
+        mLRecyclerView1.setLoadMoreEnabled(true);
 
         initOrderList(ID_GET_ORDER, mOrderList);
         initOrderList(ID_GET_DONE, mDoneList);
+    }
+
+    /**
+     * 生成假数据
+     */
+    private void initFadeData() {
+        // 假数据
+        mOrderList.setTotalElements(3);
+        mOrderList.setLast(true);
+        List<GoodsInfo> order = new ArrayList<>();
+        order.add(new GoodsInfo());
+        order.add(new GoodsInfo());
+        order.add(new GoodsInfo());
+        mOrderList.setContent(order);
+        mDoneList.setTotalElements(5);
+        List<GoodsInfo> done = new ArrayList<>();
+        done.add(new GoodsInfo());
+        done.add(new GoodsInfo());
+        done.add(new GoodsInfo());
+        done.add(new GoodsInfo());
+        done.add(new GoodsInfo());
+        mDoneList.setContent(done);
+        mDoneList.setLast(true);
     }
 
     @Override
@@ -249,7 +269,6 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            //15195756146  123456
 //            case R.id.release_layout:
 //                mTitleView.setText(R.string.default_release_title);
 //                mCurrentType = ID_GET_RELEASE;
@@ -260,16 +279,16 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
                 mCurrentType = ID_GET_ORDER;
                 initOrderList(ID_GET_ORDER, mOrderList);
                 // 显示未接订单
-                mLRecyclerView1.setVisibility(View.VISIBLE);
-                mLRecyclerView0.setVisibility(View.GONE);
+                mLRecyclerView0.setVisibility(View.VISIBLE);
+                mLRecyclerView1.setVisibility(View.INVISIBLE);
                 break;
             case R.id.done_layout:
                 mTitleView.setText(R.string.default_done_title);
                 mCurrentType = ID_GET_DONE;
                 initOrderList(ID_GET_DONE, mDoneList);
                 // 显示已接订单
-                mLRecyclerView0.setVisibility(View.VISIBLE);
-                mLRecyclerView1.setVisibility(View.GONE);
+                mLRecyclerView0.setVisibility(View.INVISIBLE);
+                mLRecyclerView1.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -277,7 +296,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onRefresh() {
         mLoadMore = false;
-        getAllData();
+        getOrdersByStatus(mCurrentType);
     }
 
     @Override
@@ -313,7 +332,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
     /**
      * Init the order list.
      */
-    private void initOrderList(int status, OrderList list) {
+    private synchronized void initOrderList(int status, OrderList list) {
         // 没有数据不加载
         if (list == null) {
             return;
@@ -328,33 +347,36 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
                 // 设置未接订单是否加载更多
                 mUserAdapter0.setmLoadMore(mLoadMore);
                 // 如果当前已经是最后一页，设置未接订单没有更多
-                if (isLast) {
-                    mLRecyclerView0.setNoMore(true);
+                mLRecyclerView0.setNoMore(isLast);
+                // 数据更新时才刷新
+                if (mOrderList != list) {
+                    // 设置未接订单数据
+                    mUserAdapter0.setData(list);
+                    mLAdapter0.notifyDataSetChanged();
+                    mOrderList = list;
                 }
-                // 设置未接订单数据
-                mUserAdapter0.setData(list);
-                mLAdapter0.notifyDataSetChanged();
                 // 刷新未接订单加载数量
                 mLRecyclerView0.refreshComplete(mUserAdapter0.getItemCount());
-                mOrderList = list;
                 mOrdersCount.setText(String.valueOf(total));
                 break;
             case ID_GET_DONE:
                 // 设置已接订单是否加载更多
                 mUserAdapter1.setmLoadMore(mLoadMore);
                 // 如果当前已经是最后一页，设置未接订单没有更多
-                if (isLast) {
-                    mLRecyclerView1.setNoMore(true);
+                mLRecyclerView1.setNoMore(isLast);
+                // 数据更新时才刷新
+                if (mDoneList != list) {
+                    // 设置已接订单数据
+                    mUserAdapter1.setData(list);
+                    mLAdapter1.notifyDataSetChanged();
+                    mDoneList = list;
                 }
-                // 设置已接订单数据
-                mUserAdapter1.setData(list);
-                mLAdapter1.notifyDataSetChanged();
                 // 刷新未接订单加载数量
                 mLRecyclerView1.refreshComplete(mUserAdapter1.getItemCount());
-                mDoneList = list;
                 mDoneCount.setText(String.valueOf(total));
                 break;
         }
+
     }
 
     @Override
@@ -363,6 +385,9 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
             case ID_GET_ORDER:
             case ID_GET_DONE:
                 initOrderList(type, (OrderList) o);
+                break;
+            case ID_UPDATE_KUAIDI:
+                getAllData();
                 break;
 //            case ID_GET_USER:
 //                initUser((UserInfo) o);
@@ -399,7 +424,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
      */
     private void getGoods() {
         OrderRequest request = (OrderRequest) getRequest();
-        DataLogic.getInstance().getGoodsListRetrofit(ID_GET_ORDER, request, this, getActivity());
+        DataLogic.getInstance().getGoodsListRetrofit(ID_GET_ORDER, request, this);
     }
 
     /**
@@ -410,7 +435,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
     private void getOrdersByStatus(int status) {
         OrderRequest request = (OrderRequest) getRequest();
         request.setStatus(status);
-        DataLogic.getInstance().getOrderListRetrofitByStatus(status, request, this, getActivity());
+        DataLogic.getInstance().getOrderListRetrofitByStatus(status, request, this);
     }
 
     @Override
@@ -445,5 +470,50 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
         request.setMerchantId((int) id);
         request.setToken(token);
         return request;
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        GoodsInfo info = null;
+        UserAdapter.UserViewHolder holder = null;
+        switch (mCurrentType) {
+            case ID_GET_ORDER:
+                holder = (UserAdapter.UserViewHolder) mLRecyclerView0.getChildViewHolder(view);
+                break;
+            case ID_GET_DONE:
+                holder = (UserAdapter.UserViewHolder) mLRecyclerView1.getChildViewHolder(view);
+                break;
+        }
+        if (holder != null) {
+            info = holder.getInfo();
+        }
+        Intent intent = new Intent(getContext(), OrderDetail.class);
+        intent.putExtra(OrderDetail.EXTRA_ORDER, info);
+        startActivityForResult(intent, OrderDetail.REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case OrderDetail.REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data != null) {
+                        Bundle extra = data.getExtras();
+                        if (extra != null) {
+                            Serializable serializable = extra.getSerializable(OrderDetail.EXTRA_ORDER);
+                            if (serializable instanceof GoodsInfo) {
+                                GoodsInfo info = (GoodsInfo) serializable;
+                                KuaidiRequest request = new KuaidiRequest();
+                                request.setId(info.getId());
+                                request.setKuaidiNum(info.getKuaidiNum());
+                                request.setToken(token);
+                                // 请求更新快递信息
+                                DataLogic.getInstance().updateKuaidi(ID_GET_ORDER, request, this);
+                            }
+                        }
+                    }
+                }
+                break;
+        }
     }
 }

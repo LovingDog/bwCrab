@@ -1,12 +1,13 @@
 package com.bigwhite.crab.ui.dummy.order;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2018/4/1 0001.
  */
 
-public class GoodsInfo {
+public class GoodsInfo implements Serializable {
     private long id;
     private String createtime;
 
