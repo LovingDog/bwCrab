@@ -2,6 +2,7 @@ package com.bigwhite.crab.ui.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,6 +21,7 @@ import com.bigwhite.crab.R;
 import com.bigwhite.crab.base.BaseFragment;
 import com.bigwhite.crab.bean.MerchantList;
 import com.bigwhite.crab.preference.AppPreference;
+import com.bigwhite.crab.ui.ShowPhotosActivity;
 import com.bigwhite.crab.ui.dummy.merchant.MerchantListInfoPresenter;
 import com.bigwhite.crab.ui.dummy.merchant.MerchantsContract;
 import com.bigwhite.crab.ui.dummy.order.Goods;
@@ -37,6 +39,7 @@ import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +66,7 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
     private HashMap<String, Integer> map;
     private RecyclerViewSpacesItemDecoration mSpace;
     private int mGoodId;
+    private int mCurrentPosition;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -122,13 +126,12 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
         popupMenu.getMenuInflater().inflate(R.menu.menu_delete,popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
+                mCurrentPosition = pos;
                 if (pos < 1) {
                     return true;
                 }
                 mGoodId = good.getId();
                 mPresenter.delete();
-                mDatas.remove(pos-1);
-                mItemAdapter.notifyItemRangeRemoved(pos-1,pos);
                 return false;
             }
         });
@@ -172,8 +175,8 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    public void setAdapter(List<Goods> mDatas) {
-        mItemAdapter = new CommonAdapter<Goods>(getActivity(), R.layout.layout_crab_detail, mDatas) {
+    public void setAdapter(final List<Goods> datas) {
+        mItemAdapter = new CommonAdapter<Goods>(getActivity(), R.layout.layout_crab_detail, datas) {
             @Override
             protected void convert(ViewHolder holder, final Goods good, final int position) {
                 holder.setText(R.id.product_price, getString(R.string.CNY) + good.getPrice());
@@ -191,6 +194,17 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
                 });
                 preview.setLayoutParams(new LinearLayout.LayoutParams(width, width));
                 Glide.with(getActivity()).load(good.getPics()).placeholder(R.mipmap.thumbnail_bg).override(width, width).into(preview);
+                holder.getConvertView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), ShowPhotosActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(ShowPhotosActivity.LIST_EXTRA, (Serializable) datas);
+                        bundle.putInt(ShowPhotosActivity.LIST_INDEX,position - 1);
+                        intent.putExtra(ShowPhotosActivity.BUNDLE, bundle);
+                        startActivityForResult(intent, 101);
+                    }
+                });
             }
         };
         mLRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), mColumnCount));
@@ -240,7 +254,9 @@ public class ListItemFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void deleteSuccess() {
-        if (mDatas.size() > 0 ) {
+        mDatas.remove(mCurrentPosition - 1);
+        mItemAdapter.notifyItemRangeRemoved(mCurrentPosition - 1, mCurrentPosition);
+        if (mDatas.size() > 0) {
             mLRecyclerView.refreshComplete(mDatas.size());
             setAdapter(mDatas);
         }

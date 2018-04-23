@@ -62,6 +62,8 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".utils.PermissionsActivity" />
         <activity android:name=".ui.OrderDetail"/>
+        <activity android:name=".ui.ShowPhotosActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

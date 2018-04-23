@@ -172,4 +172,13 @@ public class Utils {
         return saveComplete;
     }
 
+    public static MobileInfo getFileInfo(String filePath) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(filePath, options);
+        MobileInfo mobileInfo = new MobileInfo();
+        mobileInfo.setmScreenHeight(options.outWidth);
+        mobileInfo.setmScreenHeight(options.outHeight);
+        return mobileInfo;
+    }
 }
