@@ -104,7 +104,7 @@ public interface APIService {
      * @param token
      * @return
      */
-    @GET("findPageByCondition.do")
+    @GET("updateOrder.do")
     Observable<UserHttpResult> updateKuaidi(
             @Query("id") long id,
             @Query("kuaidiNum") String kuaidiNum,

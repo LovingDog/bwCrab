@@ -43,6 +43,10 @@ public class OrderDetail extends AppCompatActivity implements View.OnClickListen
         customerPhone.setText(info.getPhone());
         mKuaidi = (EditText) findViewById(R.id.kuaidi_num);
         mTemp = info.getKuaidiNum();
+        // 默认为空字串
+        if (TextUtils.isEmpty(mTemp)) {
+            mTemp = "";
+        }
         mKuaidi.setText(mTemp);
         findViewById(R.id.edit_order).setOnClickListener(this);
         findViewById(R.id.edit_done).setOnClickListener(this);
@@ -62,13 +66,13 @@ public class OrderDetail extends AppCompatActivity implements View.OnClickListen
             case R.id.edit_done:
                 // 返回之前的界面
                 String kuaidi = mKuaidi.getText().toString();
-                if (TextUtils.isEmpty(mTemp) || mTemp.equals(kuaidi)) {
+                if (mTemp.equals(kuaidi)) {
                     setResult(RESULT_CANCELED);
                 } else {
                     mInfo.setKuaidiNum(kuaidi);
                     Intent intent = new Intent();
                     intent.putExtra(EXTRA_ORDER, mInfo);
-                    setResult(RESULT_OK);
+                    setResult(RESULT_OK, intent);
                 }
                 finish();
                 break;

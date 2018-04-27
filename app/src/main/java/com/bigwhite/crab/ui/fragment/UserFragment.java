@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigwhite.crab.R;
 import com.bigwhite.crab.base.BaseFragment;
@@ -344,10 +345,11 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
 //                mReleaseCount.setText(String.valueOf(list.getTotalElements()));
 //                break;
             case ID_GET_ORDER:
-                // 设置未接订单是否加载更多
-                mUserAdapter0.setmLoadMore(mLoadMore);
                 // 如果当前已经是最后一页，设置未接订单没有更多
                 mLRecyclerView0.setNoMore(isLast);
+                mLRecyclerView0.setLoadMoreEnabled(!isLast);
+                // 设置未接订单是否加载更多
+                mUserAdapter0.setmLoadMore(mLoadMore);
                 // 数据更新时才刷新
                 if (mOrderList != list) {
                     // 设置未接订单数据
@@ -360,10 +362,11 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
                 mOrdersCount.setText(String.valueOf(total));
                 break;
             case ID_GET_DONE:
-                // 设置已接订单是否加载更多
-                mUserAdapter1.setmLoadMore(mLoadMore);
                 // 如果当前已经是最后一页，设置未接订单没有更多
                 mLRecyclerView1.setNoMore(isLast);
+                mLRecyclerView1.setLoadMoreEnabled(!isLast);
+                // 设置已接订单是否加载更多
+                mUserAdapter1.setmLoadMore(mLoadMore);
                 // 数据更新时才刷新
                 if (mDoneList != list) {
                     // 设置已接订单数据
@@ -403,6 +406,9 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             case ID_GET_DONE:
                 initOrderList(type, mDoneList);
+                break;
+            case ID_UPDATE_KUAIDI:
+                Toast.makeText(getContext(), fail, Toast.LENGTH_SHORT).show();
                 break;
         }
     }
