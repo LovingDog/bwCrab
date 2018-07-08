@@ -22,7 +22,7 @@
     <dimen name="user_title_margin_start">33dp</dimen>
     <dimen name="user_title_name_margin_start">9dp</dimen>
     <dimen name="user_list_margin_top">11dp</dimen>
-    <dimen name="customer_name_text_size">21sp</dimen>
+    <dimen name="customer_name_text_size">16sp</dimen>
     <dimen name="customer_info_margin_top">11dp</dimen>
     <dimen name="customer_info_margin_start">20dp</dimen>
     <dimen name="customer_info_margin_bottom">7dp</dimen>

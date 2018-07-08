@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/customer_order_background"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:background="@drawable/corner_gray_line"
     android:orientation="vertical">
 
     <TextView
@@ -23,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginStart="@dimen/customer_info_margin_start"
-        android:background="@color/customerDividerColor" />
+        android:background="@color/gray_strok" />
 
     <LinearLayout
         android:layout_width="match_parent"

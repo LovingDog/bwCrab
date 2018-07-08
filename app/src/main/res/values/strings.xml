@@ -42,7 +42,7 @@
     <string name="customer_phone_title">"电话："</string>
     <string name="customer_phone_point">"积分："</string>
 
-    <string name="release_no_photos">"最多六张"</string>
+    <string name="release_no_photos">"最多3张"</string>
     <string name="release_choose_title">"照片选择"</string>
     <string name="release_choose_msg">"请选择拍照或照片库选择？"</string>
     <string name="release_choose_camera">"拍照"</string>

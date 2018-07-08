@@ -7,9 +7,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.bigwhite.crab.base.APIService;
 import com.bigwhite.crab.base.GlobalField;
 import com.bigwhite.crab.base.HttpCallBack;
+import com.bigwhite.crab.bean.CodeBean;
+import com.bigwhite.crab.bean.CodeList;
 import com.bigwhite.crab.bean.JsonResultBean;
 import com.bigwhite.crab.bean.MerchantList;
 import com.bigwhite.crab.bean.UserHttpResult;
+import com.bigwhite.crab.bean.UserHttpResultCode;
 import com.bigwhite.crab.ui.dummy.login.LoginRequest;
 import com.bigwhite.crab.ui.dummy.login.UserInfo;
 import com.bigwhite.crab.bean.OrderList;
@@ -174,7 +177,7 @@ public class DataLogic {
                     @Override
                     public void onCompleted() {
                         if (success) {
-                            callBack.onCompleted(type, new Object());
+                            callBack.onCompleted(type, "更新订单号成功");
                         } else {
                             callBack.onError(type, "更新订单号失败！");
                         }
@@ -188,6 +191,44 @@ public class DataLogic {
                     @Override
                     public void onNext(UserHttpResult userHttpResult) {
                         success = "request success".equals(userHttpResult.getDesc());
+                    }
+                });
+    }
+
+    /**
+     * 获取兑换码信息
+     *
+     * @param callBack 请求回调
+     */
+    public void getChargCode(final KuaidiRequest code, final HttpCallBack callBack) {
+        RetrofitUtils.newInstence(GlobalField.GOODS_CODE_URL, false)
+                .create(APIService.class)
+                .getChargCode(code.getId(), code.getToken())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<UserHttpResultCode>() {
+                    boolean success = false;
+                    Object  object;
+
+                    @Override
+                    public void onCompleted() {
+                        if (success) {
+                            callBack.onCompleted(0, object);
+                        } else {
+                            callBack.onError(1, "获取失败！");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onError(2, e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(UserHttpResultCode userHttpResult) {
+                        success = "request success".equals(userHttpResult.getDesc());
+                        object = userHttpResult.getObject();
+                        int a = 1;
                     }
                 });
     }

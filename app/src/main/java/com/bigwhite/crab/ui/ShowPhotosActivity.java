@@ -1,5 +1,6 @@
 package com.bigwhite.crab.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -52,7 +53,12 @@ public class ShowPhotosActivity extends AppCompatActivity implements View.OnClic
         mBackImg = (ImageView) this.findViewById(R.id.bar_back);
         mTitle = (TextView) this.findViewById(R.id.bar_title);
         mBtMore = (Button) this.findViewById(R.id.bt_more);
-
+        mBackImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShowPhotosActivity.this.finish();
+            }
+        });
     }
 
     private void initData() {
@@ -83,6 +89,13 @@ public class ShowPhotosActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.bt_more:
+                Goods goods = mPaths.get(mCurrentIndex);
+                Intent intent = new Intent(ShowPhotosActivity.this,ShowChargCodeActivity.class);
+                intent.putExtra("goods",goods);
+                startActivity(intent);
+                break;
+        }
     }
 }

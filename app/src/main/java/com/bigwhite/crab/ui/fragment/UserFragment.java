@@ -28,6 +28,7 @@ import com.bigwhite.crab.bean.OrderList;
 import com.bigwhite.crab.ui.dummy.order.GoodsInfo;
 import com.bigwhite.crab.ui.dummy.order.KuaidiRequest;
 import com.bigwhite.crab.ui.dummy.order.OrderRequest;
+import com.bigwhite.crab.utils.ToastUtils;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnNetWorkErrorListener;
@@ -390,6 +391,8 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
                 initOrderList(type, (OrderList) o);
                 break;
             case ID_UPDATE_KUAIDI:
+                String obj = (String) o;
+                ToastUtils.showToast(getActivity(),obj);
                 getAllData();
                 break;
 //            case ID_GET_USER:
@@ -514,7 +517,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener, 
                                 request.setKuaidiNum(info.getKuaidiNum());
                                 request.setToken(token);
                                 // 请求更新快递信息
-                                DataLogic.getInstance().updateKuaidi(ID_GET_ORDER, request, this);
+                                DataLogic.getInstance().updateKuaidi(ID_UPDATE_KUAIDI, request, this);
                             }
                         }
                     }

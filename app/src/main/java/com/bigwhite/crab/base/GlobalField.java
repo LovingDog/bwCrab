@@ -18,4 +18,5 @@ public class GlobalField {
     public static final String GOODS_BASEURL = "http://101.37.149.35:8686/goods/";
     public static final String ORDER_URL = BASE_URL + "order/";
     public static final String GOODS_URL = BASE_URL + "goods/";
+    public static final String GOODS_CODE_URL = BASE_URL + "goods/";
 }

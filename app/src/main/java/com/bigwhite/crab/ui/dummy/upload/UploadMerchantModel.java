@@ -5,6 +5,7 @@ import com.bigwhite.crab.base.GlobalField;
 import com.bigwhite.crab.base.OnHttpCallBack;
 import com.bigwhite.crab.bean.UserHttpResult;
 import com.bigwhite.crab.http.RetrofitUtils;
+import com.bigwhite.crab.utils.BitmapUtil;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
 
@@ -74,7 +75,8 @@ public class UploadMerchantModel implements UploadContract.UploadModel {
 
     private Map<String, RequestBody> getFileParams(List<File> files) {
         for (int i = 0; i < files.size(); i++) {
-            File file = files.get(i);
+            String comPressPath = BitmapUtil.compressImage(files.get(i).getPath());
+            File file = new File(comPressPath);
             if (file.exists()) {
                 RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data;charset=UTF-8"), file);
                 params.put("files\"; filename=\"" + file.getName() + "", body);

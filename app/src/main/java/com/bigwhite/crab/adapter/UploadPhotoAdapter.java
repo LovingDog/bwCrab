@@ -3,6 +3,7 @@ package com.bigwhite.crab.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,15 @@ public class UploadPhotoAdapter extends RecyclerView.Adapter {
         mContext = context;
     }
 
+    public void clear(){
+        mImagePathList.clear();
+        notifyDataSetChanged();
+    }
+    public void addEmpty() {
+        mImagePathList.add("");
+        notifyDataSetChanged();
+    }
+
     public void setAddClickListener(addPhotoOnclickListener addPhotoOnclickListener) {
         mAddPhotoOnclickListener = addPhotoOnclickListener;
     }
@@ -56,7 +66,11 @@ public class UploadPhotoAdapter extends RecyclerView.Adapter {
         }
 
         public void setImage(String imagePath) {
-            Glide.with(mContext).load(imagePath).into(uploadPhotoImage);
+            if (TextUtils.isEmpty(imagePath)) {
+                setAddIcon();
+            } else {
+                Glide.with(mContext).load(imagePath).into(uploadPhotoImage);
+            }
         }
 
         public void setAddIcon() {
@@ -104,11 +118,14 @@ public class UploadPhotoAdapter extends RecyclerView.Adapter {
 //            viewHolder.uploadPhotoImage.setBackgroundResource(R.mipmap.add_photos);
 //            viewHolder.deleteBt.setVisibility(View.GONE);
             ((PhotoViewHolder) viewHolder).setAddIcon();
+            if (TextUtils.isEmpty(imagePath)) {
+                ((PhotoViewHolder) viewHolder).setAddIcon();
+            }
             ((PhotoViewHolder) viewHolder).setDeleteVisisbility(false);
             ((PhotoViewHolder) viewHolder).uploadPhotoImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mImagePathList.size() <= 6) {
+                    if (mImagePathList.size() <= 3) {
                         mAddPhotoOnclickListener.addphotoOnclick();
                     } else {
                         ToastUtils.showToast(mContext.getApplicationContext(), mContext
@@ -117,7 +134,11 @@ public class UploadPhotoAdapter extends RecyclerView.Adapter {
                 }
             });
         } else {
-            ((PhotoViewHolder) viewHolder).setImage(imagePath);
+            if (TextUtils.isEmpty(imagePath)) {
+                ((PhotoViewHolder) viewHolder).setAddIcon();
+            } else {
+                ((PhotoViewHolder) viewHolder).setImage(imagePath);
+            }
             ((PhotoViewHolder) viewHolder).setDeleteVisisbility(true);
             ((PhotoViewHolder) viewHolder).uploadPhotoImage.setOnClickListener(null);
         }

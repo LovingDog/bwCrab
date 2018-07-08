@@ -18,7 +18,7 @@
     <dimen name="user_info_item_margin_top">8dp</dimen>
     <dimen name="user_info_layout_radius">4dp</dimen>
     <dimen name="user_info_layout_elevation">5dp</dimen>
-    <dimen name="user_info_title_text_size">14sp</dimen>
+    <dimen name="user_info_title_text_size">13sp</dimen>
     <dimen name="user_info_count_text_size">18sp</dimen>
     <dimen name="user_info_divider_height">39dp</dimen>
     <dimen name="user_arc_margin_bottom">8dp</dimen>
@@ -30,7 +30,7 @@
     <dimen name="user_list_margin_top">5dp</dimen>
     <dimen name="customer_name_padding_top">11dp</dimen>
     <dimen name="customer_name_padding_bottom">10dp</dimen>
-    <dimen name="customer_name_text_size">16sp</dimen>
+    <dimen name="customer_name_text_size">15sp</dimen>
     <dimen name="customer_info_margin_top">8dp</dimen>
     <dimen name="customer_info_margin_start">15dp</dimen>
     <dimen name="customer_info_margin_bottom">6dp</dimen>

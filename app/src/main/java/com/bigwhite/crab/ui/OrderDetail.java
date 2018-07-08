@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bigwhite.crab.R;
 import com.bigwhite.crab.ui.dummy.order.GoodsInfo;
+import com.bigwhite.crab.utils.ToastUtils;
 
 import java.io.Serializable;
 
@@ -66,6 +67,10 @@ public class OrderDetail extends AppCompatActivity implements View.OnClickListen
             case R.id.edit_done:
                 // 返回之前的界面
                 String kuaidi = mKuaidi.getText().toString();
+                if (kuaidi.equals("")) {
+                    ToastUtils.showToast(this,"请输入订单号");
+                    return;
+                }
                 if (mTemp.equals(kuaidi)) {
                     setResult(RESULT_CANCELED);
                 } else {

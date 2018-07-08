@@ -107,6 +107,7 @@ public class UploadMerchantController implements UploadContract.UploadMerchantVi
     @Override
     public void uploadSuccess(Object o) {
         ToastUtils.showToast(mContext.getApplicationContext(), "发布成功");
+        reFreshActivity();
     }
 
     @Override
@@ -117,6 +118,19 @@ public class UploadMerchantController implements UploadContract.UploadMerchantVi
     @Override
     public void reFreshActivity() {
 
+        mInfo.getText().clear();
+        mPrice.getText().clear();
+        mCount.getText().clear();
+        mIntegral.getText().clear();
+        mUploadPhotoAdapter.clear();
+        mContext.getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mContext != null) {
+                    mUploadPhotoAdapter.addEmpty();
+                }
+            }
+        },1000);
     }
 
     @Override
@@ -130,7 +144,12 @@ public class UploadMerchantController implements UploadContract.UploadMerchantVi
             uploadInfo.setmCount(Integer.parseInt(mCount.getText().toString().trim()));
             uploadInfo.setMerchantId(new AppPreference(mContext).getmerchantId());
             List<String> pathList = mUploadPhotoAdapter.getImagesList();
-            uploadInfo.setmFile(new File(pathList.get(0)));
+            for (String path :
+                    pathList) {
+                if (!TextUtils.isEmpty(path)) {
+                    uploadInfo.setmFile(new File(path));
+                }
+            }
             return uploadInfo;
         }
         return null;

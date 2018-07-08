@@ -1,13 +1,17 @@
 package com.bigwhite.crab.base;
 
+import com.bigwhite.crab.bean.CodeBean;
+import com.bigwhite.crab.bean.CodeList;
 import com.bigwhite.crab.bean.MerchantList;
 import com.bigwhite.crab.bean.OrderList;
 import com.bigwhite.crab.bean.UserHttpResult;
+import com.bigwhite.crab.bean.UserHttpResultCode;
 import com.bigwhite.crab.ui.dummy.order.Goods;
 import com.squareup.okhttp.RequestBody;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -108,6 +112,12 @@ public interface APIService {
     Observable<UserHttpResult> updateKuaidi(
             @Query("id") long id,
             @Query("kuaidiNum") String kuaidiNum,
+            @Query("token") String token
+    );
+
+    @GET("findCodes.do")
+    Observable<UserHttpResultCode<CodeList>> getChargCode(
+            @Query("goodsId") long goodsId,
             @Query("token") String token
     );
 
