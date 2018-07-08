@@ -21,6 +21,10 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="商品"
+            android:textIsSelectable="true"
+            android:focusable="true"
+            android:enabled="true"
+            android:longClickable="true"
             android:textColor="@color/gray_33"
             android:textSize="12sp" />
 
@@ -33,10 +37,12 @@
             android:id="@+id/text_code_status"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:text="螃蟹"
+            android:gravity="center"
             android:textColor="@color/colorPrimary"
+            android:textIsSelectable="true"
             android:textSize="13sp" />
+
         <TextView
             android:layout_width="0.5dp"
             android:layout_weight="0"
